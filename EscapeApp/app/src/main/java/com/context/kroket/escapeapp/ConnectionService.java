@@ -86,6 +86,8 @@ public class ConnectionService extends Service {
                     startA();
                 } else if (action.contentEquals("startB")) {
                     startB();
+                } else if (action.contentEquals("minigameDone")) {
+                    endMinigame();
                 }
             }
 
@@ -100,6 +102,12 @@ public class ConnectionService extends Service {
 
     public void startB() {
         Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
+
+    public void endMinigame() {
+        Intent dialogIntent = new Intent(this, WaitingActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
