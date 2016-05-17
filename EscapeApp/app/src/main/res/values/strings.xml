@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EscapeApp</string>
+    <string name="connectionMessage">not connected</string>
+    <string name="startButton">Start</string>
+    <string name="connectButton">Connect</string>
+    <string name="title_activity_game__a_">Game_A_Activity</string>
+    <string name="codeButton">Code</string>
+    <string name="picButton">Picture</string>
+    <string name="code">M I H A</string>
+    <string name="codedec">Decipher the following code:</string>
+    <string name="clickButton">START</string>
+    <string name="amount">Times clicked: 0</string>
+    <string name="gameB">Tap the button 125 times before time runs out!</string>
+</resources>
