@@ -90,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
         if (start != null) {
             start.setEnabled(false);
         }
-//        if (connect != null) {
-//            connect.setEnabled(false);
-//        }
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -108,17 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri.parse("android-app://com.context.kroket.escapeapp/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
-        //enterName();
     }
-//
-//    public void enterName() {
-//        EditText name = (EditText) findViewById(R.id.player_name);
-//        Button connect = (Button) findViewById(R.id.connectButton);
-//
-//        //wait for player to enter his/her name
-//        while (name.getText().toString().matches("")) {}
-//        connect.setEnabled(true);
-//    }
 
     @Override
     public void onStop() {
