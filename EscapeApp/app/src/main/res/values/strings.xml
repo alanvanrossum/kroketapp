@@ -11,4 +11,6 @@
     <string name="clickButton">START</string>
     <string name="amount">Times clicked: 0</string>
     <string name="gameB">Tap the button 125 times before time runs out!</string>
+    <string name="player_name">Enter your name</string>
+    <string name="waiting">Waiting for minigame to start...</string>
 </resources>

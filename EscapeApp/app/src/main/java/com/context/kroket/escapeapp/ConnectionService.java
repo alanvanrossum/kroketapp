@@ -5,6 +5,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,19 +25,19 @@ public class ConnectionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("in start command");
+        String playername = "REGISTER[" + intent.getStringExtra("string_name") + "]";
+        String type = "TYPE[MOBILE]";
+
         list = new ArrayList<String>();
         new connectTask().execute("");
 
-        String message = "hallohallo";
-        list.add("client: " + message);
-        System.out.println("message: " + message);
-
+        //Send the name and type of the player to the server
         while (tcpClient == null) {}
         if (tcpClient != null) {
-            System.out.println("send");
-            tcpClient.sendMessage(message);
+            tcpClient.sendMessage(playername);
+            tcpClient.sendMessage(type);
         }
+
         return START_STICKY;
     }
 
@@ -47,7 +52,7 @@ public class ConnectionService extends Service {
     }
 
     @Override
-    public void onCreate() { }
+    public void onCreate() {}
 
     public class connectTask extends AsyncTask<String, String, GameClient> {
 
@@ -69,6 +74,33 @@ public class ConnectionService extends Service {
             super.onProgressUpdate(values);
             list.add(values[0]);
             System.out.println(values[0]);
+            String input = values[0];
+
+            if (input.startsWith("INITM[")) {
+                int pos = input.indexOf(']');
+                String action = input.substring(6, pos);
+
+                //start the minigame belonging to the action string
+                System.out.println("Incoming action: " + action);
+                if (action.contentEquals("startA")) {
+                    startA();
+                } else if (action.contentEquals("startB")) {
+                    startB();
+                }
+            }
+
         }
+    }
+
+    public void startA() {
+        Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
+
+    public void startB() {
+        Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
     }
 }

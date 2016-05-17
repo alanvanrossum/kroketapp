@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,20 +25,26 @@ public class MainActivity extends AppCompatActivity {
      * @param view is the view that was clicked.
      */
     public void connectButton(View view) {
-
+        EditText name = (EditText) findViewById(R.id.player_name);
+        TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
+        Button start = (Button) findViewById(R.id.startButton);
         boolean connect = false;
+
+        //first check if the player has entered his/her name
+        if (name.getText().toString().matches("")) {
+            connectMessage.setText("Enter your name first!");
+            return;
+        }
+
         //connect to server, if this succeeds set connect boolean to true
-        //connect();
-        startService(new Intent(this, ConnectionService.class));
+        Intent intent = new Intent(this, ConnectionService.class);
+        intent.putExtra("string_name", name.getText().toString());
+        startService(intent);
 
         connect = true;
 
-        TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
-        Button start = (Button) findViewById(R.id.startButton);
         if (connect) {
-            if (connectMessage != null) {
-                connectMessage.setText("connected");
-            }
+            connectMessage.setText("connected");
             if (start != null) {
                 start.setEnabled(true);
             }
@@ -49,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view is the view that was clicked.
      */
     public void startButton(View view) {
-        Intent intent = new Intent(this, Game_AA_Activity.class);
+        Intent intent = new Intent(this, WaitingActivity.class);
         startActivity(intent);
     }
 
@@ -67,20 +75,18 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        //uncomment to test minigame B
-//        Intent intent = new Intent(this, Game_B_Activity.class);
-//        startActivity(intent);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
+        Button connect = (Button) findViewById(R.id.connectButton);
         Button start = (Button) findViewById(R.id.startButton);
         if (start != null) {
             start.setEnabled(false);
         }
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
