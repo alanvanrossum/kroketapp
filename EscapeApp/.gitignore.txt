@@ -1,9 +1,0 @@
-# Project specific: EscapeApp
-/EscapeApp/build
-
-# Android Studio
-/EscapeApp/.gradle/
-/EscapeApp/local.properties
-/EscapeApp/build/
-/EscapeApp/captures/
-/EscapeApp/.idea/
