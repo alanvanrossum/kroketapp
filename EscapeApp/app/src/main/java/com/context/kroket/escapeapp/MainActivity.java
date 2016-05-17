@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view is the view that was clicked.
      */
     public void startButton(View view) {
-        Intent intent = new Intent(this, Game_AA_Activity.class);
+        Intent intent = new Intent(this, WaitingActivity.class);
         startActivity(intent);
     }
 
@@ -75,10 +75,6 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        //uncomment to test minigame B
-//        Intent intent = new Intent(this, Game_B_Activity.class);
-//        startActivity(intent);
     }
 
     @Override
