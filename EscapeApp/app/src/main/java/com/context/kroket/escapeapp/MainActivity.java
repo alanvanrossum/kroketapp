@@ -15,6 +15,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public void connectButton(View view) {
         EditText name = (EditText) findViewById(R.id.player_name);
-        //Button connectbutton = (Button) findViewById(R.id.connectButton);
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
         boolean connect = false;
@@ -37,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //connect to server, if this succeeds set connect boolean to true
-        startService(new Intent(this, ConnectionService.class));
+        Intent intent = new Intent(this, ConnectionService.class);
+        intent.putExtra("string_name", name.getText().toString());
+        startService(intent);
+
         connect = true;
 
         if (connect) {
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.start(client, viewAction);
         //enterName();
     }
-
+//
 //    public void enterName() {
 //        EditText name = (EditText) findViewById(R.id.player_name);
 //        Button connect = (Button) findViewById(R.id.connectButton);

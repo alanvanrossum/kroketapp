@@ -5,6 +5,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,18 +25,28 @@ public class ConnectionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("in start command");
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//        View layout = inflater.inflate(R.layout.activity_main, null);
+//
+//        EditText name = (EditText) layout.findViewById(R.id.player_name);
+//        System.out.println("naaaaaame " + name.getText().toString());
+//        MainActivity.class.getField(playername);
+        String playername = "REGISTER[" + intent.getStringExtra("string_name") + "]";
+        String type = "TYPE[MOBILE]";
+
         list = new ArrayList<String>();
         new connectTask().execute("");
 
-        String message = "hallohallo";
-        list.add("client: " + message);
-        System.out.println("message: " + message);
+//        String message = "hallohallo";
+//        list.add("client: " + message);
+//        System.out.println("message: " + message);
 
         while (tcpClient == null) {}
         if (tcpClient != null) {
             System.out.println("send");
-            tcpClient.sendMessage(message);
+            //tcpClient.sendMessage(message);
+            tcpClient.sendMessage(playername);
+            tcpClient.sendMessage(type);
         }
         return START_STICKY;
     }
@@ -47,7 +62,7 @@ public class ConnectionService extends Service {
     }
 
     @Override
-    public void onCreate() { }
+    public void onCreate() {}
 
     public class connectTask extends AsyncTask<String, String, GameClient> {
 
