@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * This activity is responsible for minigame B.
+ */
 public class Game_B_Activity extends AppCompatActivity {
 
     TextView timer;
