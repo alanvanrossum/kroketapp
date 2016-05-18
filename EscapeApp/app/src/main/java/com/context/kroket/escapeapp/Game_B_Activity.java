@@ -22,23 +22,27 @@ public class Game_B_Activity extends AppCompatActivity {
 
     Handler timerHandler = new Handler();
 
+    //Handles actions that should happen when timer has certain values
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
             long millis = timeLimit - (System.currentTimeMillis() - startTime);
             seconds = (int) (millis / 1000);
             seconds = seconds % 60;
-            System.out.println("sec: " + seconds);
 
+            //Still time left, update timer on screen
             if (seconds >= 0) {
                 timer.setText(String.format("%2d", seconds));
                 timerHandler.postDelayed(this, 1000);
             } else {
+                //Out of time: stop timer and update textfield
                 timerHandler.removeCallbacks(timerRunnable);
                 ((TextView) findViewById(R.id.clickButton)).setText("TIME'S UP!");
+                //The goal is reached: do something
                 if (amount >= goal) {       //beide mobile players moeten een andere code krijgen?
                     ((TextView) findViewById(R.id.amount)).setText("Great job! You unlocked the following part of the code: 548");
                 } else {
+                    //Goal not reached. Able to start game again.
                     ((TextView) findViewById(R.id.amount)).setText("Too bad! \nTry again in a few seconds.");
                     restart();
                 }
@@ -46,14 +50,21 @@ public class Game_B_Activity extends AppCompatActivity {
         }
     };
 
-    //Restart the minigame
+    /**
+     * Method to restart the minigame B.
+     */
     public void restart() {
-//        long current = System.currentTimeMillis();
-//        while ((System.currentTimeMillis() - current) < 5000) {}
         Intent intent = new Intent(this, Game_B_Activity.class);
         startActivity(intent);
     }
 
+    /**
+     * Initializes the layout.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +73,12 @@ public class Game_B_Activity extends AppCompatActivity {
         timer = (TextView) findViewById(R.id.timer);
     }
 
-    //Increase the count by 1 when the button is clicked
+    /**
+     * Executes when the clickButton is clicked.
+     * Increases the count by 1.
+     *
+     * @param view
+     */
     public void clickButton(View view) {
         if (amount == -1) {
             startTime = System.currentTimeMillis();
