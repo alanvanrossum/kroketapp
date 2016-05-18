@@ -70,15 +70,26 @@ public class ConnectionService extends Service {
          */
         @Override
         protected GameClient doInBackground(String... message) {
-            tcpClient = new GameClient(new GameClient.OnMessageReceived() {
+            try {
+                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
 
-                @Override
-                public void messageReceived(String mes) {
-                    publishProgress(mes);
-                }
-            });
-            System.out.println("tcpClient initialized");
-            tcpClient.run();
+                    @Override
+                    public void messageReceived(String mes) {
+                        publishProgress(mes);
+                    }
+                });
+
+                tcpClient.run();
+
+            } catch (Exception e) {
+                System.out.println("no connection");
+                this.cancel(true);
+            }
+
+//            if (tcpClient.connection == false) {
+//                System.out.println("no connection");
+//                this.cancel(true);
+//            }
             return null;
         }
 

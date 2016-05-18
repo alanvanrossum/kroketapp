@@ -43,8 +43,9 @@ public class Game_B_Activity extends AppCompatActivity {
                     ((TextView) findViewById(R.id.amount)).setText("Great job! You unlocked the following part of the code: 548");
                 } else {
                     //Goal not reached. Able to start game again.
-                    ((TextView) findViewById(R.id.amount)).setText("Too bad! \nTry again in a few seconds.");
-                    restart();
+                    ((TextView) findViewById(R.id.amount)).setText("Too bad! \nClick restart to try again.");
+                    ((Button) findViewById(R.id.restartButton)).setVisibility(View.VISIBLE);
+                    ((Button) findViewById(R.id.restartButton)).setEnabled(true);
                 }
             }
         }
@@ -52,8 +53,10 @@ public class Game_B_Activity extends AppCompatActivity {
 
     /**
      * Method to restart the minigame B.
+     *
+     * @param view
      */
-    public void restart() {
+    public void restartButton(View view) {
         Intent intent = new Intent(this, Game_B_Activity.class);
         startActivity(intent);
     }
@@ -71,6 +74,8 @@ public class Game_B_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_game__b_);
 
         timer = (TextView) findViewById(R.id.timer);
+        ((Button) findViewById(R.id.restartButton)).setVisibility(View.INVISIBLE);
+        ((Button) findViewById(R.id.restartButton)).setEnabled(false);
     }
 
     /**
