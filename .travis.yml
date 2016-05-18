@@ -1,4 +1,5 @@
 language: android
 
 android:
-  - ./EscapeApp/gradlew build connectedCheck
+  - cd EscapeApp
+  - ./gradlew build connectedCheck
