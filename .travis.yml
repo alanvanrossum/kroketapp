@@ -1,24 +1,5 @@
 language: android
+
 android:
-  components:
-    - platform-tools
-    - tools
-    - build-tools-21.1.2
-    - android-21
-    - extra-android-m2repository
-
-env:
-  - TEST_DIR=EscapeApp
-  global:
-    - ADB_INSTALL_TIMEOUT=8
-
-before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-
-script:
-  - cd $TEST_DIR
-  - android list target
+  - cd EscapeApp
   - ./gradlew build connectedCheck
