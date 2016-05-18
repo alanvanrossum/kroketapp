@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view is the view that was clicked.
      */
     public void startButton(View view) {
-        Intent intent = new Intent(this, Game_B_Activity.class); //WaitingActivity.class);
+        Intent intent = new Intent(this, WaitingActivity.class);
         startActivity(intent);
     }
 
