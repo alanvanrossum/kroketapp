@@ -7,9 +7,14 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityInstrumentationTestCase2;
+
+import com.robotium.solo.Solo;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.Before;
+
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -28,10 +33,19 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 /**
  * MainActivityTest is used to test the MainActivity class.
  */
-public class MainActivityTest {
+public class MainActivityTest{
+
+    //private Solo solo;
+
 
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
+
+
+    @Before
+    public void setup() {
+        MainActivity.switchWakeUp();
+    }
 
     /**
      * Tests whether the connection message changes when no name is entered.

@@ -1,9 +1,12 @@
 package com.context.kroket.escapeapp;
 
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * boolean used to enable the start button.
      */
-
     private static boolean enableStart = false;
+
+    public static boolean wakeupScreen = false;
     /**
      * Method that makes the calls necessary to connect the players to the server.
      * @param view is the view that was clicked.
@@ -113,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(wakeupScreen == true) {
+            KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            KeyguardManager.KeyguardLock keyguardLock = km.newKeyguardLock("TAG");
+            keyguardLock.disableKeyguard();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        }
         setContentView(R.layout.activity_main);
     }
 
@@ -166,5 +176,7 @@ public class MainActivity extends AppCompatActivity {
      * @param b Boolean
      */
     public static void switchStart(Boolean b) { enableStart = b; }
+
+    public static void switchWakeUp() {wakeupScreen = true;}
 
 }

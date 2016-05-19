@@ -7,6 +7,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,11 @@ public class Game_B_ActivityTest {
 
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
+
+    @Before
+    public void setup() {
+        MainActivity.switchWakeUp();
+    }
 
     /**
      * Method checks the functionality of clicking the Game_B_Activity start button once.
