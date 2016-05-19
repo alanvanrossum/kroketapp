@@ -30,18 +30,18 @@ public class Game_AA_ActivityTest {
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
     /**
-     * method checks the functionality of Game_AA_Activity pic button.
+     * Method checks the functionality of Game_AA_Activity pic button.
      */
     @Test
     public void clickPicButton() {
-        //switch from MainActivity to Game_AA_Activity.
+        //Switch from MainActivity to Game_AA_Activity.
         MainActivity.switchGameAA(true);
         onView(withId(R.id.connectButton)).perform(click());
 
-        //click the picbutton.
+        //Click the pic button.
         onView(withId(R.id.picButton)).perform(click());
 
-        //check if we instantiated a Game_A_Activity
+        //Check if we instantiated a Game_A_Activity.
         intended(hasComponent(hasShortClassName(".Game_A_Activity")));
         MainActivity.switchGameAA(false);
     }

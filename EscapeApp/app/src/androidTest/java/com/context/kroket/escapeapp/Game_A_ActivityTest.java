@@ -31,22 +31,22 @@ public class Game_A_ActivityTest {
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
     /**
-     * method checks the functionality of Game_A_Activity code button.
+     * Method checks the functionality of Game_A_Activity code button.
      */
     @Test
     public void clickCodeButton() {
-        //switch from MainActivity to Game_A_Activity.
+        //Switch from MainActivity to Game_A_Activity.
         MainActivity.switchGameA(true);
         onView(withId(R.id.connectButton)).perform(click());
 
-        //click the codebutton.
+        //Click the code button.
         onView(withId(R.id.codeButton)).perform(click());
 
-        //check that we switched to Game_AA_Activity by checking the code view.
-        //if the switch didn't succeed we wouldn't be able to access the code view.
+        //Check that we switched to Game_AA_Activity by checking the code view.
+        //If the switch didn't succeed we wouldn't be able to access the code view.
         onView(withId(R.id.code)).check(matches(withHint("M I H A")));
 
-        // intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
+        //intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
 
         MainActivity.switchGameA(false);
     }
