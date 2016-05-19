@@ -142,6 +142,11 @@ public class ConnectionService extends Service {
      * Starts the minigame C: Game_C_Activity
      */
     private void startC() {
+//        Intent i = new Intent();
+//        i.setAction("broadcastName");
+//        i.putExtra("colors", "c1c2c3");
+//        sendBroadcast(i);
+
         Intent dialogIntent = new Intent(this, Game_C_Activity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
