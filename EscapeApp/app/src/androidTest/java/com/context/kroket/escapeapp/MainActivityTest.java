@@ -6,7 +6,11 @@ package com.context.kroket.escapeapp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+
+import android.support.test.espresso.ViewInteraction;
+
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -19,7 +23,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -36,13 +44,18 @@ public class MainActivityTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+    /**
+     * Test whether the connection message changes when no name is entered.
+     */
     @Test
     public void clickWithoutNameTest() {
+//        onView(withId(R.id.connectionMessage)).check(matches(withText("not connected")));
 
         onView(withId(R.id.connectButton)).perform(click());
 
         onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));
     }
+
 
 //    @Test
 //    public void clickWithNameTest() {
@@ -60,7 +73,6 @@ public class MainActivityTest {
 //
 //    }
 
-//currently fails the assert however if startbutton is enabled it will succeed.
     @Test
     public void clickStartButtonTest() {
         MainActivity.swithOnStart();
@@ -69,7 +81,6 @@ public class MainActivityTest {
         onView(withId(R.id.startButton)).perform(click());
 
         intended(hasComponent(hasShortClassName(".WaitingActivity")));
-
     }
 
 }
