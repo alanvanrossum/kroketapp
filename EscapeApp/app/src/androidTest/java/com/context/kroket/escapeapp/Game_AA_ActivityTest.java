@@ -34,6 +34,6 @@ public class Game_AA_ActivityTest {
         onView(withId(R.id.picButton)).perform(click());
 
         intended(hasComponent(hasShortClassName(".Game_A_Activity")));
-
+        MainActivity.swithOffGameAA();
     }
 }

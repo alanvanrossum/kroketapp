@@ -33,7 +33,7 @@ public class Game_B_ActivityTest {
         onView(withId(R.id.clickButton)).perform(click());
 
         onView(withId(R.id.clickButton)).check(matches(withText("CLICK ME!")));
-
+        MainActivity.swithOnGameB();
     }
 
     @Test
@@ -45,6 +45,6 @@ public class Game_B_ActivityTest {
         //onView(withId(R.id.clickButton)).perform(click());
 
         onView(withId(R.id.amount)).check(matches(withText("Times clicked: 1")));
-
+        MainActivity.swithOffGameB();
     }
 }

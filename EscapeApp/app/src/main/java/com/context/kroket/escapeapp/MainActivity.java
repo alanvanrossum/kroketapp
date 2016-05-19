@@ -118,4 +118,20 @@ public class MainActivity extends AppCompatActivity {
     public static void swithOnStart() {
         enableStart = true;
     }
+
+    public static void swithOffGameA() {
+        gameA = false;
+    }
+
+    public static void swithOffGameAA() {
+        gameAA = false;
+    }
+
+    public static void swithOffGameB() {
+        gameB = false;
+    }
+
+    public static void swithOffStart() {
+        enableStart = false;
+    }
 }

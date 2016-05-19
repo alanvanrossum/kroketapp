@@ -14,11 +14,14 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -34,7 +37,8 @@ public class Game_A_ActivityTest {
 
         onView(withId(R.id.codeButton)).perform(click());
 
-        intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
-
+        onView(withId(R.id.code)).check(matches(withHint("M I H A")));
+       // intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
+       MainActivity.swithOffGameA();
     }
 }
