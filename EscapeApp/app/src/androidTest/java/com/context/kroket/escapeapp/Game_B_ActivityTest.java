@@ -27,24 +27,24 @@ public class Game_B_ActivityTest {
 
     @Test
     public void clickStartButtonOnce() {
-        MainActivity.swithOnGameB();
+        MainActivity.swithGameB(true);
         onView(withId(R.id.connectButton)).perform(click());
 
         onView(withId(R.id.clickButton)).perform(click());
 
         onView(withId(R.id.clickButton)).check(matches(withText("CLICK ME!")));
-        MainActivity.swithOnGameB();
+        MainActivity.swithGameB(false);
     }
 
     @Test
     public void clickStartButtonTwice() {
-        MainActivity.swithOnGameB();
+        MainActivity.swithGameB(true);
         onView(withId(R.id.connectButton)).perform(click());
 
         onView(withId(R.id.clickButton)).perform(doubleClick());
         //onView(withId(R.id.clickButton)).perform(click());
 
         onView(withId(R.id.amount)).check(matches(withText("Times clicked: 1")));
-        MainActivity.swithOffGameB();
+        MainActivity.swithGameB(false);
     }
 }

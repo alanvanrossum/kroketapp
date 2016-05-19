@@ -28,12 +28,12 @@ public class Game_AA_ActivityTest {
 
     @Test
     public void clickPicButton() {
-        MainActivity.swithOnGameAA();
+        MainActivity.swithGameAA(true);
         onView(withId(R.id.connectButton)).perform(click());
 
         onView(withId(R.id.picButton)).perform(click());
 
         intended(hasComponent(hasShortClassName(".Game_A_Activity")));
-        MainActivity.swithOffGameAA();
+        MainActivity.swithGameAA(false);
     }
 }

@@ -26,25 +26,7 @@ public class MainActivity extends AppCompatActivity {
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
         boolean connect = false;
-        if(gameAA == true) {
-            Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-
-        }
-        if(gameA == true) {
-            Intent dialogIntent = new Intent(this, Game_A_Activity.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-        }
-        if(gameB == true) {
-            Intent dialogIntent = new Intent(this, Game_B_Activity.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-        }
-        if(enableStart == true){
-            start.setEnabled(true);
-        }
+        checkConditions();
         //first check if the player has entered his/her name
         if (name.getText().toString().matches("")) {
             connectMessage.setText("Enter your name first!");
@@ -64,6 +46,30 @@ public class MainActivity extends AppCompatActivity {
             if (start != null) {
                 start.setEnabled(true);
             }
+        }
+    }
+
+    private void checkConditions() {
+        if(gameAA == true) {
+            Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+
+        }
+        if(gameA == true) {
+            Intent dialogIntent = new Intent(this, Game_A_Activity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+        if(gameB == true) {
+            Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+
+        if(enableStart == true){
+            Button start = (Button) findViewById(R.id.startButton);
+            start.setEnabled(true);
         }
     }
 
@@ -103,35 +109,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void swithOnGameA() {
-        gameA = true;
+    public static void swithGameA(Boolean b) {
+        gameA = b;
     }
 
-    public static void swithOnGameAA() {
-        gameAA = true;
-    }
+    public static void swithGameAA(Boolean b) { gameAA = b; }
 
-    public static void swithOnGameB() {
-        gameB = true;
-    }
+    public static void swithGameB(Boolean b) { gameB = b; }
 
-    public static void swithOnStart() {
-        enableStart = true;
-    }
+    public static void swithStart(Boolean b) { enableStart = b; }
 
-    public static void swithOffGameA() {
-        gameA = false;
-    }
-
-    public static void swithOffGameAA() {
-        gameAA = false;
-    }
-
-    public static void swithOffGameB() {
-        gameB = false;
-    }
-
-    public static void swithOffStart() {
-        enableStart = false;
-    }
 }

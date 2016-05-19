@@ -75,12 +75,13 @@ public class MainActivityTest {
 
     @Test
     public void clickStartButtonTest() {
-        MainActivity.swithOnStart();
+        MainActivity.swithStart(true);
         onView(withId(R.id.connectButton)).perform(click());
 
         onView(withId(R.id.startButton)).perform(click());
 
         intended(hasComponent(hasShortClassName(".WaitingActivity")));
+        MainActivity.swithStart(false);
     }
 
 }

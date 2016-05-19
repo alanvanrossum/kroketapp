@@ -32,13 +32,13 @@ public class Game_A_ActivityTest {
 
     @Test
     public void clickCodeButton() {
-        MainActivity.swithOnGameA();
+        MainActivity.swithGameA(true);
         onView(withId(R.id.connectButton)).perform(click());
 
         onView(withId(R.id.codeButton)).perform(click());
 
         onView(withId(R.id.code)).check(matches(withHint("M I H A")));
        // intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
-       MainActivity.swithOffGameA();
+       MainActivity.swithGameA(false);
     }
 }
