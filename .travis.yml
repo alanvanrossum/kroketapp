@@ -11,4 +11,4 @@ before_script:
  - chmod +x EscapeApp/gradlew
 
 script:
-  - cd EscapeApp && ./gradlew build connectedCheck
+  - ./gradlew build connectedCheck
