@@ -13,9 +13,25 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * boolean used to start game_AA_Activity intent.
+     */
     private static boolean gameAA = false;
+
+    /**
+     * boolean used to start game_A_Activity intent.
+     */
     private static boolean gameA = false;
+
+    /**
+     * boolean used to start game_B_Activity intent.
+     */
     private static boolean gameB = false;
+
+    /**
+     * boolean used to enable the start button.
+     */
+
     private static boolean enableStart = false;
     /**
      * Method that makes the calls necessary to connect the players to the server.
@@ -49,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * checkConditions is a method used for testing only. for testing purposes we need to
+     * be able to switch between activities quickly. checkConditions enables us to do that.
+     */
     private void checkConditions() {
         if(gameAA == true) {
             Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
@@ -109,14 +129,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void swithGameA(Boolean b) {
+    /**
+     * switchGameA allows us to change the gameA boolean.
+     * This GameA boolean is used to quickly switch to Game_A_Activity.
+     * This method is only used for testing.
+     *
+     * @param b Boolean
+     */
+    public static void switchGameA(Boolean b) {
         gameA = b;
     }
 
-    public static void swithGameAA(Boolean b) { gameAA = b; }
+    /**
+     * switchGameAA allows us to change the gameAA boolean.
+     * This GameAA boolean is used to quickly switch to Game_AA_Activity.
+     * This method is only used for testing.
+     *
+     * @param b Boolean
+     */
+    public static void switchGameAA(Boolean b) { gameAA = b; }
 
-    public static void swithGameB(Boolean b) { gameB = b; }
+    /**
+     * switchGameB allows us to change the gameB boolean.
+     * This GameB boolean is used to quickly switch to Game_B_Activity.
+     * This method is only used for testing.
+     *
+     * @param b Boolean
+     */
+    public static void switchGameB(Boolean b) { gameB = b; }
 
-    public static void swithStart(Boolean b) { enableStart = b; }
+    /**
+     * switchGameA allows us to change the enableStart boolean.
+     * This enableStart boolean is used to set the startbutton to enabled
+     * so it can be tested. This method is only used for testing.
+     *
+     * @param b Boolean
+     */
+    public static void switchStart(Boolean b) { enableStart = b; }
 
 }

@@ -20,20 +20,29 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+/**
+ * Game_AA_ActivityTest is used to test the Game_AA_Activity class.
+ */
 public class Game_AA_ActivityTest {
 
 
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+    /**
+     * method checks the functionality of Game_AA_Activity pic button.
+     */
     @Test
     public void clickPicButton() {
-        MainActivity.swithGameAA(true);
+        //switch from MainActivity to Game_AA_Activity.
+        MainActivity.switchGameAA(true);
         onView(withId(R.id.connectButton)).perform(click());
 
+        //click the picbutton.
         onView(withId(R.id.picButton)).perform(click());
 
+        //check if we instantiated a Game_A_Activity
         intended(hasComponent(hasShortClassName(".Game_A_Activity")));
-        MainActivity.swithGameAA(false);
+        MainActivity.switchGameAA(false);
     }
 }

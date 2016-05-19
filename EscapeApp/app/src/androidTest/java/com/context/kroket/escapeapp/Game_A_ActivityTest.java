@@ -18,27 +18,36 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+/**
+ * Game_A_ActivityTest is used to test the Game_A_Activity class.
+ */
 public class Game_A_ActivityTest {
 
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+    /**
+     * method checks the functionality of Game_A_Activity code button.
+     */
     @Test
     public void clickCodeButton() {
-        MainActivity.swithGameA(true);
+        //switch from MainActivity to Game_A_Activity.
+        MainActivity.switchGameA(true);
         onView(withId(R.id.connectButton)).perform(click());
 
+        //click the codebutton.
         onView(withId(R.id.codeButton)).perform(click());
 
+        //check that we switched to Game_AA_Activity by checking the code view.
+        //if the switch didn't succeed we wouldn't be able to access the code view.
         onView(withId(R.id.code)).check(matches(withHint("M I H A")));
-       // intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
-       MainActivity.swithGameA(false);
+
+        // intended(hasComponent(hasShortClassName(".Game_AA_Activity")));
+
+        MainActivity.switchGameA(false);
     }
 }
