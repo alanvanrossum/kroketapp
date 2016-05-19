@@ -14,6 +14,7 @@ public class GameClient {
     private String serverMessage;
     private OnMessageReceived messageListener = null;
     private boolean running = false;
+    public boolean connection = false;
 
     PrintWriter out;
     BufferedReader in;
@@ -55,8 +56,18 @@ public class GameClient {
         running = true;
         try{
             InetAddress serverAddress = InetAddress.getByName(SERVERIP);
+            Socket serverSocket;
+
             //connecting
-            Socket serverSocket = new Socket(serverAddress,SERVERPORT);
+            try {
+                serverSocket = new Socket(serverAddress, SERVERPORT);
+                connection = true;
+            } catch (Exception e){
+                e.printStackTrace();
+                System.out.println("Error in making serverSocket");
+                this.stopClient();
+                return;
+            }
 
             try {
                 out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())));

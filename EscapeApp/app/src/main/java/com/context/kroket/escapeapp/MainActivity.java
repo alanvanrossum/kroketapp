@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ConnectionService.class);
         intent.putExtra("string_name", name.getText().toString());
         startService(intent);
+
         connect = true;
 
         //Change connect message and enable start button

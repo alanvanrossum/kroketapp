@@ -70,15 +70,26 @@ public class ConnectionService extends Service {
          */
         @Override
         protected GameClient doInBackground(String... message) {
-            tcpClient = new GameClient(new GameClient.OnMessageReceived() {
+            try {
+                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
 
-                @Override
-                public void messageReceived(String mes) {
-                    publishProgress(mes);
-                }
-            });
-            System.out.println("tcpClient initialized");
-            tcpClient.run();
+                    @Override
+                    public void messageReceived(String mes) {
+                        publishProgress(mes);
+                    }
+                });
+
+                tcpClient.run();
+
+            } catch (Exception e) {
+                System.out.println("no connection");
+                this.cancel(true);
+            }
+
+//            if (tcpClient.connection == false) {
+//                System.out.println("no connection");
+//                this.cancel(true);
+//            }
             return null;
         }
 
@@ -107,6 +118,8 @@ public class ConnectionService extends Service {
                     startA();
                 } else if (action.contentEquals("startB")) {
                     startB();
+                } else if (action.contentEquals("minigameDone")) {
+                    endMinigame();
                 }
             }
 
@@ -127,6 +140,15 @@ public class ConnectionService extends Service {
      */
     private void startB() {
         Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
+
+    /**
+     * Ends any minigame. Returns to the waiting screen.
+     */
+    public void endMinigame() {
+        Intent dialogIntent = new Intent(this, WaitingActivity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
