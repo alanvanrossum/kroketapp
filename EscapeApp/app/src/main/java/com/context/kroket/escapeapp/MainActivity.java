@@ -13,6 +13,10 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static boolean gameAA = false;
+    private static boolean gameA = false;
+    private static boolean gameB = false;
+    private static boolean enableStart = false;
     /**
      * Method that makes the calls necessary to connect the players to the server.
      * @param view is the view that was clicked.
@@ -22,7 +26,25 @@ public class MainActivity extends AppCompatActivity {
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
         boolean connect = false;
+        if(gameAA == true) {
+            Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
 
+        }
+        if(gameA == true) {
+            Intent dialogIntent = new Intent(this, Game_A_Activity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+        if(gameB == true) {
+            Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+        if(enableStart == true){
+            start.setEnabled(true);
+        }
         //first check if the player has entered his/her name
         if (name.getText().toString().matches("")) {
             connectMessage.setText("Enter your name first!");
@@ -81,4 +103,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static void swithOnGameA() {
+        gameA = true;
+    }
+
+    public static void swithOnGameAA() {
+        gameAA = true;
+    }
+
+    public static void swithOnGameB() {
+        gameB = true;
+    }
+
+    public static void swithOnStart() {
+        enableStart = true;
+    }
 }
