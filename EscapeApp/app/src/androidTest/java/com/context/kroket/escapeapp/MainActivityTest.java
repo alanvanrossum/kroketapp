@@ -41,12 +41,6 @@ public class MainActivityTest{
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
-
-    @Before
-    public void setup() {
-        MainActivity.switchWakeUp();
-    }
-
     /**
      * Tests whether the connection message changes when no name is entered.
      */

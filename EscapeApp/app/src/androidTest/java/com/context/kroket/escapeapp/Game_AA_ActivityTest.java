@@ -30,10 +30,6 @@ public class Game_AA_ActivityTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
-    @Before
-    public void setup() {
-        MainActivity.switchWakeUp();
-    }
 
     /**
      * Method checks the functionality of Game_AA_Activity pic button.

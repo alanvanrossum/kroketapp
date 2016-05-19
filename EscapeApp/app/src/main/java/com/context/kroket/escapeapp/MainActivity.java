@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private static boolean enableStart = false;
 
-    public static boolean wakeupScreen = false;
     /**
      * Method that makes the calls necessary to connect the players to the server.
      * @param view is the view that was clicked.
@@ -117,11 +116,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-            KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            KeyguardManager.KeyguardLock keyguardLock = km.newKeyguardLock("TAG");
-            keyguardLock.disableKeyguard();
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         setContentView(R.layout.activity_main);
     }
@@ -176,7 +170,5 @@ public class MainActivity extends AppCompatActivity {
      * @param b Boolean
      */
     public static void switchStart(Boolean b) { enableStart = b; }
-
-    public static void switchWakeUp() {wakeupScreen = true;}
 
 }

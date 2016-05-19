@@ -29,10 +29,6 @@ public class Game_B_ActivityTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
-    @Before
-    public void setup() {
-        MainActivity.switchWakeUp();
-    }
 
     /**
      * Method checks the functionality of clicking the Game_B_Activity start button once.
