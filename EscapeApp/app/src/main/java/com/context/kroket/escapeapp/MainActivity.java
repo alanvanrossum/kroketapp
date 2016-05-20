@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 /**
  * Responsible for making sure the player can connect to and start the game.
+ * 
  */
 public class MainActivity extends AppCompatActivity {
 
