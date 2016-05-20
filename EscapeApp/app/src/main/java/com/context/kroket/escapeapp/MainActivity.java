@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * boolean used to start game_AA_Activity intent.
+	 
      */
     private static boolean gameAA = false;
 
