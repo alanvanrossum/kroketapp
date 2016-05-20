@@ -30,7 +30,8 @@
             android:exported="true" />
 
         <activity android:name=".Game_B_Activity" />
-        <activity android:name=".WaitingActivity"></activity>
+        <activity android:name=".WaitingActivity" />
+        <activity android:name=".Game_C_Activity"></activity>
     </application>
 
 </manifest>

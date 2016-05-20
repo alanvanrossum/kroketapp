@@ -14,4 +14,9 @@
     <string name="player_name">Enter your name</string>
     <string name="waiting">Waiting for minigame to start...</string>
     <string name="restartButton">Restart</string>
+    <string name="answerA">Fill in your solution</string>
+    <string name="verifyMessage">The answer you entered is incorrect!</string>
+    <string name="verifyButton">Verify</string>
+    <string name="gameC">Forward the colorcode to the Oculus player!</string>
+    <string name="startC">Start</string>
 </resources>

@@ -3,6 +3,7 @@ package com.context.kroket.escapeapp;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.IBinder;
 
 import java.util.ArrayList;
@@ -15,17 +16,8 @@ public class ConnectionService extends Service {
 
     private static GameClient tcpClient;
     private static ArrayList<String> list;
-
-    /**
-     * Return the communication channel to the service.
-     *
-     * @param intent The Intent that was used to bind to this service.
-     * @return null, since we do not want clients to bind to the service.
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    // Binder given to clients
+    private final IBinder binder = new myBinder();
 
     /**
      * Called by the system every time a client explicitly starts the service.
@@ -120,6 +112,8 @@ public class ConnectionService extends Service {
                     startB();
                 } else if (action.contentEquals("minigameDone")) {
                     endMinigame();
+                } else if (action.contentEquals("startC")) {
+                    startC();
                 }
             }
 
@@ -145,6 +139,20 @@ public class ConnectionService extends Service {
     }
 
     /**
+     * Starts the minigame C: Game_C_Activity
+     */
+    private void startC() {
+//        Intent i = new Intent();
+//        i.setAction("broadcastName");
+//        i.putExtra("colors", "c1c2c3");
+//        sendBroadcast(i);
+
+        Intent dialogIntent = new Intent(this, Game_C_Activity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
+
+    /**
      * Ends any minigame. Returns to the waiting screen.
      */
     public void endMinigame() {
@@ -152,4 +160,32 @@ public class ConnectionService extends Service {
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
+
+    /**
+     * Sends a message to the server that minigame A is solved.
+     */
+    public void endA() {
+        tcpClient.sendMessage("INITVR[doneA]");
+    }
+
+    /**
+     * Class used for the client Binder.
+     */
+    public class myBinder extends Binder {
+        ConnectionService getService() {
+            return ConnectionService.this;
+        }
+    }
+
+    /**
+     * Return the communication channel to the service.
+     *
+     * @param intent The Intent that was used to bind to this service.
+     * @return the binder
+     */
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
+
 }
