@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * boolean used to start game_AA_Activity intent.
-	 
+	 travis
      */
     private static boolean gameAA = false;
 
