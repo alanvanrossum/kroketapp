@@ -20,6 +20,13 @@ public class Game_C_Activity extends AppCompatActivity {
 
     //UpdateReceiver updateReceiver;
 
+    /**
+     * Initializes the layout.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +43,12 @@ public class Game_C_Activity extends AppCompatActivity {
         super.onStart();
     }
 
+    /**
+     * Called when the start button in minigame C is clicked.
+     * Starts the color range.
+     *
+     * @param view
+     */
     public void startC(View view) {
 
         //setColor(Color.WHITE, 1000);
@@ -48,6 +61,11 @@ public class Game_C_Activity extends AppCompatActivity {
 //        shape.setColor(Color.WHITE);
     }
 
+    /**
+     * Sets a color for a specific amount of time.
+     * @param color the color to be set
+     * @param time the time the color should be shown in ms
+     */
     public void setColor(int color, long time) {
         View v = findViewById(R.id.layout_rec);
         LayerDrawable bgDrawable = (LayerDrawable)v.getBackground();

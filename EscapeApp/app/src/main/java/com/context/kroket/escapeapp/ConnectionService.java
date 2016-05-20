@@ -165,7 +165,7 @@ public class ConnectionService extends Service {
      * Sends a message to the server that minigame A is solved.
      */
     public void endA() {
-        tcpClient.sendMessage("INIT[doneA]");
+        tcpClient.sendMessage("INITVR[doneA]");
     }
 
     /**
