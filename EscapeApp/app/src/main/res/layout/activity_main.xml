@@ -10,6 +10,12 @@
     tools:context="com.context.kroket.escapeapp.MainActivity"
     android:orientation="vertical">
 
+    <EditText
+        android:id="@+id/player_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/player_name"
+        android:inputType="text" />
 
     <TextView android:id="@+id/connectionMessage"
         android:layout_width="wrap_content"

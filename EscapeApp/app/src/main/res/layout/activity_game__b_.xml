@@ -55,4 +55,14 @@
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
 
+    <Button android:id="@+id/restartButton"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:text="@string/restartButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="restartButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/clickButton"
+        android:layout_alignStart="@+id/clickButton" />
+
 </RelativeLayout>

@@ -17,13 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".Game_A_Activity"
@@ -36,7 +29,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".Game_B_Activity"></activity>
+        <activity android:name=".Game_B_Activity" />
+        <activity android:name=".WaitingActivity" />
+        <activity android:name=".Game_C_Activity"></activity>
     </application>
 
 </manifest>
