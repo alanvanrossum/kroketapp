@@ -13,6 +13,8 @@ env:
     - TERM=dumb
     - ADB_INSTALL_TIMEOUT=12
     - TEST_DIR=EscapeApp
+  matrix:
+    - ANDROID_TARGET=anroid-21 ANDROID_ABI=armeabi-v7a
 
 before_script:
   - cd $TEST_DIR

@@ -51,6 +51,7 @@ public class Game_AA_Activity extends AppCompatActivity {
         }
     };
 
+
     /**
      * Initializes the layout.
      *
@@ -83,6 +84,7 @@ public class Game_AA_Activity extends AppCompatActivity {
      * @param view
      */
     public void picButton(View view) {
+
         Intent intent = new Intent(this, Game_A_Activity.class);
         startActivity(intent);
     }
