@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class Game_C_Activity extends AppCompatActivity {
 
 
-    //UpdateReceiver updateReceiver;
+    UpdateReceiver updateReceiver;
 
     /**
      * Initializes the layout.
@@ -36,9 +36,8 @@ public class Game_C_Activity extends AppCompatActivity {
     @Override
     protected void onStart() {
 
-
-//        updateReceiver = new UpdateReceiver();
-//        registerReceiver(updateReceiver, new IntentFilter("broadcastName"));
+        updateReceiver = new UpdateReceiver();
+        registerReceiver(updateReceiver, new IntentFilter("colorBroadcast"));
 
         super.onStart();
 
@@ -86,13 +85,22 @@ public class Game_C_Activity extends AppCompatActivity {
 
     }
 
-//    private static class UpdateReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String colors = intent.getStringExtra("colors");
-//            System.out.println("colors received");
-//        }
-//    }
+    /**
+     * Class for receiving broadcasts.
+     */
+    private static class UpdateReceiver extends BroadcastReceiver {
+
+        /**
+         * Defines what should happen when a message is received.
+         *
+         * @param context The Context in which the receiver is running.
+         * @param intent The Intent being received.
+         */
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String colors = intent.getStringExtra("colorSequence");
+            System.out.println("colors received " + colors);
+        }
+    }
 
 }

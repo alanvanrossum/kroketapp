@@ -18,6 +18,7 @@ public class ConnectionService extends Service {
     private static ArrayList<String> list;
     // Binder given to clients
     private final IBinder binder = new myBinder();
+    public String colorSeq;
 
     /**
      * Called by the system every time a client explicitly starts the service.
@@ -83,14 +84,36 @@ public class ConnectionService extends Service {
      * Starts the minigame C: Game_C_Activity
      */
     private void startC() {
-//        Intent i = new Intent();
-//        i.setAction("broadcastName");
-//        i.putExtra("colors", "c1c2c3");
-//        sendBroadcast(i);
+        BroadcastThread myThread = new BroadcastThread();
+        myThread.start();
 
         Intent dialogIntent = new Intent(this, Game_C_Activity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
+    }
+
+    /**
+     * Thread for sending information to activities.
+     */
+    public class BroadcastThread extends Thread{
+
+        /**
+         * Run the thread: broadcast information.
+         */
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+                Intent in = new Intent();
+                in.setAction("colorBroadcast");
+                in.putExtra("colorSequence", colorSeq);
+                sendBroadcast(in);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            stopSelf();
+        }
     }
 
     /**
@@ -192,14 +215,15 @@ public class ConnectionService extends Service {
                 String action = input.substring(6, pos);
 
                 //start the minigame belonging to the action string
-                System.out.println("Incoming action: " + action);
+                System.out.println("Incoming action: " + action + "sub " + action.substring(0,6));
                 //Only start a minigame if in WaitingActivity
                 if (inWaitingActivity()) {
                     if (action.contentEquals("startA")) {
                         startA();
                     } else if (action.contentEquals("startB")) {
                         startB();
-                    } else if (action.contentEquals("startC")) {
+                    } else if (action.substring(0,6).contentEquals("startC")) {
+                        colorSeq = action.substring(7);
                         startC();
                     }
                 } else if (action.contentEquals("minigameDone")) {
