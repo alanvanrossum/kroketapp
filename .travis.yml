@@ -10,19 +10,31 @@ android:
 
 env:
   global:
+    # Travis CI's terminal isn't smart, it's...
     - TERM=dumb
-    - ADB_INSTALL_TIMEOUT=8
+    # Directory where the app is located
     - TEST_DIR=EscapeApp
-  matrix:
-    - ANDROID_TARGET=anroid-21 ANDROID_ABI=armeabi-v7a
 
 before_script:
+  # change directory to wherever the App is located
   - cd $TEST_DIR
-  - chmod +x gradlew
+  # give gradlew script exec permissions
+  - chmod a+x gradlew
+  # we don't want to setup a custom virtual device
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  # run the emulator
   - emulator -avd test -no-skin -no-audio -no-window &
+  # wait for the emulator to boot
   - android-wait-for-emulator
+  # wake up the emulator (make sure the keyguard overlay disappears)
   - adb shell input keyevent 82 &
-
+  - sleep 5
+  
 script:
+  - adb shell input keyevent 82 &
+  - sleep 2
+  - ./gradlew test
+  
+  - adb shell input keyevent 82 &
+  - sleep 2
   - ./gradlew build connectedCheck
