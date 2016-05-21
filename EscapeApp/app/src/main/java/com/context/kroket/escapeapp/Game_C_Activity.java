@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Game_C_Activity extends AppCompatActivity {
 
+    public static ArrayList<Integer> colorSequence;
 
     UpdateReceiver updateReceiver;
 
@@ -82,7 +85,41 @@ public class Game_C_Activity extends AppCompatActivity {
 //            currentTime = System.currentTimeMillis();
 //        }
 
+    }
 
+    /**
+     * Put the string with colors in an arraylist.
+     *
+     * @param c the string with colors.
+     */
+    public static void parseColors(String c) {
+        colorSequence = new ArrayList<Integer>();
+        String colors = c;
+        String curCol = colors;
+        int ind;
+
+        while (!colors.equals("")) {
+            ind = colors.indexOf(",");
+
+            if (ind != -1) {
+                curCol = colors.substring(0,ind);
+                colors = colors.substring(ind + 1);
+            } else {
+                curCol = colors;
+                colors = "";
+            }
+
+            switch (curCol) {
+                case "RED": colorSequence.add(Color.RED);
+                    break;
+                case "GREEN": colorSequence.add(Color.GREEN);
+                    break;
+                case "BLUE": colorSequence.add(Color.BLUE);
+                    break;
+                case "YELLOW":  colorSequence.add(Color.YELLOW);
+                    break;
+            }
+        }
     }
 
     /**
@@ -100,6 +137,7 @@ public class Game_C_Activity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String colors = intent.getStringExtra("colorSequence");
             System.out.println("colors received " + colors);
+            parseColors(colors);
         }
     }
 
