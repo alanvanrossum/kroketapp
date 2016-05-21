@@ -129,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         if (start != null) {
             start.setEnabled(false);
         }
+
+        //Change the current activity to this
+        ((App)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**

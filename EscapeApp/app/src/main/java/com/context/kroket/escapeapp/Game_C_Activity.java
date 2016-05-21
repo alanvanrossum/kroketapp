@@ -41,6 +41,9 @@ public class Game_C_Activity extends AppCompatActivity {
 //        registerReceiver(updateReceiver, new IntentFilter("broadcastName"));
 
         super.onStart();
+
+        //Change the current activity to this
+        ((App)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**

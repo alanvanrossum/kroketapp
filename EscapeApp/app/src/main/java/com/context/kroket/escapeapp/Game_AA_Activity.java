@@ -76,6 +76,9 @@ public class Game_AA_Activity extends AppCompatActivity {
 
         Intent i = new Intent(this, ConnectionService.class);
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
+
+        //Change the current activity to this
+        ((App)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
