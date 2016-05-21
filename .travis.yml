@@ -17,7 +17,7 @@ env:
 
 before_script:
   # change directory to wherever the App is located
-  - cd $TEST_DIR
+  - cd $TEST_DIR && echo $PWD
   # give gradlew script exec permissions
   - chmod a+x gradlew
   # we don't want to setup a custom virtual device
