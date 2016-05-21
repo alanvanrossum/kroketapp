@@ -11,7 +11,7 @@ android:
 env:
   global:
     - TERM=dumb
-    - ADB_INSTALL_TIMEOUT=12
+    - ADB_INSTALL_TIMEOUT=8
     - TEST_DIR=EscapeApp
   matrix:
     - ANDROID_TARGET=anroid-21 ANDROID_ABI=armeabi-v7a
