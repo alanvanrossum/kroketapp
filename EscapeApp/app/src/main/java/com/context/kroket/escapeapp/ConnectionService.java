@@ -215,7 +215,7 @@ public class ConnectionService extends Service {
                 String action = input.substring(6, pos);
 
                 //start the minigame belonging to the action string
-                System.out.println("Incoming action: " + action + "sub " + action.substring(0,6));
+                System.out.println("Incoming action: " + action);
                 //Only start a minigame if in WaitingActivity
                 if (inWaitingActivity()) {
                     if (action.contentEquals("startA")) {
