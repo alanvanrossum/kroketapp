@@ -34,4 +34,15 @@ public class Game_A_Activity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Start the activity. Change current activity to this.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Change the current activity
+        ((App)this.getApplicationContext()).setCurrentActivity(this);
+    }
+
 }

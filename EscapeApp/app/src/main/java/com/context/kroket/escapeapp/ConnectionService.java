@@ -52,72 +52,13 @@ public class ConnectionService extends Service {
         return START_STICKY;
     }
 
-    private class connectTask extends AsyncTask<String, String, GameClient> {
-
-        /**
-         * Method to run the GameClient in a background thread.
-         *
-         * @param message The parameters of the task.
-         * @return null. Return object not used.
-         */
-        @Override
-        protected GameClient doInBackground(String... message) {
-            try {
-                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
-
-                    @Override
-                    public void messageReceived(String mes) {
-                        publishProgress(mes);
-                    }
-                });
-
-                tcpClient.run();
-
-            } catch (Exception e) {
-                System.out.println("no connection");
-                this.cancel(true);
-            }
-
-//            if (tcpClient.connection == false) {
-//                System.out.println("no connection");
-//                this.cancel(true);
-//            }
-            return null;
-        }
-
-        /**
-         * Runs on the UI thread after {@link #publishProgress} is invoked.
-         * The specified values are the values passed to {@link #publishProgress}.
-         *
-         * This method listens for messages from the server, and acts accordingly
-         * upon them.
-         *
-         * @param values The values indicating progress.
-         */
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            list.add(values[0]);
-            String input = values[0];
-
-            if (input.startsWith("INITM[")) {
-                int pos = input.indexOf(']');
-                String action = input.substring(6, pos);
-
-                //start the minigame belonging to the action string
-                System.out.println("Incoming action: " + action);
-                if (action.contentEquals("startA")) {
-                    startA();
-                } else if (action.contentEquals("startB")) {
-                    startB();
-                } else if (action.contentEquals("minigameDone")) {
-                    endMinigame();
-                } else if (action.contentEquals("startC")) {
-                    startC();
-                }
-            }
-
-        }
+    /**
+     * Check if current activity is waiting activity.
+     */
+    private boolean inWaitingActivity() {
+        return (((App)this.getApplicationContext())
+                    .getCurrentActivity().getLocalClassName()
+                    .equals(WaitingActivity.class.getSimpleName()));
     }
 
     /**
@@ -193,6 +134,80 @@ public class ConnectionService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
+    }
+
+    /**
+     * Helper class for connection.
+     */
+    private class connectTask extends AsyncTask<String, String, GameClient> {
+
+        /**
+         * Method to run the GameClient in a background thread.
+         *
+         * @param message The parameters of the task.
+         * @return null. Return object not used.
+         */
+        @Override
+        protected GameClient doInBackground(String... message) {
+            try {
+                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
+
+                    @Override
+                    public void messageReceived(String mes) {
+                        publishProgress(mes);
+                    }
+                });
+
+                tcpClient.run();
+
+            } catch (Exception e) {
+                System.out.println("no connection");
+                this.cancel(true);
+            }
+
+//            if (tcpClient.connection == false) {
+//                System.out.println("no connection");
+//                this.cancel(true);
+//            }
+            return null;
+        }
+
+        /**
+         * Runs on the UI thread after {@link #publishProgress} is invoked.
+         * The specified values are the values passed to {@link #publishProgress}.
+         * <p/>
+         * This method listens for messages from the server, and acts accordingly
+         * upon them.
+         *
+         * @param values The values indicating progress.
+         */
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            list.add(values[0]);
+            String input = values[0];
+
+            if (input.startsWith("INITM[")) {
+                int pos = input.indexOf(']');
+                String action = input.substring(6, pos);
+
+                //start the minigame belonging to the action string
+                System.out.println("Incoming action: " + action);
+                //Only start a minigame if in WaitingActivity
+                if (inWaitingActivity()) {
+                    if (action.contentEquals("startA")) {
+                        startA();
+                    } else if (action.contentEquals("startB")) {
+                        startB();
+                    } else if (action.contentEquals("startC")) {
+                        startC();
+                    }
+                } else if (action.contentEquals("minigameDone")) {
+                    endMinigame();
+                }
+
+            }
+        }
     }
 
 }
