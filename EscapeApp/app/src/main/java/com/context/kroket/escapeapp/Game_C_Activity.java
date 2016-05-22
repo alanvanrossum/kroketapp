@@ -11,14 +11,22 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Game_C_Activity extends AppCompatActivity {
 
+    //The color sequence
+    public static ArrayList<Integer> colorSequence;
 
-    //UpdateReceiver updateReceiver;
+    //Receiver for broadcastst
+    Receiver updateReceiver;
+
+    //Handler for the timer
+    Handler timeHandler = new android.os.Handler();
+
+    //Counter for position in the arraylist
+    public int counter = 0;
 
     /**
      * Initializes the layout.
@@ -36,9 +44,8 @@ public class Game_C_Activity extends AppCompatActivity {
     @Override
     protected void onStart() {
 
-
-//        updateReceiver = new UpdateReceiver();
-//        registerReceiver(updateReceiver, new IntentFilter("broadcastName"));
+        updateReceiver = new Receiver();
+        registerReceiver(updateReceiver, new IntentFilter("colorBroadcast"));
 
         super.onStart();
 
@@ -53,46 +60,93 @@ public class Game_C_Activity extends AppCompatActivity {
      * @param view
      */
     public void startC(View view) {
-
-        //setColor(Color.WHITE, 1000);
-        setColor(Color.RED, 200);
-        setColor(Color.BLUE, 200);
-        setColor(Color.YELLOW, 200);
-
-//        shape.setColor(Color.BLACK);
-//        shape.clearColorFilter();
-//        shape.setColor(Color.WHITE);
+        //Show the color sequence
+        timeHandler.postDelayed(updateColorThread, 0);
     }
 
     /**
-     * Sets a color for a specific amount of time.
-     * @param color the color to be set
-     * @param time the time the color should be shown in ms
+     * Put the string with colors in an arraylist.
+     *
+     * @param c the string with colors.
      */
-    public void setColor(int color, long time) {
-        View v = findViewById(R.id.layout_rec);
-        LayerDrawable bgDrawable = (LayerDrawable)v.getBackground();
-        final GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.shape_rec);
+    public static void parseColors(String c) {
+        colorSequence = new ArrayList<Integer>();
+        String colors = c;
+        String curCol = colors;
+        int ind;
 
-//        long startTime = System.currentTimeMillis();
-//        long currentTime = System.currentTimeMillis();
-//
-//
-//        shape.setColor(color);
-//        while (currentTime - startTime < time) {
-//            currentTime = System.currentTimeMillis();
-//        }
+        while (!colors.equals("")) {
+            ind = colors.indexOf(",");
 
+            if (ind != -1) {
+                curCol = colors.substring(0,ind);
+                colors = colors.substring(ind + 1);
+            } else {
+                curCol = colors;
+                colors = "";
+            }
 
+            switch (curCol) {
+                case "RED": colorSequence.add(Color.RED);
+                    break;
+                case "GREEN": colorSequence.add(Color.GREEN);
+                    break;
+                case "BLUE": colorSequence.add(Color.BLUE);
+                    break;
+                case "YELLOW":  colorSequence.add(Color.YELLOW);
+                    break;
+            }
+        }
+
+        //Add white at the end, so the screen becomes white again
+        colorSequence.add(Color.WHITE);
     }
 
-//    private static class UpdateReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String colors = intent.getStringExtra("colors");
-//            System.out.println("colors received");
-//        }
-//    }
+
+    /**
+     * Runnable to update the background color after a certain amout of time.
+     */
+    private Runnable updateColorThread = new Runnable() {
+        public void run()
+        {
+            View v = findViewById(R.id.layout_rec);
+            LayerDrawable bgDrawable = (LayerDrawable)v.getBackground();
+            final GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.shape_rec);
+            shape.setColor(colorSequence.get(counter));
+
+            counter++;
+
+            timeHandler.postDelayed(this, 170);// will repeat after 5 seconds
+
+            if (counter >= colorSequence.size()) {
+                timeHandler.removeCallbacks(updateColorThread);
+
+                //Set background back to white
+                //shape.setColor(Color.WHITE);
+                counter = 0;
+                return;
+            }
+        }
+    };
+
+
+    /**
+     * Class for receiving broadcasts.
+     */
+    private static class Receiver extends BroadcastReceiver {
+
+        /**
+         * Defines what should happen when a message is received.
+         *
+         * @param context The Context in which the receiver is running.
+         * @param intent The Intent being received.
+         */
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String colors = intent.getStringExtra("colorSequence");
+            System.out.println("colors received " + colors);
+            parseColors(colors);
+        }
+    }
 
 }
