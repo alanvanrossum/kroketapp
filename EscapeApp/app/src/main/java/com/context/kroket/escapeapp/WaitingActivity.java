@@ -20,4 +20,15 @@ public class WaitingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting);
     }
+
+    /**
+     * Start the activity. Change current activity to this.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Change the current activity
+        ((App)this.getApplicationContext()).setCurrentActivity(this);
+    }
 }

@@ -1,12 +1,9 @@
 package com.context.kroket.escapeapp;
 
-import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * boolean used to start game_AA_Activity intent.
+	 
      */
     private static boolean gameAA = false;
 
@@ -131,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         if (start != null) {
             start.setEnabled(false);
         }
+
+        //Change the current activity to this
+        ((App)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**

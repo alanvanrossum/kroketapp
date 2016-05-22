@@ -18,6 +18,7 @@ public class ConnectionService extends Service {
     private static ArrayList<String> list;
     // Binder given to clients
     private final IBinder binder = new myBinder();
+    public String colorSeq;
 
     /**
      * Called by the system every time a client explicitly starts the service.
@@ -52,72 +53,13 @@ public class ConnectionService extends Service {
         return START_STICKY;
     }
 
-    private class connectTask extends AsyncTask<String, String, GameClient> {
-
-        /**
-         * Method to run the GameClient in a background thread.
-         *
-         * @param message The parameters of the task.
-         * @return null. Return object not used.
-         */
-        @Override
-        protected GameClient doInBackground(String... message) {
-            try {
-                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
-
-                    @Override
-                    public void messageReceived(String mes) {
-                        publishProgress(mes);
-                    }
-                });
-
-                tcpClient.run();
-
-            } catch (Exception e) {
-                System.out.println("no connection");
-                this.cancel(true);
-            }
-
-//            if (tcpClient.connection == false) {
-//                System.out.println("no connection");
-//                this.cancel(true);
-//            }
-            return null;
-        }
-
-        /**
-         * Runs on the UI thread after {@link #publishProgress} is invoked.
-         * The specified values are the values passed to {@link #publishProgress}.
-         *
-         * This method listens for messages from the server, and acts accordingly
-         * upon them.
-         *
-         * @param values The values indicating progress.
-         */
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            list.add(values[0]);
-            String input = values[0];
-
-            if (input.startsWith("INITM[")) {
-                int pos = input.indexOf(']');
-                String action = input.substring(6, pos);
-
-                //start the minigame belonging to the action string
-                System.out.println("Incoming action: " + action);
-                if (action.contentEquals("startA")) {
-                    startA();
-                } else if (action.contentEquals("startB")) {
-                    startB();
-                } else if (action.contentEquals("minigameDone")) {
-                    endMinigame();
-                } else if (action.contentEquals("startC")) {
-                    startC();
-                }
-            }
-
-        }
+    /**
+     * Check if current activity is waiting activity.
+     */
+    private boolean inWaitingActivity() {
+        return (((App)this.getApplicationContext())
+                    .getCurrentActivity().getLocalClassName()
+                    .equals(WaitingActivity.class.getSimpleName()));
     }
 
     /**
@@ -142,14 +84,36 @@ public class ConnectionService extends Service {
      * Starts the minigame C: Game_C_Activity
      */
     private void startC() {
-//        Intent i = new Intent();
-//        i.setAction("broadcastName");
-//        i.putExtra("colors", "c1c2c3");
-//        sendBroadcast(i);
+        BroadcastThread myThread = new BroadcastThread();
+        myThread.start();
 
         Intent dialogIntent = new Intent(this, Game_C_Activity.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
+    }
+
+    /**
+     * Thread for sending information to activities.
+     */
+    public class BroadcastThread extends Thread{
+
+        /**
+         * Run the thread: broadcast information.
+         */
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+                Intent in = new Intent();
+                in.setAction("colorBroadcast");
+                in.putExtra("colorSequence", colorSeq);
+                sendBroadcast(in);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            stopSelf();
+        }
     }
 
     /**
@@ -193,6 +157,81 @@ public class ConnectionService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
+    }
+
+    /**
+     * Helper class for connection.
+     */
+    private class connectTask extends AsyncTask<String, String, GameClient> {
+
+        /**
+         * Method to run the GameClient in a background thread.
+         *
+         * @param message The parameters of the task.
+         * @return null. Return object not used.
+         */
+        @Override
+        protected GameClient doInBackground(String... message) {
+            try {
+                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
+
+                    @Override
+                    public void messageReceived(String mes) {
+                        publishProgress(mes);
+                    }
+                });
+
+                tcpClient.run();
+
+            } catch (Exception e) {
+                System.out.println("no connection");
+                this.cancel(true);
+            }
+
+//            if (tcpClient.connection == false) {
+//                System.out.println("no connection");
+//                this.cancel(true);
+//            }
+            return null;
+        }
+
+        /**
+         * Runs on the UI thread after {@link #publishProgress} is invoked.
+         * The specified values are the values passed to {@link #publishProgress}.
+         * <p/>
+         * This method listens for messages from the server, and acts accordingly
+         * upon them.
+         *
+         * @param values The values indicating progress.
+         */
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            list.add(values[0]);
+            String input = values[0];
+
+            if (input.startsWith("INITM[")) {
+                int pos = input.indexOf(']');
+                String action = input.substring(6, pos);
+
+                //start the minigame belonging to the action string
+                System.out.println("Incoming action: " + action);
+                //Only start a minigame if in WaitingActivity
+                if (inWaitingActivity()) {
+                    if (action.contentEquals("startA")) {
+                        startA();
+                    } else if (action.contentEquals("startB")) {
+                        startB();
+                    } else if (action.substring(0,6).contentEquals("startC")) {
+                        colorSeq = action.substring(7);
+                        startC();
+                    }
+                } else if (action.contentEquals("minigameDone")) {
+                    endMinigame();
+                }
+
+            }
+        }
     }
 
 }
