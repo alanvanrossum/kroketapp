@@ -21,27 +21,6 @@ import com.context.kroket.escapeapp.network.ConnectionService;
 public class MainActivity extends AppCompatActivity {
 
     /**
-     * boolean used to start game_AA_Activity intent.
-	 
-     */
-    private static boolean gameAA = false;
-
-    /**
-     * boolean used to start game_A_Activity intent.
-     */
-    private static boolean gameA = false;
-
-    /**
-     * boolean used to start game_B_Activity intent.
-     */
-    private static boolean gameB = false;
-
-    /**
-     * boolean used to enable the start button.
-     */
-    private static boolean enableStart = false;
-
-    /**
      * Method that makes the calls necessary to connect the players to the server.
      * @param view is the view that was clicked.
      */
@@ -73,33 +52,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * checkConditions is a method used for testing only. for testing purposes we need to
-     * be able to switch between activities quickly. checkConditions enables us to do that.
-     */
-    private void checkConditions() {
-        if(gameAA == true) {
-            Intent dialogIntent = new Intent(this, A_CodeCrackerCodeview.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-
-        }
-        if(gameA == true) {
-            Intent dialogIntent = new Intent(this, A_Code_Cracker_Pictureview.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-        }
-        if(gameB == true) {
-            Intent dialogIntent = new Intent(this, B_TapGame.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-        }
-
-        if(enableStart == true){
-            Button start = (Button) findViewById(R.id.startButton);
-            start.setEnabled(true);
-        }
-    }
 
     /**
      * Method that starts the game.
@@ -141,6 +93,32 @@ public class MainActivity extends AppCompatActivity {
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
+
+
+    //******************************************************//
+    //*********** ONLY USED FOR TESTING PURPOSES ***********//
+    //******************************************************//
+
+    /**
+     * boolean used to start game_AA_Activity intent.
+     */
+    private static boolean gameAA = false;
+
+    /**
+     * boolean used to start game_A_Activity intent.
+     */
+    private static boolean gameA = false;
+
+    /**
+     * boolean used to start game_B_Activity intent.
+     */
+    private static boolean gameB = false;
+
+    /**
+     * boolean used to enable the start button.
+     */
+    private static boolean enableStart = false;
+
     /**
      * switchGameA allows us to change the gameA boolean.
      * This GameA boolean is used to quickly switch to A_Code_Cracker_Pictureview.
@@ -178,5 +156,33 @@ public class MainActivity extends AppCompatActivity {
      * @param b Boolean
      */
     public static void switchStart(Boolean b) { enableStart = b; }
+
+    /**
+     * checkConditions is a method used for testing only. for testing purposes we need to
+     * be able to switch between activities quickly. checkConditions enables us to do that.
+     */
+    private void checkConditions() {
+        if(gameAA == true) {
+            Intent dialogIntent = new Intent(this, A_CodeCrackerCodeview.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+
+        }
+        if(gameA == true) {
+            Intent dialogIntent = new Intent(this, A_Code_Cracker_Pictureview.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+        if(gameB == true) {
+            Intent dialogIntent = new Intent(this, B_TapGame.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+
+        if(enableStart == true){
+            Button start = (Button) findViewById(R.id.startButton);
+            start.setEnabled(true);
+        }
+    }
 
 }
