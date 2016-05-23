@@ -110,7 +110,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
             if (serviceIsBound) {
                 connectionService.endA();
             } else {
-                System.out.println("ConnectionService not bound in Game AA");
+                System.out.println("ConnectionService not bound in CodeCrackerCodeView");
             }
 
             //Go to the waiting screen

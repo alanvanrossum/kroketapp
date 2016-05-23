@@ -22,13 +22,16 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
  */
 public class B_TapGame extends AppCompatActivity {
 
-    TextView timer;
     long startTime;
     long timeLimit = 20000;
     int amount = -1;
     int seconds = 1;
     int goal = 125;
     boolean done = false;
+
+    TextView timer;
+    Button restartButton = ((Button) findViewById(R.id.restartButton));
+    TextView clickButton = ((TextView) findViewById(R.id.clickButton));
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
@@ -43,28 +46,41 @@ public class B_TapGame extends AppCompatActivity {
             seconds = (int) (millis / 1000);
             seconds = seconds % 60;
 
-            //Still time left, update timer on screen
+            //Update according to the time left
             if (seconds >= 0) {
-                timer.setText(String.format("%2d", seconds));
-                timerHandler.postDelayed(this, 1000);
+                timeLeft();
             } else {
-                //Out of time: stop timer and update textfield
-                timerHandler.removeCallbacks(timerRunnable);
-                ((TextView) findViewById(R.id.clickButton)).setText("TIME'S UP!");
-                //The goal is reached: do something
-                if (amount >= goal) {       //beide mobile players moeten een andere code krijgen?
-                    connectionService.endB();
-                    done = true;
-                    //((TextView) findViewById(R.id.amount)).setText("Great job! You unlocked the following part of the code: 548");
-                } else {
-                    //Goal not reached. Able to start game again.
-                    ((TextView) findViewById(R.id.amount)).setText("Too bad! \nClick restart to try again.");
-                    ((Button) findViewById(R.id.restartButton)).setVisibility(View.VISIBLE);
-                    ((Button) findViewById(R.id.restartButton)).setEnabled(true);
-                }
+                outOfTime();
             }
         }
     };
+
+    /**
+     * Defines what should happen (update) when there is still time left.
+     */
+    private void timeLeft() {
+        timer.setText(String.format("%2d", seconds));
+        timerHandler.postDelayed(timerRunnable, 1000);
+    }
+
+    /**
+     * Defines what should happen when the player is out of time.
+     */
+    private void outOfTime() {
+        //Out of time: stop timer and update textfield
+        timerHandler.removeCallbacks(timerRunnable);
+        clickButton.setText("TIME'S UP!");
+        //The goal is reached: do something
+        if (amount >= goal) {       //beide mobile players moeten een andere code krijgen?
+            connectionService.endB();
+            done = true;
+        } else {
+            //Goal not reached. Able to start game again.
+            ((TextView) findViewById(R.id.amount)).setText("Too bad! \nClick restart to try again.");
+            restartButton.setVisibility(View.VISIBLE);
+            restartButton.setEnabled(true);
+        }
+    }
 
     //Defines callbacks for service binding, used in bindService()
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -133,8 +149,8 @@ public class B_TapGame extends AppCompatActivity {
         setContentView(R.layout.b_tap_game);
 
         timer = (TextView) findViewById(R.id.timer);
-        ((Button) findViewById(R.id.restartButton)).setVisibility(View.INVISIBLE);
-        ((Button) findViewById(R.id.restartButton)).setEnabled(false);
+        restartButton.setVisibility(View.INVISIBLE);
+        restartButton.setEnabled(false);
     }
 
     /**
