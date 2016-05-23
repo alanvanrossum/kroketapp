@@ -60,7 +60,7 @@ public class C_ColorSequence extends AppCompatActivity {
      * Called when the start button in minigame C is clicked.
      * Starts the color range.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void startC(View view) {
         //Show the color sequence

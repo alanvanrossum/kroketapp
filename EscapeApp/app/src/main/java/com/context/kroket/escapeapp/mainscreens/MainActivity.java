@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Method that starts the game.
      *
-     * @param view is the view that was clicked.
+     * @param view the view that was clicked.
      */
     public void startButton(View view) {
         Intent intent = new Intent(this, WaitingActivity.class);

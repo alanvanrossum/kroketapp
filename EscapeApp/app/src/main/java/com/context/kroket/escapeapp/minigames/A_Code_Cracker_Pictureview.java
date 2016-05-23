@@ -30,7 +30,7 @@ public class A_Code_Cracker_Pictureview extends AppCompatActivity {
     /**
      * When the code button is clicked, the A_CodeCrackerCodeview is started.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void codeButton(View view) {
         Intent intent = new Intent(this, A_CodeCrackerCodeview.class);

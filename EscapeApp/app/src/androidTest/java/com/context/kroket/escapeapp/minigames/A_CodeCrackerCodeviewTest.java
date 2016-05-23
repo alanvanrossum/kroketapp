@@ -47,7 +47,7 @@ public class A_CodeCrackerCodeviewTest {
         onView(withId(R.id.picButton)).perform(click());
 
         //Check if we instantiated a A_Code_Cracker_Pictureview.
-        intended(hasComponent(hasShortClassName(".A_Code_Cracker_Pictureview")));
+        intended(hasComponent(hasShortClassName(".minigames.A_Code_Cracker_Pictureview")));
         MainActivity.switchGameAA(false);
     }
 }

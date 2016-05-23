@@ -23,15 +23,16 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 public class B_TapGame extends AppCompatActivity {
 
     long startTime;
-    long timeLimit = 20000;
-    int amount = -1;
-    int seconds = 1;
-    int goal = 125;
+    long timeLimit = 20000;     //amount of time to click
+    int goal = 125;             //the amount of times that should be clicked
+    int amount = -1;            //amount = -1 when the timer has not started yet
+    int seconds;
     boolean done = false;
 
     TextView timer;
-    Button restartButton = ((Button) findViewById(R.id.restartButton));
-    TextView clickButton = ((TextView) findViewById(R.id.clickButton));
+    Button restartButton;
+    TextView clickButton;
+    TextView amountView;
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
@@ -76,7 +77,7 @@ public class B_TapGame extends AppCompatActivity {
             done = true;
         } else {
             //Goal not reached. Able to start game again.
-            ((TextView) findViewById(R.id.amount)).setText("Too bad! \nClick restart to try again.");
+            amountView.setText("Too bad! \nClick restart to try again.");
             restartButton.setVisibility(View.VISIBLE);
             restartButton.setEnabled(true);
         }
@@ -129,7 +130,7 @@ public class B_TapGame extends AppCompatActivity {
     /**
      * Method to restart the minigame B.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void restartButton(View view) {
             Intent intent = new Intent(this, B_TapGame.class);
@@ -149,6 +150,10 @@ public class B_TapGame extends AppCompatActivity {
         setContentView(R.layout.b_tap_game);
 
         timer = (TextView) findViewById(R.id.timer);
+        restartButton = ((Button) findViewById(R.id.restartButton));
+        clickButton = ((TextView) findViewById(R.id.clickButton));
+        amountView = ((TextView) findViewById(R.id.amount));
+
         restartButton.setVisibility(View.INVISIBLE);
         restartButton.setEnabled(false);
     }
@@ -157,7 +162,7 @@ public class B_TapGame extends AppCompatActivity {
      * Executes when the clickButton is clicked.
      * Increases the count by 1.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void clickButton(View view) {
         if (!done) {
@@ -168,10 +173,10 @@ public class B_TapGame extends AppCompatActivity {
                 amount++;
             } else if (seconds >= 0) {
                 amount++;
-                ((TextView) findViewById(R.id.amount)).setText("Times clicked: " + amount);
+                amountView.setText("Times clicked: " + amount);
             }
         } else {
-            ((Button) findViewById(R.id.clickButton)).setText("Finish");
+            clickButton.setText("Finish");
             Intent i = new Intent(this, WaitingActivity.class);
             startActivity(i);
         }

@@ -89,7 +89,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     /**
      * When the picture button is clicked, the A_Code_Cracker_Pictureview is started.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void picButton(View view) {
         Intent intent = new Intent(this, A_Code_Cracker_Pictureview.class);
@@ -99,7 +99,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     /**
      * Verifies if the code that is entered is correct.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void verifyButton(View view) {
         EditText answer = (EditText) findViewById(R.id.answerA);

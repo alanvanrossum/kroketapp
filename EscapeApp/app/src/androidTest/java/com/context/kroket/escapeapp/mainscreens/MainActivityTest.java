@@ -85,7 +85,7 @@ public class MainActivityTest{
         onView(withId(R.id.startButton)).perform(click());
 
         //Check if we started a waiting activity.
-        intended(hasComponent(hasShortClassName(".WaitingActivity")));
+        intended(hasComponent(hasShortClassName(".mainscreens.WaitingActivity")));
         MainActivity.switchStart(false);
     }
 
