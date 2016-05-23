@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
@@ -19,7 +19,7 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
  * This activity is part of the minigame A.
  * Responsible for showing the assignment.
  */
-public class Game_AA_Activity extends AppCompatActivity {
+public class A_CodeCrackerCodeview extends AppCompatActivity {
 
     //The answer to this minigame
     public final String correctCode = "1234";
@@ -67,7 +67,7 @@ public class Game_AA_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game__aa_);
+        setContentView(R.layout.a_code_cracker_codeview);
 
         findViewById(R.id.verifyMessage).setVisibility(View.INVISIBLE);
     }
@@ -83,16 +83,16 @@ public class Game_AA_Activity extends AppCompatActivity {
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
 
         //Change the current activity to this
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
-     * When the picture button is clicked, the Game_A_Activity is started.
+     * When the picture button is clicked, the A_Code_Cracker_Pictureview is started.
      *
      * @param view
      */
     public void picButton(View view) {
-        Intent intent = new Intent(this, Game_A_Activity.class);
+        Intent intent = new Intent(this, A_Code_Cracker_Pictureview.class);
         startActivity(intent);
     }
 

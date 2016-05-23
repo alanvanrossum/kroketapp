@@ -1,13 +1,15 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.mainscreens;
 
 /**
  * Created by Harvey van Veltom on 19/05/2016.
  */
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
 import org.junit.Rule;
@@ -45,7 +47,7 @@ public class MainActivityTest{
     @Test
     public void clickWithoutNameTest() {
         //Click the connect button.
-        onView(withId(R.id.connectButton)).perform(click());
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
 
         //Check if the connection message has been updated.
         onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));

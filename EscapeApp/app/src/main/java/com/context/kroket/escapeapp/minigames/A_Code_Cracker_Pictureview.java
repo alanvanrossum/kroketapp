@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
 
 /**
  * This activity is part of the minigame A.
  * Responsible for showing the picture.
  */
-public class Game_A_Activity extends AppCompatActivity {
+public class A_Code_Cracker_Pictureview extends AppCompatActivity {
 
     /**
      * Initializes the layout.
@@ -24,16 +24,16 @@ public class Game_A_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_a);
+        setContentView(R.layout.a_code_cracker_pictureview);
     }
 
     /**
-     * When the code button is clicked, the Game_AA_Activity is started.
+     * When the code button is clicked, the A_CodeCrackerCodeview is started.
      *
      * @param view
      */
     public void codeButton(View view) {
-        Intent intent = new Intent(this, Game_AA_Activity.class);
+        Intent intent = new Intent(this, A_CodeCrackerCodeview.class);
         startActivity(intent);
     }
 
@@ -45,7 +45,7 @@ public class Game_A_Activity extends AppCompatActivity {
         super.onStart();
 
         //Change the current activity
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
 }

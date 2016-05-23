@@ -3,7 +3,7 @@ package com.context.kroket.escapeapp.mainscreens;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
 
 /**
@@ -21,7 +21,7 @@ public class WaitingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_waiting);
+        setContentView(R.layout.waiting_activity);
     }
 
     /**
@@ -32,6 +32,6 @@ public class WaitingActivity extends AppCompatActivity {
         super.onStart();
 
         //Change the current activity
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 }

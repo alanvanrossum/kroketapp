@@ -6,11 +6,11 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
-import com.context.kroket.escapeapp.minigames.Game_AA_Activity;
-import com.context.kroket.escapeapp.minigames.Game_B_Activity;
-import com.context.kroket.escapeapp.minigames.Game_C_Activity;
+import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
+import com.context.kroket.escapeapp.minigames.B_TapGame;
+import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
 
@@ -63,37 +63,39 @@ public class ConnectionService extends Service {
      * Check if current activity is waiting activity.
      */
     private boolean inWaitingActivity() {
-        return (((App)this.getApplicationContext())
-                    .getCurrentActivity().getLocalClassName()
-                    .equals(WaitingActivity.class.getSimpleName()));
+        String current_activity = ((ActivityManager)this.getApplicationContext())
+                .getCurrentActivity().getComponentName().getClassName();
+        String waiting_activity = WaitingActivity.class.getName();
+        return (current_activity.equals(waiting_activity));
     }
 
     /**
-     * Starts the minigame A: Game_AA_Activity
+     * Starts the minigame A: A_CodeCrackerCodeview
      */
     private void startA() {
-        Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
+        System.out.println("should have started A");
+        Intent dialogIntent = new Intent(this, A_CodeCrackerCodeview.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
 
     /**
-     * Starts the minigame B: Game_B_Activity
+     * Starts the minigame B: B_TapGame
      */
     private void startB() {
-        Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+        Intent dialogIntent = new Intent(this, B_TapGame.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
 
     /**
-     * Starts the minigame C: Game_C_Activity
+     * Starts the minigame C: C_ColorSequence
      */
     private void startC() {
         BroadcastThread myThread = new BroadcastThread();
         myThread.start();
 
-        Intent dialogIntent = new Intent(this, Game_C_Activity.class);
+        Intent dialogIntent = new Intent(this, C_ColorSequence.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
@@ -225,6 +227,7 @@ public class ConnectionService extends Service {
                 //Only start a minigame if in WaitingActivity
                 if (inWaitingActivity()) {
                     if (action.contentEquals("startA")) {
+                        System.out.println("equals startA");
                         startA();
                     } else if (action.contentEquals("startB")) {
                         startB();

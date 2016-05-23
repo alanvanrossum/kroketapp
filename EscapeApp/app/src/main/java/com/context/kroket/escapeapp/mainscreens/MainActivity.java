@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
-import com.context.kroket.escapeapp.minigames.Game_AA_Activity;
-import com.context.kroket.escapeapp.minigames.Game_A_Activity;
-import com.context.kroket.escapeapp.minigames.Game_B_Activity;
+import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
+import com.context.kroket.escapeapp.minigames.A_Code_Cracker_Pictureview;
+import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 /**
@@ -79,18 +79,18 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkConditions() {
         if(gameAA == true) {
-            Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
+            Intent dialogIntent = new Intent(this, A_CodeCrackerCodeview.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
 
         }
         if(gameA == true) {
-            Intent dialogIntent = new Intent(this, Game_A_Activity.class);
+            Intent dialogIntent = new Intent(this, A_Code_Cracker_Pictureview.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
         }
         if(gameB == true) {
-            Intent dialogIntent = new Intent(this, Game_B_Activity.class);
+            Intent dialogIntent = new Intent(this, B_TapGame.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
         }
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
     }
 
     /**
@@ -138,12 +138,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Change the current activity to this
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
      * switchGameA allows us to change the gameA boolean.
-     * This GameA boolean is used to quickly switch to Game_A_Activity.
+     * This GameA boolean is used to quickly switch to A_Code_Cracker_Pictureview.
      * This method is only used for testing.
      *
      * @param b Boolean
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * switchGameAA allows us to change the gameAA boolean.
-     * This GameAA boolean is used to quickly switch to Game_AA_Activity.
+     * This GameAA boolean is used to quickly switch to A_CodeCrackerCodeview.
      * This method is only used for testing.
      *
      * @param b Boolean
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * switchGameB allows us to change the gameB boolean.
-     * This GameB boolean is used to quickly switch to Game_B_Activity.
+     * This GameB boolean is used to quickly switch to B_TapGame.
      * This method is only used for testing.
      *
      * @param b Boolean

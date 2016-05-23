@@ -12,12 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
 
 import java.util.ArrayList;
 
-public class Game_C_Activity extends AppCompatActivity {
+public class C_ColorSequence extends AppCompatActivity {
 
     //The color sequence
     public static ArrayList<Integer> colorSequence;
@@ -41,7 +41,7 @@ public class Game_C_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game__c_);
+        setContentView(R.layout.c_color_sequence);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Game_C_Activity extends AppCompatActivity {
         super.onStart();
 
         //Change the current activity to this
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**

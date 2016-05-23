@@ -1,12 +1,14 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.minigames;
 
 /**
  * Created by Harvey van Veltom on 19/05/2016.
  */
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
 import org.junit.Rule;
@@ -23,22 +25,22 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 /**
- * Game_B_ActivityTest is used to test the Game_B_Activity class.
+ * B_TapGameTest is used to test the B_TapGame class.
  */
-public class Game_B_ActivityTest {
+public class B_TapGameTest {
 
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
 
     /**
-     * Method checks the functionality of clicking the Game_B_Activity start button once.
+     * Method checks the functionality of clicking the B_TapGame start button once.
      */
     @Test
     public void clickStartButtonOnce() {
-        //Switch from MainActivity to Game_B_Activity.
+        //Switch from MainActivity to B_TapGame.
         MainActivity.switchGameB(true);
-        onView(withId(R.id.connectButton)).perform(click());
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
 
         //Click the start button.
         onView(withId(R.id.clickButton)).perform(click());
@@ -49,11 +51,11 @@ public class Game_B_ActivityTest {
     }
 
     /**
-     * Method checks the functionality of clicking the Game_B_Activity start button twice.
+     * Method checks the functionality of clicking the B_TapGame start button twice.
      */
     @Test
     public void clickStartButtonTwice() {
-        //Switch from MainActivity to Game_B_Activity.
+        //Switch from MainActivity to B_TapGame.
         MainActivity.switchGameB(true);
         onView(withId(R.id.connectButton)).perform(click());
 

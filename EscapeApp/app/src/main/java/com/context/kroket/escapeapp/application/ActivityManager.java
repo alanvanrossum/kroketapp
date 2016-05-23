@@ -6,7 +6,7 @@ import android.app.Application;
 /**
  * Created by Irene on 21-5-2016.
  */
-public class App extends Application {
+public class ActivityManager extends Application {
 
     //The current active activity
     private Activity current_activity = null;

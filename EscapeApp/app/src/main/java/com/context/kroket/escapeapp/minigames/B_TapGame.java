@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
@@ -20,7 +20,7 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 /**
  * This activity is responsible for minigame B.
  */
-public class Game_B_Activity extends AppCompatActivity {
+public class B_TapGame extends AppCompatActivity {
 
     TextView timer;
     long startTime;
@@ -107,7 +107,7 @@ public class Game_B_Activity extends AppCompatActivity {
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
 
         //Change the current activity to this
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Game_B_Activity extends AppCompatActivity {
      * @param view
      */
     public void restartButton(View view) {
-            Intent intent = new Intent(this, Game_B_Activity.class);
+            Intent intent = new Intent(this, B_TapGame.class);
             startActivity(intent);
     }
 
@@ -130,7 +130,7 @@ public class Game_B_Activity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game__b_);
+        setContentView(R.layout.b_tap_game);
 
         timer = (TextView) findViewById(R.id.timer);
         ((Button) findViewById(R.id.restartButton)).setVisibility(View.INVISIBLE);
