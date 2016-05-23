@@ -29,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
         boolean connect = false;
+
+        //Only used in testing, to quickly forward to another view.
         checkConditions();
+
         //first check if the player has entered his/her name
         if (name.getText().toString().matches("")) {
             connectMessage.setText("Enter your name first!");
