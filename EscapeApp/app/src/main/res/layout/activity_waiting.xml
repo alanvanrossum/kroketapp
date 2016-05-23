@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.context.kroket.escapeapp.WaitingActivity">
+    tools:context=".mainscreens.WaitingActivity">
 
 
     <TextView android:id="@+id/waiting"

@@ -7,13 +7,11 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityInstrumentationTestCase2;
 
-import com.robotium.solo.Solo;
+import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.Before;
 
 import org.junit.runner.RunWith;
 

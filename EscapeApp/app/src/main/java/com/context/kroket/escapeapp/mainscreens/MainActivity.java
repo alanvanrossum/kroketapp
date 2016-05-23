@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.mainscreens;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.minigames.Game_AA_Activity;
+import com.context.kroket.escapeapp.minigames.Game_A_Activity;
+import com.context.kroket.escapeapp.minigames.Game_B_Activity;
+import com.context.kroket.escapeapp.network.ConnectionService;
 
 /**
  * Responsible for making sure the player can connect to and start the game.

@@ -1,15 +1,15 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.mainscreens;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.os.Bundle;
+
+import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.R;
 
 /**
- * This activity is part of the minigame A.
- * Responsible for showing the picture.
+ * Responsible for the screen that is shown when no minigame is active.
  */
-public class Game_A_Activity extends AppCompatActivity {
+public class WaitingActivity extends AppCompatActivity {
 
     /**
      * Initializes the layout.
@@ -21,17 +21,7 @@ public class Game_A_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_a);
-    }
-
-    /**
-     * When the code button is clicked, the Game_AA_Activity is started.
-     *
-     * @param view
-     */
-    public void codeButton(View view) {
-        Intent intent = new Intent(this, Game_AA_Activity.class);
-        startActivity(intent);
+        setContentView(R.layout.activity_waiting);
     }
 
     /**
@@ -44,5 +34,4 @@ public class Game_A_Activity extends AppCompatActivity {
         //Change the current activity
         ((App)this.getApplicationContext()).setCurrentActivity(this);
     }
-
 }

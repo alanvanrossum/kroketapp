@@ -1,10 +1,16 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.network;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+
+import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
+import com.context.kroket.escapeapp.minigames.Game_AA_Activity;
+import com.context.kroket.escapeapp.minigames.Game_B_Activity;
+import com.context.kroket.escapeapp.minigames.Game_C_Activity;
 
 import java.util.ArrayList;
 
@@ -17,7 +23,7 @@ public class ConnectionService extends Service {
     private static GameClient tcpClient;
     private static ArrayList<String> list;
     // Binder given to clients
-    private final IBinder binder = new myBinder();
+    public final IBinder binder = new myBinder();
     public String colorSeq;
 
     /**
@@ -143,7 +149,7 @@ public class ConnectionService extends Service {
      * Class used for the client Binder.
      */
     public class myBinder extends Binder {
-        ConnectionService getService() {
+        public ConnectionService getService() {
             return ConnectionService.this;
         }
     }

@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.application;
 
 import android.app.Activity;
 import android.app.Application;

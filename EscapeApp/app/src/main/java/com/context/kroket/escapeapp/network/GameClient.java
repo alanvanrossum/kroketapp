@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.network;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -9,7 +9,7 @@ import java.net.Socket;
  * to the server.
  */
 public class GameClient {
-    public static final String SERVERIP = "192.168.178.19"; //the ip adress of the server  Alan: "145.94.178.99."
+    public static final String SERVERIP = "145.94.177.139"; //"192.168.178.19"; //the ip adress of the server  Alan: "145.94.178.99."
     public static final int SERVERPORT = 1234; //the port we will be listening
     private String serverMessage;
     private OnMessageReceived messageListener = null;

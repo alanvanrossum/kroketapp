@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.minigames;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +11,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.R;
 
 import java.util.ArrayList;
 

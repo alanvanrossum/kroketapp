@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.minigames;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,6 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.context.kroket.escapeapp.application.App;
+import com.context.kroket.escapeapp.network.ConnectionService;
+import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 
 /**
  * This activity is part of the minigame A.
