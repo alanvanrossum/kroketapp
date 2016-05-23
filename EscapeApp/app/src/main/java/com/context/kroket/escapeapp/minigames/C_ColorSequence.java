@@ -44,6 +44,10 @@ public class C_ColorSequence extends AppCompatActivity {
         setContentView(R.layout.c_color_sequence);
     }
 
+    /**
+     * Register to the broadcast for the colorsequence.
+     * Change the current activity to this one.
+     */
     @Override
     protected void onStart() {
 

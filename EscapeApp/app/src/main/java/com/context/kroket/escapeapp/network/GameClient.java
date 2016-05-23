@@ -16,8 +16,9 @@ public class GameClient {
     private boolean running = false;
     public boolean connection = false;
 
-    PrintWriter out;
-    BufferedReader in;
+    PrintWriter dataOutputStream;
+    BufferedReader dataInputStream;
+    Socket serverSocket;
 
     /**
      * Constructor for the GameClient
@@ -35,10 +36,10 @@ public class GameClient {
      */
     public void sendMessage(String message){
         //wait for the PrintWriter to be initialized
-        while(out == null || out.checkError()) {}
-        if(out != null && !out.checkError()){
-            out.println(message);
-            out.flush();
+        while(dataOutputStream == null || dataOutputStream.checkError()) {}
+        if(dataOutputStream != null && !dataOutputStream.checkError()){
+            dataOutputStream.println(message);
+            dataOutputStream.flush();
         }
     }
 
@@ -54,42 +55,61 @@ public class GameClient {
      */
     public void run(){
         running = true;
-        try{
+
+        createSocket();
+        createStreams();
+    }
+
+    /**
+     * Creates the serversocket with the IP adress and port.
+     */
+    private void createSocket() {
+        try {
             InetAddress serverAddress = InetAddress.getByName(SERVERIP);
-            Socket serverSocket;
-
-            //connecting
-            try {
-                serverSocket = new Socket(serverAddress, SERVERPORT);
-                connection = true;
-            } catch (Exception e){
-                e.printStackTrace();
-                System.out.println("Error in making serverSocket");
-                this.stopClient();
-                return;
-            }
-
-            try {
-                out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())));
-                in = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-
-                //while loop that lasts until 'stopclient is called'
-                while(running){
-                    serverMessage = in.readLine();
-
-                    if(serverMessage!=null) {
-                        //A message was received
-                        messageListener.messageReceived(serverMessage);
-                    }
-                    serverMessage = null;
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            } finally {
-                serverSocket.close();
-            }
-        } catch (Exception e) {
+            serverSocket = new Socket(serverAddress, SERVERPORT);
+            connection = true;
+        } catch (Exception e){
             e.printStackTrace();
+            System.out.println("Error in making serverSocket");
+            this.stopClient();
+            return;
+        }
+    }
+
+    /**
+     * Closes the server socket.
+     */
+    private void closeSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates the input and output streams.
+     */
+    private void createStreams() {
+        try {
+            dataOutputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())));
+            dataInputStream = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+
+            //while loop that lasts until 'stopclient is called'
+            while(running){
+                serverMessage = dataInputStream.readLine();
+
+                //A message was received
+                if(serverMessage != null) {
+                    messageListener.messageReceived(serverMessage);
+                }
+                serverMessage = null;
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            closeSocket();
         }
     }
 

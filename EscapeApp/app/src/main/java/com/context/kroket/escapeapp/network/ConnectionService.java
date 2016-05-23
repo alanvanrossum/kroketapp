@@ -160,7 +160,7 @@ public class ConnectionService extends Service {
     private class connectTask extends AsyncTask<String, String, GameClient> {
 
         /**
-         * Method to run the GameClient in a background thread.
+         * Method to run the GameClient dataInputStream a background thread.
          *
          * @param message The parameters of the task.
          * @return null. Return object not used.
@@ -184,7 +184,7 @@ public class ConnectionService extends Service {
             }
 
 //            if (tcpClient.connection == false) {
-//                System.out.println("no connection");
+//                System.dataOutputStream.println("no connection");
 //                this.cancel(true);
 //            }
             return null;
@@ -218,7 +218,7 @@ public class ConnectionService extends Service {
                 int pos = input.indexOf(']');
                 String action = input.substring(6, pos);
 
-                //Only start a minigame if in WaitingActivity
+                //Only start a minigame if dataInputStream WaitingActivity
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(action);
                     startMinigame(minigameclass);
