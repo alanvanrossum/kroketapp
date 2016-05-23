@@ -70,32 +70,19 @@ public class ConnectionService extends Service {
     }
 
     /**
-     * Starts the minigame A: A_CodeCrackerCodeview
+     * Starts a minigame.
+     *
+     * @param minigameclass the class of the minigame that should be started
      */
-    private void startA() {
-        System.out.println("should have started A");
-        Intent dialogIntent = new Intent(this, A_CodeCrackerCodeview.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
-    }
+    private void startMinigame(Class minigameclass) {
+        //broadcast the colorsequence if necessary
+        if (minigameclass.equals(C_ColorSequence.class)) {
+            BroadcastThread myThread = new BroadcastThread();
+            myThread.start();
+        }
 
-    /**
-     * Starts the minigame B: B_TapGame
-     */
-    private void startB() {
-        Intent dialogIntent = new Intent(this, B_TapGame.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
-    }
-
-    /**
-     * Starts the minigame C: C_ColorSequence
-     */
-    private void startC() {
-        BroadcastThread myThread = new BroadcastThread();
-        myThread.start();
-
-        Intent dialogIntent = new Intent(this, C_ColorSequence.class);
+        //start the activity belonging to the minigame
+        Intent dialogIntent = new Intent(this, minigameclass);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
@@ -218,28 +205,46 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
+            parseInput(input);
+        }
+
+        /**
+         * Parses the input received from the server.
+         *
+         * @param input the input received.
+         */
+        public void parseInput(String input) {
             if (input.startsWith("INITM[")) {
                 int pos = input.indexOf(']');
                 String action = input.substring(6, pos);
 
-                //start the minigame belonging to the action string
-                System.out.println("Incoming action: " + action);
                 //Only start a minigame if in WaitingActivity
                 if (inWaitingActivity()) {
-                    if (action.contentEquals("startA")) {
-                        System.out.println("equals startA");
-                        startA();
-                    } else if (action.contentEquals("startB")) {
-                        startB();
-                    } else if (action.substring(0,6).contentEquals("startC")) {
-                        colorSeq = action.substring(7);
-                        startC();
-                    }
+                    Class minigameclass = getMinigameClassFromInput(action);
+                    startMinigame(minigameclass);
                 } else if (action.contentEquals("minigameDone")) {
                     endMinigame();
                 }
 
             }
+        }
+
+        /**
+         * Returns the class of the minigame that should be started corresponding to the action.
+         * @param action the received action.
+         * @return the class corresponding to the action.
+         */
+        public Class getMinigameClassFromInput(String action) {
+            Class minigameclass = null;
+            if (action.contentEquals("startA")) {
+                minigameclass = A_CodeCrackerCodeview.class;
+            } else if (action.contentEquals("startB")) {
+                minigameclass = B_TapGame.class;
+            } else if (action.substring(0,6).contentEquals("startC")) {
+                colorSeq = action.substring(7);
+                minigameclass = C_ColorSequence.class;
+            }
+            return minigameclass;
         }
     }
 
