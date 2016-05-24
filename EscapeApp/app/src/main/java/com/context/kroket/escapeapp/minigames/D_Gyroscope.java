@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -37,6 +38,13 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         imageX = locations[0];
         imageY = locations[1];
         System.out.println("Location of Image" + imageX +", " +imageY);
+        ImageView s = (ImageView) findViewById(R.id.gyroimage);
+        float oldX = s.getX();
+        float oldY = s.getY();
+        s.setX(oldX+event.values[0]);
+        s.setY(oldY+event.values[1]);
+
+
 
 
     }
