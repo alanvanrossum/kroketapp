@@ -3,6 +3,8 @@ package com.context.kroket.escapeapp.minigames;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,7 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 public class D_Gyroscope extends AppCompatActivity {
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
+    private SensorEventListener sensorEventListener;
 
     public void onSensorChanged(SensorEvent event){
 //        values[0]: x*sin(θ/2)
@@ -38,6 +41,18 @@ public class D_Gyroscope extends AppCompatActivity {
         super.onStart();
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                onSensorChanged(event);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+
+        };
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
