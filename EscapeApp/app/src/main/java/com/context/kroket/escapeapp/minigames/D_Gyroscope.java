@@ -16,11 +16,11 @@ import android.view.View;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
 
-public class D_Gyroscope extends AppCompatActivity {
+public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
-    private SensorEventListener sensorEventListener;
 
+    @Override
     public void onSensorChanged(SensorEvent event){
 //        values[0]: x*sin(θ/2)
 //        values[1]: y*sin(θ/2)
@@ -31,29 +31,27 @@ public class D_Gyroscope extends AppCompatActivity {
         System.out.println("z: " +event.values[2]);
 
     }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.d__gyroscope);
-    }
-
-    protected void onStart() {
-        super.onStart();
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                onSensorChanged(event);
-            }
+        motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_NORMAL);
+    }
 
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-            }
 
-        };
-        motionSensorManager.registerListener(sensorEventListener,motionSensor,SensorManager.SENSOR_DELAY_NORMAL);
+
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
