@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -19,6 +20,8 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
+    int imageX;
+    int imageY;
 
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -27,8 +30,14 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 //        values[2]: z*sin(θ/2)
 //        values[3]: cos(θ/2)
         System.out.println("x: " +event.values[0]);
-        System.out.println("y: " +event.values[1]);
+        //System.out.println("y: " +event.values[1]);
         System.out.println("z: " +event.values[2]);
+        int[] locations = new int[2];
+        findViewById(R.id.gyroimage).getLocationOnScreen(locations);
+        imageX = locations[0];
+        imageY = locations[1];
+        System.out.println("Location of Image" + imageX +", " +imageY);
+
 
     }
 
@@ -44,6 +53,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
