@@ -53,6 +53,7 @@ public class D_Gyroscope extends AppCompatActivity {
             }
 
         };
+        motionSensorManager.registerListener(sensorEventListener,motionSensor,SensorManager.SENSOR_DELAY_NORMAL);
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
