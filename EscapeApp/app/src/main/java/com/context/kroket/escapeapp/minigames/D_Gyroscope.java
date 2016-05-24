@@ -41,8 +41,8 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         ImageView s = (ImageView) findViewById(R.id.gyroimage);
         float oldX = s.getX();
         float oldY = s.getY();
-        s.setX(oldX+event.values[0]);
-        s.setY(oldY+event.values[1]);
+        s.setX(oldX+event.values[0]*-35);
+        s.setY(oldY+event.values[1]*35);
 
 
 
@@ -60,7 +60,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         setContentView(R.layout.d__gyroscope);
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
 
     }
 
