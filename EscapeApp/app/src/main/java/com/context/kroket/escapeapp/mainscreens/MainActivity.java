@@ -13,6 +13,7 @@ import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.A_Code_Cracker_Pictureview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
+import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 /**
