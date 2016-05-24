@@ -19,4 +19,7 @@
     <string name="verifyButton">Verify</string>
     <string name="gameC">Forward the colorcode to the Oculus player!</string>
     <string name="startC">Start</string>
+    <string name="title_activity_d__gyroscope">D_Gyroscope</string>
+    <string name="gyroheader">Don\'t let the ball fall off!</string>
+    <string name="action_settings">Settings</string>
 </resources>
