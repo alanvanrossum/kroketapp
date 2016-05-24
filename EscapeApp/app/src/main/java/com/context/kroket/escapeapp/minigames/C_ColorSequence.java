@@ -68,7 +68,12 @@ public class C_ColorSequence extends AppCompatActivity {
      */
     public void startC(View view) {
         //Show the color sequence.
-        timeHandler.postDelayed(updateColorThread, 0);
+        if (!(colorSequence == null)) {
+            timeHandler.postDelayed(updateColorThread, 0);
+        } else {
+            System.out.println("No colorSequence received.");
+        }
+
     }
 
     /**
@@ -150,7 +155,9 @@ public class C_ColorSequence extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String colors = intent.getStringExtra("colorSequence");
             System.out.println("colors received " + colors);
-            parseColors(colors);
+            if (!(colors == null)) {
+                parseColors(colors);
+            }
         }
     }
 

@@ -237,7 +237,10 @@ public class ConnectionService extends Service {
             } else if (action.contentEquals("startB")) {
                 minigameclass = B_TapGame.class;
             } else if (action.substring(0,6).contentEquals("startC")) {
-                colorSeq = action.substring(7);
+                System.out.println(action);
+                if (action.length() > 6) {
+                    colorSeq = action.substring(7);
+                }
                 minigameclass = C_ColorSequence.class;
             }
             return minigameclass;
