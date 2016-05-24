@@ -1,10 +1,16 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.network;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+
+import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
+import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
+import com.context.kroket.escapeapp.minigames.B_TapGame;
+import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
 
@@ -16,8 +22,8 @@ public class ConnectionService extends Service {
 
     private static GameClient tcpClient;
     private static ArrayList<String> list;
-    // Binder given to clients
-    private final IBinder binder = new myBinder();
+    //Binder given to clients.
+    public final IBinder binder = new myBinder();
     public String colorSeq;
 
     /**
@@ -45,7 +51,7 @@ public class ConnectionService extends Service {
         list = new ArrayList<String>();
         new connectTask().execute("");
 
-        //Send the name and type of the player to the server
+        //Send the name and type of the player to the server.
         while (tcpClient == null) {}
         tcpClient.sendMessage(playername);
         tcpClient.sendMessage(type);
@@ -57,37 +63,26 @@ public class ConnectionService extends Service {
      * Check if current activity is waiting activity.
      */
     private boolean inWaitingActivity() {
-        return (((App)this.getApplicationContext())
-                    .getCurrentActivity().getLocalClassName()
-                    .equals(WaitingActivity.class.getSimpleName()));
+        String current_activity = ((ActivityManager)this.getApplicationContext())
+                .getCurrentActivity().getComponentName().getClassName();
+        String waiting_activity = WaitingActivity.class.getName();
+        return (current_activity.equals(waiting_activity));
     }
 
     /**
-     * Starts the minigame A: Game_AA_Activity
+     * Starts a minigame.
+     *
+     * @param minigameclass the class of the minigame that should be started.
      */
-    private void startA() {
-        Intent dialogIntent = new Intent(this, Game_AA_Activity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
-    }
+    private void startMinigame(Class minigameclass) {
+        //Broadcast the colorsequence if necessary.
+        if (minigameclass.equals(C_ColorSequence.class)) {
+            BroadcastThread myThread = new BroadcastThread();
+            myThread.start();
+        }
 
-    /**
-     * Starts the minigame B: Game_B_Activity
-     */
-    private void startB() {
-        Intent dialogIntent = new Intent(this, Game_B_Activity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
-    }
-
-    /**
-     * Starts the minigame C: Game_C_Activity
-     */
-    private void startC() {
-        BroadcastThread myThread = new BroadcastThread();
-        myThread.start();
-
-        Intent dialogIntent = new Intent(this, Game_C_Activity.class);
+        //start the activity belonging to the minigame
+        Intent dialogIntent = new Intent(this, minigameclass);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
@@ -143,7 +138,7 @@ public class ConnectionService extends Service {
      * Class used for the client Binder.
      */
     public class myBinder extends Binder {
-        ConnectionService getService() {
+        public ConnectionService getService() {
             return ConnectionService.this;
         }
     }
@@ -152,7 +147,7 @@ public class ConnectionService extends Service {
      * Return the communication channel to the service.
      *
      * @param intent The Intent that was used to bind to this service.
-     * @return the binder
+     * @return the binder.
      */
     @Override
     public IBinder onBind(Intent intent) {
@@ -165,7 +160,7 @@ public class ConnectionService extends Service {
     private class connectTask extends AsyncTask<String, String, GameClient> {
 
         /**
-         * Method to run the GameClient in a background thread.
+         * Method to run the GameClient dataInputStream a background thread.
          *
          * @param message The parameters of the task.
          * @return null. Return object not used.
@@ -188,10 +183,6 @@ public class ConnectionService extends Service {
                 this.cancel(true);
             }
 
-//            if (tcpClient.connection == false) {
-//                System.out.println("no connection");
-//                this.cancel(true);
-//            }
             return null;
         }
 
@@ -210,27 +201,46 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
+            parseInput(input);
+        }
+
+        /**
+         * Parses the input received from the server.
+         *
+         * @param input the input received.
+         */
+        public void parseInput(String input) {
             if (input.startsWith("INITM[")) {
                 int pos = input.indexOf(']');
                 String action = input.substring(6, pos);
 
-                //start the minigame belonging to the action string
-                System.out.println("Incoming action: " + action);
-                //Only start a minigame if in WaitingActivity
+                //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
-                    if (action.contentEquals("startA")) {
-                        startA();
-                    } else if (action.contentEquals("startB")) {
-                        startB();
-                    } else if (action.substring(0,6).contentEquals("startC")) {
-                        colorSeq = action.substring(7);
-                        startC();
-                    }
+                    Class minigameclass = getMinigameClassFromInput(action);
+                    startMinigame(minigameclass);
                 } else if (action.contentEquals("minigameDone")) {
                     endMinigame();
                 }
 
             }
+        }
+
+        /**
+         * Returns the class of the minigame that should be started corresponding to the action.
+         * @param action the received action.
+         * @return the class corresponding to the action.
+         */
+        public Class getMinigameClassFromInput(String action) {
+            Class minigameclass = null;
+            if (action.contentEquals("startA")) {
+                minigameclass = A_CodeCrackerCodeview.class;
+            } else if (action.contentEquals("startB")) {
+                minigameclass = B_TapGame.class;
+            } else if (action.substring(0,6).contentEquals("startC")) {
+                colorSeq = action.substring(7);
+                minigameclass = C_ColorSequence.class;
+            }
+            return minigameclass;
         }
     }
 

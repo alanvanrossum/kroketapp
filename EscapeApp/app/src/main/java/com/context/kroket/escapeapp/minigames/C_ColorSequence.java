@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.minigames;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,20 +12,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.R;
+
 import java.util.ArrayList;
 
-public class Game_C_Activity extends AppCompatActivity {
+public class C_ColorSequence extends AppCompatActivity {
 
-    //The color sequence
+    //The color sequence.
     public static ArrayList<Integer> colorSequence;
 
-    //Receiver for broadcastst
+    //Receiver for broadcastst.
     Receiver updateReceiver;
 
-    //Handler for the timer
+    //Handler for the timer.
     Handler timeHandler = new android.os.Handler();
 
-    //Counter for position in the arraylist
+    //Counter for position in the arraylist.
     public int counter = 0;
 
     /**
@@ -38,9 +41,13 @@ public class Game_C_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game__c_);
+        setContentView(R.layout.c_color_sequence);
     }
 
+    /**
+     * Register to the broadcast for the colorsequence.
+     * Change the current activity to this one.
+     */
     @Override
     protected void onStart() {
 
@@ -49,18 +56,18 @@ public class Game_C_Activity extends AppCompatActivity {
 
         super.onStart();
 
-        //Change the current activity to this
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        //Change the current activity to this.
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
      * Called when the start button in minigame C is clicked.
      * Starts the color range.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void startC(View view) {
-        //Show the color sequence
+        //Show the color sequence.
         timeHandler.postDelayed(updateColorThread, 0);
     }
 
@@ -98,7 +105,7 @@ public class Game_C_Activity extends AppCompatActivity {
             }
         }
 
-        //Add white at the end, so the screen becomes white again
+        //Add white at the end, so the screen becomes white again.
         colorSequence.add(Color.WHITE);
     }
 
@@ -116,13 +123,11 @@ public class Game_C_Activity extends AppCompatActivity {
 
             counter++;
 
-            timeHandler.postDelayed(this, 170);// will repeat after 5 seconds
+            timeHandler.postDelayed(this, 170);     //Will repeat after 170 ms.
 
             if (counter >= colorSequence.size()) {
                 timeHandler.removeCallbacks(updateColorThread);
 
-                //Set background back to white
-                //shape.setColor(Color.WHITE);
                 counter = 0;
                 return;
             }

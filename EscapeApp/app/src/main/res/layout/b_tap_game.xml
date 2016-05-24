@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.context.kroket.escapeapp.Game_B_Activity">
+    tools:context=".minigames.B_TapGame">
 
     <Button android:id="@+id/clickButton"
         android:layout_width="106dp"

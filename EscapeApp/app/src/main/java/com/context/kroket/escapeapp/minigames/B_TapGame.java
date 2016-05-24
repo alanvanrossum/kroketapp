@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.minigames;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,25 +12,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.network.ConnectionService;
+import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
+
 /**
  * This activity is responsible for minigame B.
  */
-public class Game_B_Activity extends AppCompatActivity {
+public class B_TapGame extends AppCompatActivity {
+
+    long startTime;
+    long timeLimit = 20000;     //Amount of time to click.
+    int goal = 125;             //The amount of times that should be clicked.
+    int amount = -1;            //Amount = -1 when the timer has not started yet.
+    int seconds;
+    boolean done = false;
 
     TextView timer;
-    long startTime;
-    long timeLimit = 20000;
-    int amount = -1;
-    int seconds = 1;
-    int goal = 125;
-    boolean done = false;
+    Button restartButton;
+    TextView clickButton;
+    TextView amountView;
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
 
     Handler timerHandler = new Handler();
 
-    //Handles actions that should happen when timer has certain values
+    //Handles actions that should happen when timer has certain values.
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -38,34 +47,47 @@ public class Game_B_Activity extends AppCompatActivity {
             seconds = (int) (millis / 1000);
             seconds = seconds % 60;
 
-            //Still time left, update timer on screen
+            //Update according to the time left.
             if (seconds >= 0) {
-                timer.setText(String.format("%2d", seconds));
-                timerHandler.postDelayed(this, 1000);
+                timeLeft();
             } else {
-                //Out of time: stop timer and update textfield
-                timerHandler.removeCallbacks(timerRunnable);
-                ((TextView) findViewById(R.id.clickButton)).setText("TIME'S UP!");
-                //The goal is reached: do something
-                if (amount >= goal) {       //beide mobile players moeten een andere code krijgen?
-                    connectionService.endB();
-                    done = true;
-                    //((TextView) findViewById(R.id.amount)).setText("Great job! You unlocked the following part of the code: 548");
-                } else {
-                    //Goal not reached. Able to start game again.
-                    ((TextView) findViewById(R.id.amount)).setText("Too bad! \nClick restart to try again.");
-                    ((Button) findViewById(R.id.restartButton)).setVisibility(View.VISIBLE);
-                    ((Button) findViewById(R.id.restartButton)).setEnabled(true);
-                }
+                outOfTime();
             }
         }
     };
 
-    //Defines callbacks for service binding, used in bindService()
+    /**
+     * Defines what should happen (update) when there is still time left.
+     */
+    private void timeLeft() {
+        timer.setText(String.format("%2d", seconds));
+        timerHandler.postDelayed(timerRunnable, 1000);
+    }
+
+    /**
+     * Defines what should happen when the player is out of time.
+     */
+    private void outOfTime() {
+        //Out of time: stop timer and update textfield.
+        timerHandler.removeCallbacks(timerRunnable);
+        clickButton.setText("TIME'S UP!");
+        //The goal is reached: send message to the server.
+        if (amount >= goal) {
+            connectionService.endB();
+            done = true;
+        } else {
+            //Goal not reached. Able to start game again.
+            amountView.setText("Too bad! \nClick restart to try again.");
+            restartButton.setVisibility(View.VISIBLE);
+            restartButton.setEnabled(true);
+        }
+    }
+
+    //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
 
         /**
-         * Called when a connection to the Service has been established
+         * Called when a connection to the Service has been established.
          *
          * @param className The concrete component name of the service that has
          * been connected.
@@ -92,7 +114,7 @@ public class Game_B_Activity extends AppCompatActivity {
     };
 
     /**
-     * Binds to ConnectionService
+     * Binds to ConnectionService.
      */
     @Override
     protected void onStart() {
@@ -102,16 +124,16 @@ public class Game_B_Activity extends AppCompatActivity {
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
 
         //Change the current activity to this
-        ((App)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
      * Method to restart the minigame B.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void restartButton(View view) {
-            Intent intent = new Intent(this, Game_B_Activity.class);
+            Intent intent = new Intent(this, B_TapGame.class);
             startActivity(intent);
     }
 
@@ -125,18 +147,22 @@ public class Game_B_Activity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game__b_);
+        setContentView(R.layout.b_tap_game);
 
         timer = (TextView) findViewById(R.id.timer);
-        ((Button) findViewById(R.id.restartButton)).setVisibility(View.INVISIBLE);
-        ((Button) findViewById(R.id.restartButton)).setEnabled(false);
+        restartButton = ((Button) findViewById(R.id.restartButton));
+        clickButton = ((TextView) findViewById(R.id.clickButton));
+        amountView = ((TextView) findViewById(R.id.amount));
+
+        restartButton.setVisibility(View.INVISIBLE);
+        restartButton.setEnabled(false);
     }
 
     /**
      * Executes when the clickButton is clicked.
      * Increases the count by 1.
      *
-     * @param view
+     * @param view the view that was clicked.
      */
     public void clickButton(View view) {
         if (!done) {
@@ -147,10 +173,10 @@ public class Game_B_Activity extends AppCompatActivity {
                 amount++;
             } else if (seconds >= 0) {
                 amount++;
-                ((TextView) findViewById(R.id.amount)).setText("Times clicked: " + amount);
+                amountView.setText("Times clicked: " + amount);
             }
         } else {
-            ((Button) findViewById(R.id.clickButton)).setText("Finish");
+            clickButton.setText("Finish");
             Intent i = new Intent(this, WaitingActivity.class);
             startActivity(i);
         }
