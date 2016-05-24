@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -30,19 +31,34 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 //        values[1]: y*sin(θ/2)
 //        values[2]: z*sin(θ/2)
 //        values[3]: cos(θ/2)
-        System.out.println("x: " +event.values[0]);
-        //System.out.println("y: " +event.values[1]);
-        System.out.println("z: " +event.values[2]);
-        int[] locations = new int[2];
-        findViewById(R.id.gyroimage).getLocationOnScreen(locations);
-        imageX = locations[0];
-        imageY = locations[1];
-        System.out.println("Location of Image" + imageX +", " +imageY);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float screenHeight= metrics.heightPixels;
+        float screenWidth = metrics.widthPixels;
+
         ImageView s = (ImageView) findViewById(R.id.gyroimage);
+
         float oldX = s.getX();
         float oldY = s.getY();
+
         s.setX(oldX+event.values[0]*-35);
         s.setY(oldY+event.values[1]*35);
+        float newX = s.getX();
+        float newY = s.getY();
+
+        float minX = 0-s.getWidth();
+        float maxX = screenWidth;
+        float minY = 0-s.getHeight();
+        float maxY = screenHeight;
+        if(newX<minX || newX>maxX ||newY<minY || newY>maxY){
+            //you just fell off the screen!!!
+            for(int i=0;i<10;i++){
+                System.out.println("YOU DIED");
+            }
+        }
+
+
+
 
 
 
