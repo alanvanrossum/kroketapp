@@ -7,7 +7,7 @@
     <string name="codeButton">Code</string>
     <string name="picButton">Picture</string>
     <string name="code">M I H A</string>
-    <string name="codedec">Decipher the following code:</string>
+    <string name="codedec">Decipher the following code by looking for letters in the painting and matching them to the alphabet:</string>
     <string name="clickButton">START</string>
     <string name="amount">Times clicked: 0</string>
     <string name="gameB">Tap the button 125 times before time runs out!</string>
