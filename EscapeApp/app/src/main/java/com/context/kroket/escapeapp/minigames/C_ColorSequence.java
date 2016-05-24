@@ -19,16 +19,16 @@ import java.util.ArrayList;
 
 public class C_ColorSequence extends AppCompatActivity {
 
-    //The color sequence
+    //The color sequence.
     public static ArrayList<Integer> colorSequence;
 
-    //Receiver for broadcastst
+    //Receiver for broadcastst.
     Receiver updateReceiver;
 
-    //Handler for the timer
+    //Handler for the timer.
     Handler timeHandler = new android.os.Handler();
 
-    //Counter for position in the arraylist
+    //Counter for position in the arraylist.
     public int counter = 0;
 
     /**
@@ -56,7 +56,7 @@ public class C_ColorSequence extends AppCompatActivity {
 
         super.onStart();
 
-        //Change the current activity to this
+        //Change the current activity to this.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
@@ -67,7 +67,7 @@ public class C_ColorSequence extends AppCompatActivity {
      * @param view the view that was clicked.
      */
     public void startC(View view) {
-        //Show the color sequence
+        //Show the color sequence.
         timeHandler.postDelayed(updateColorThread, 0);
     }
 
@@ -105,7 +105,7 @@ public class C_ColorSequence extends AppCompatActivity {
             }
         }
 
-        //Add white at the end, so the screen becomes white again
+        //Add white at the end, so the screen becomes white again.
         colorSequence.add(Color.WHITE);
     }
 
@@ -123,13 +123,11 @@ public class C_ColorSequence extends AppCompatActivity {
 
             counter++;
 
-            timeHandler.postDelayed(this, 170);// will repeat after 5 seconds
+            timeHandler.postDelayed(this, 170);     //Will repeat after 170 ms.
 
             if (counter >= colorSequence.size()) {
                 timeHandler.removeCallbacks(updateColorThread);
 
-                //Set background back to white
-                //shape.setColor(Color.WHITE);
                 counter = 0;
                 return;
             }

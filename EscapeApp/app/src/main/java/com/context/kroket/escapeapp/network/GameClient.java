@@ -5,12 +5,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /**
- * Client class responsible for incoming and outgoing messages
- * to the server.
+ * Client class responsible for incoming and outgoing messages to the server.
  */
 public class GameClient {
     public static final String SERVERIP = "145.94.142.195"; //"145.94.177.139"; //"192.168.178.19"; //the ip adress of the server  Alan: "145.94.178.99."
-    public static final int SERVERPORT = 1234; //the port we will be listening
+    public static final int SERVERPORT = 1234; //The port we will be listening.
     private String serverMessage;
     private OnMessageReceived messageListener = null;
     private boolean running = false;
@@ -21,21 +20,21 @@ public class GameClient {
     Socket serverSocket;
 
     /**
-     * Constructor for the GameClient
+     * Constructor for the GameClient.
      *
-     * @param listener the listerener we want to use
+     * @param listener the listerener we want to use.
      */
     public GameClient(OnMessageReceived listener){
         messageListener = listener;
     }
 
     /**
-     * Send message to the server
+     * Send message to the server.
      *
-     * @param message the message to be send
+     * @param message the message to be send.
      */
     public void sendMessage(String message){
-        //wait for the PrintWriter to be initialized
+        //Wait for the PrintWriter to be initialized.
         while(dataOutputStream == null || dataOutputStream.checkError()) {}
         if(dataOutputStream != null && !dataOutputStream.checkError()){
             dataOutputStream.println(message);
@@ -44,14 +43,14 @@ public class GameClient {
     }
 
     /**
-     * Method to change the run-ability of the client
+     * Method to change the run-ability of the client.
      */
     public void stopClient(){
         running = false;
     }
 
     /**
-     * Initialize the PrintWriter and BufferedReader and read the incoming messages
+     * Initialize the PrintWriter and BufferedReader and read the incoming messages.
      */
     public void run(){
         running = true;
@@ -95,11 +94,11 @@ public class GameClient {
             dataOutputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())));
             dataInputStream = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
-            //while loop that lasts until 'stopclient is called'
+            //While loop that lasts until 'stopclient is called'.
             while(running){
                 serverMessage = dataInputStream.readLine();
 
-                //A message was received
+                //A message was received.
                 if(serverMessage != null) {
                     messageListener.messageReceived(serverMessage);
                 }
@@ -114,7 +113,7 @@ public class GameClient {
     }
 
     /**
-     * Interface for receiving messages
+     * Interface for receiving messages.
      */
     public interface OnMessageReceived {
         public void messageReceived(String message);

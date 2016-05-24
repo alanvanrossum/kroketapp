@@ -31,7 +31,7 @@ public class WaitingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //Change the current activity
+        //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 }

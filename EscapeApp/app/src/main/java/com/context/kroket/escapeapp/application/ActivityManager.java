@@ -8,7 +8,7 @@ import android.app.Application;
  */
 public class ActivityManager extends Application {
 
-    //The current active activity
+    //The current active activity.
     private Activity current_activity = null;
 
     /**

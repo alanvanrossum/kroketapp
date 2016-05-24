@@ -23,9 +23,9 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 public class B_TapGame extends AppCompatActivity {
 
     long startTime;
-    long timeLimit = 20000;     //amount of time to click
-    int goal = 125;             //the amount of times that should be clicked
-    int amount = -1;            //amount = -1 when the timer has not started yet
+    long timeLimit = 20000;     //Amount of time to click.
+    int goal = 125;             //The amount of times that should be clicked.
+    int amount = -1;            //Amount = -1 when the timer has not started yet.
     int seconds;
     boolean done = false;
 
@@ -39,7 +39,7 @@ public class B_TapGame extends AppCompatActivity {
 
     Handler timerHandler = new Handler();
 
-    //Handles actions that should happen when timer has certain values
+    //Handles actions that should happen when timer has certain values.
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -47,7 +47,7 @@ public class B_TapGame extends AppCompatActivity {
             seconds = (int) (millis / 1000);
             seconds = seconds % 60;
 
-            //Update according to the time left
+            //Update according to the time left.
             if (seconds >= 0) {
                 timeLeft();
             } else {
@@ -68,11 +68,11 @@ public class B_TapGame extends AppCompatActivity {
      * Defines what should happen when the player is out of time.
      */
     private void outOfTime() {
-        //Out of time: stop timer and update textfield
+        //Out of time: stop timer and update textfield.
         timerHandler.removeCallbacks(timerRunnable);
         clickButton.setText("TIME'S UP!");
-        //The goal is reached: do something
-        if (amount >= goal) {       //beide mobile players moeten een andere code krijgen?
+        //The goal is reached: send message to the server.
+        if (amount >= goal) {
             connectionService.endB();
             done = true;
         } else {
@@ -83,11 +83,11 @@ public class B_TapGame extends AppCompatActivity {
         }
     }
 
-    //Defines callbacks for service binding, used in bindService()
+    //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
 
         /**
-         * Called when a connection to the Service has been established
+         * Called when a connection to the Service has been established.
          *
          * @param className The concrete component name of the service that has
          * been connected.
@@ -114,7 +114,7 @@ public class B_TapGame extends AppCompatActivity {
     };
 
     /**
-     * Binds to ConnectionService
+     * Binds to ConnectionService.
      */
     @Override
     protected void onStart() {

@@ -33,20 +33,20 @@ public class MainActivity extends AppCompatActivity {
         //Only used in testing, to quickly forward to another view.
         checkConditions();
 
-        //first check if the player has entered his/her name
+        //First check if the player has entered his/her name.
         if (name.getText().toString().matches("")) {
             connectMessage.setText("Enter your name first!");
             return;
         }
 
-        //connect to server, if this succeeds set connect boolean to true
+        //Connect to server, if this succeeds set connect boolean to true.
         Intent intent = new Intent(this, ConnectionService.class);
         intent.putExtra("string_name", name.getText().toString());
         startService(intent);
 
         connect = true;
 
-        //Change connect message and enable start button
+        //Change connect message and enable start button.
         if (connect) {
             connectMessage.setText("connected");
             if (start != null) {
@@ -103,65 +103,65 @@ public class MainActivity extends AppCompatActivity {
     //******************************************************//
 
     /**
-     * boolean used to start game_AA_Activity intent.
+     * Boolean used to start game_AA_Activity intent.
      */
     private static boolean gameAA = false;
 
     /**
-     * boolean used to start game_A_Activity intent.
+     * Boolean used to start game_A_Activity intent.
      */
     private static boolean gameA = false;
 
     /**
-     * boolean used to start game_B_Activity intent.
+     * Boolean used to start game_B_Activity intent.
      */
     private static boolean gameB = false;
 
     /**
-     * boolean used to enable the start button.
+     * Boolean used to enable the start button.
      */
     private static boolean enableStart = false;
 
     /**
-     * switchGameA allows us to change the gameA boolean.
+     * SwitchGameA allows us to change the gameA boolean.
      * This GameA boolean is used to quickly switch to A_Code_Cracker_Pictureview.
      * This method is only used for testing.
      *
-     * @param b Boolean
+     * @param b Boolean.
      */
     public static void switchGameA(Boolean b) {
         gameA = b;
     }
 
     /**
-     * switchGameAA allows us to change the gameAA boolean.
+     * SwitchGameAA allows us to change the gameAA boolean.
      * This GameAA boolean is used to quickly switch to A_CodeCrackerCodeview.
      * This method is only used for testing.
      *
-     * @param b Boolean
+     * @param b Boolean.
      */
     public static void switchGameAA(Boolean b) { gameAA = b; }
 
     /**
-     * switchGameB allows us to change the gameB boolean.
+     * SwitchGameB allows us to change the gameB boolean.
      * This GameB boolean is used to quickly switch to B_TapGame.
      * This method is only used for testing.
      *
-     * @param b Boolean
+     * @param b Boolean.
      */
     public static void switchGameB(Boolean b) { gameB = b; }
 
     /**
-     * switchGameA allows us to change the enableStart boolean.
+     * SwitchGameA allows us to change the enableStart boolean.
      * This enableStart boolean is used to set the startbutton to enabled
      * so it can be tested. This method is only used for testing.
      *
-     * @param b Boolean
+     * @param b Boolean.
      */
     public static void switchStart(Boolean b) { enableStart = b; }
 
     /**
-     * checkConditions is a method used for testing only. for testing purposes we need to
+     * CheckConditions is a method used for testing only. for testing purposes we need to
      * be able to switch between activities quickly. checkConditions enables us to do that.
      */
     private void checkConditions() {

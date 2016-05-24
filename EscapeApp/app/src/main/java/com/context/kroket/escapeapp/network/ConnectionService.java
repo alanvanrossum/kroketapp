@@ -22,7 +22,7 @@ public class ConnectionService extends Service {
 
     private static GameClient tcpClient;
     private static ArrayList<String> list;
-    // Binder given to clients
+    //Binder given to clients.
     public final IBinder binder = new myBinder();
     public String colorSeq;
 
@@ -51,7 +51,7 @@ public class ConnectionService extends Service {
         list = new ArrayList<String>();
         new connectTask().execute("");
 
-        //Send the name and type of the player to the server
+        //Send the name and type of the player to the server.
         while (tcpClient == null) {}
         tcpClient.sendMessage(playername);
         tcpClient.sendMessage(type);
@@ -72,10 +72,10 @@ public class ConnectionService extends Service {
     /**
      * Starts a minigame.
      *
-     * @param minigameclass the class of the minigame that should be started
+     * @param minigameclass the class of the minigame that should be started.
      */
     private void startMinigame(Class minigameclass) {
-        //broadcast the colorsequence if necessary
+        //Broadcast the colorsequence if necessary.
         if (minigameclass.equals(C_ColorSequence.class)) {
             BroadcastThread myThread = new BroadcastThread();
             myThread.start();
@@ -147,7 +147,7 @@ public class ConnectionService extends Service {
      * Return the communication channel to the service.
      *
      * @param intent The Intent that was used to bind to this service.
-     * @return the binder
+     * @return the binder.
      */
     @Override
     public IBinder onBind(Intent intent) {
@@ -183,10 +183,6 @@ public class ConnectionService extends Service {
                 this.cancel(true);
             }
 
-//            if (tcpClient.connection == false) {
-//                System.dataOutputStream.println("no connection");
-//                this.cancel(true);
-//            }
             return null;
         }
 
@@ -218,7 +214,7 @@ public class ConnectionService extends Service {
                 int pos = input.indexOf(']');
                 String action = input.substring(6, pos);
 
-                //Only start a minigame if dataInputStream WaitingActivity
+                //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(action);
                     startMinigame(minigameclass);

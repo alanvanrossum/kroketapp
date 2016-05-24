@@ -21,16 +21,16 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
  */
 public class A_CodeCrackerCodeview extends AppCompatActivity {
 
-    //The answer to this minigame
+    //The answer to this minigame.
     public final String correctCode = "1234";
     ConnectionService connectionService;
     boolean serviceIsBound = false;
 
-    //Defines callbacks for service binding, used in bindService()
+    //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
 
         /**
-         * Called when a connection to the Service has been established
+         * Called when a connection to the Service has been established.
          *
          * @param className The concrete component name of the service that has
          * been connected.
@@ -73,7 +73,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     }
 
     /**
-     * Binds to ConnectionService
+     * Binds to ConnectionService.
      */
     @Override
     protected void onStart() {
@@ -104,16 +104,16 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     public void verifyButton(View view) {
         EditText answer = (EditText) findViewById(R.id.answerA);
 
-        //check if the code is correct
+        //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
-            //Send message to server that minigame A is finished
+            //Send message to server that minigame A is finished.
             if (serviceIsBound) {
                 connectionService.endA();
             } else {
                 System.out.println("ConnectionService not bound in CodeCrackerCodeView");
             }
 
-            //Go to the waiting screen
+            //Go to the waiting screen.
             Intent intent = new Intent(this, WaitingActivity.class);
             startActivity(intent);
         } else {
