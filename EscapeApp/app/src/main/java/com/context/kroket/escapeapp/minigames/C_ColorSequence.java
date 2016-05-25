@@ -31,6 +31,12 @@ public class C_ColorSequence extends AppCompatActivity {
     //Counter for position in the arraylist.
     public int counter = 0;
 
+    static public int runtroughs = 0;
+
+    public static ArrayList<Integer> getSequence() {
+        return colorSequence;
+    }
+
     /**
      * Initializes the layout.
      *
@@ -69,6 +75,7 @@ public class C_ColorSequence extends AppCompatActivity {
     public void startC(View view) {
         //Show the color sequence.
         timeHandler.postDelayed(updateColorThread, 0);
+        runtroughs++;
     }
 
     /**
@@ -154,4 +161,8 @@ public class C_ColorSequence extends AppCompatActivity {
         }
     }
 
+
+    static public int getRunthroughs() {
+        return runtroughs;
+    }
 }
