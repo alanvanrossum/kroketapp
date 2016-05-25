@@ -49,3 +49,49 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
 }
 
+
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+check.dependsOn 'checkstyle', 'findbugs', 'pmd'
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "high"
+    classes = files("$project.buildDir/intermediates/classes/")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+            xml.enabled = false
+            html.enabled = true
+    }
+
+    classpath = files()
+}
+
+task pmd(type: Pmd) {
+    ignoreFailures = true
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
