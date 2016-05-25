@@ -1,10 +1,13 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.minigames;
 
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
+import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.mainscreens.MainActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +25,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 /**
- * Game_AA_ActivityTest is used to test the Game_AA_Activity class.
+ * A_CodeCrackerCodeviewTest is used to test the A_CodeCrackerCodeview class.
  */
-public class Game_AA_ActivityTest {
+public class A_CodeCrackerCodeviewTest {
 
 
     @Rule
@@ -32,19 +35,19 @@ public class Game_AA_ActivityTest {
 
 
     /**
-     * Method checks the functionality of Game_AA_Activity pic button.
+     * Method checks the functionality of A_CodeCrackerCodeview pic button.
      */
     @Test
     public void clickPicButton() {
-        //Switch from MainActivity to Game_AA_Activity.
+        //Switch from MainActivity to A_CodeCrackerCodeview.
         MainActivity.switchGameAA(true);
-        onView(withId(R.id.connectButton)).perform(click());
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
 
         //Click the pic button.
         onView(withId(R.id.picButton)).perform(click());
 
-        //Check if we instantiated a Game_A_Activity.
-        intended(hasComponent(hasShortClassName(".Game_A_Activity")));
+        //Check if we instantiated a A_Code_Cracker_Pictureview.
+        intended(hasComponent(hasShortClassName(".minigames.A_Code_Cracker_Pictureview")));
         MainActivity.switchGameAA(false);
     }
 }
