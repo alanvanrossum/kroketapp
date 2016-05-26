@@ -31,6 +31,17 @@ public class C_ColorSequence extends AppCompatActivity {
     //Counter for position in the arraylist.
     public int counter = 0;
 
+    //Counter for the number of times the colors
+    //have been shown correctly. Mainly used for
+    //testing.
+    static public int runtroughs = 0;
+
+    //Returns the colorSequence ArrayList.
+    //Mainly used for testing.
+    public static ArrayList<Integer> getSequence() {
+        return colorSequence;
+    }
+
     /**
      * Initializes the layout.
      *
@@ -69,6 +80,7 @@ public class C_ColorSequence extends AppCompatActivity {
     public void startC(View view) {
         //Show the color sequence.
         timeHandler.postDelayed(updateColorThread, 0);
+        runtroughs++;
     }
 
     /**
@@ -154,4 +166,15 @@ public class C_ColorSequence extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Return the runtroughs Integer used to see the number
+     * of successful times the stream of colours has passed the screen.
+     * Mainly used for testing.
+     *
+     * @return int runtroughs
+     */
+    static public int getRunthroughs() {
+        return runtroughs;
+    }
 }
