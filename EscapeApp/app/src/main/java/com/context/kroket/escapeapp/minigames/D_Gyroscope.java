@@ -22,8 +22,7 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
-    int imageX;
-    int imageY;
+    private ImageView gold,silver,bronze;
 
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -51,12 +50,22 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         float minY = 0-s.getHeight();
         float maxY = screenHeight;
 
-        if(newX<minX || newX>maxX ||newY<minY || newY>maxY){
-            //you just fell off the screen!!!
-            for(int i=0;i<10;i++){
-                System.out.println("YOU DIED");
-            }
+        if(newX<minX){
+           s.setX(minX);
         }
+        if(newX>maxX){
+            s.setX(maxX);
+        }
+        if(newY<minY){
+            s.setY(minY);
+        }
+        if(newY>maxY){
+            s.setY(maxY);
+        }
+    }
+
+    private void placeCoinsRandomly(int i) {
+        
     }
 
     @Override
@@ -70,7 +79,15 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
 
+        //set the coins
+        ImageView gold = (ImageView) findViewById(R.id.goldcoin);
+        ImageView silver = (ImageView) findViewById(R.id.silvercoin);
+        ImageView bronze = (ImageView) findViewById(R.id.bronzecoin);
+        placeCoinsRandomly(0);
+
     }
+
+
 
     @Override
     protected void onStart() {

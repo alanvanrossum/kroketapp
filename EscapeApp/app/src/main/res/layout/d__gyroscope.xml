@@ -24,6 +24,33 @@
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
     <ImageView
+        android:id="@+id/goldcoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/goldcoin"
+        android:layout_weight="0.88"
+        android:layout_centerHorizontal = "false"
+        android:layout_centerVertical = "true"
+        />
+    <ImageView
+        android:id="@+id/silvercoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/silvercoin"
+        android:layout_weight="0.88"
+        android:layout_centerHorizontal = "true"
+        android:layout_centerVertical = "false"
+        />
+    <ImageView
+        android:id="@+id/bronzecoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/bronzecoin"
+        android:layout_weight="0.88"
+        android:layout_centerHorizontal = "false"
+        android:layout_centerVertical = "false"
+        />
+    <ImageView
         android:id="@+id/gyroimage"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -32,5 +59,6 @@
         android:layout_centerHorizontal = "true"
         android:layout_centerVertical = "true"
         />
+
 
 </RelativeLayout>
