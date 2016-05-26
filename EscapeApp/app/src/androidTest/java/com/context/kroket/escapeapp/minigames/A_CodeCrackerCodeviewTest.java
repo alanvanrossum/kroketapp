@@ -59,41 +59,4 @@ public class A_CodeCrackerCodeviewTest {
         MainActivity.switchGameAA(false);
     }
 
-    @Test
-    public void wrongAnswer() {
-//        //Switch from MainActivity to A_CodeCrackerCodeview.
-//        MainActivity.switchGameAA(true);
-//        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
-//
-//        //Click the verify button.
-//        onView(withId(R.id.verifyButton)).perform(click());
-//
-//        //Check if verify message is now visible.
-//        onView(withId(R.id.verifyMessage)).check(matches(isDisplayed()));
-//        MainActivity.switchGameAA(false);
-    }
-
-    @Test
-    public void rightAnswer() {
-//        //Switch from MainActivity to A_CodeCrackerCodeview.
-//        MainActivity.switchGameAA(true);
-//        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
-//        A_CodeCrackerCodeview.setServiceIsBound(false);
-//
-//
-//        //Type the correct answer.
-//        onView(withId(R.id.answerA)).perform(typeText("1234"));
-//
-//        //Click the verify button.
-//        onView(withId(R.id.verifyButton)).perform(click());
-//
-//        //Check if verify message is now visible.
-//        onView(withId(R.id.waiting)).check(matches(isDisplayed()));
-//
-//        MainActivity.switchGameAA(false);
-//        A_CodeCrackerCodeview.setServiceIsBound(true);
-    }
-
-
-
 }
