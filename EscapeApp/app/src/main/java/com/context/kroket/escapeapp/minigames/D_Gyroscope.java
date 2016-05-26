@@ -89,11 +89,13 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         return false;
     }
 
-
-    private void placeCoinsRandomly() {
+    private void placeCoinsRandomly(){
+        placeCoinsRandomly(0,0);
+    }
+    private void placeCoinsRandomly(float offsetX,float offsetY) {
         //unavailable range: gyroX-gyroWidth, gyroX+2*gyroWidth, gyroY-gyroWidth, gyroY+2*gyroHeight
-        float gyroX=gyro.getX();
-        float gyroY=gyro.getY();
+        float gyroX=gyro.getX()+offsetX;
+        float gyroY=gyro.getY()+offsetY;
         Random rand = new Random();
         int xRange = Math.round(screenWidth-3*gyroWidth);
         int yRange = Math.round(screenHeight-3*gyroHeight);
@@ -193,7 +195,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         gyroHeight=50;
         coinWidth=50;
         coinHeight=50;
-        placeCoinsRandomly();
+        placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
