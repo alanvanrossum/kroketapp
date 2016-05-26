@@ -24,7 +24,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     //The answer to this minigame.
     public final String correctCode = "1234";
     ConnectionService connectionService;
-    boolean serviceIsBound = false;
+    static boolean serviceIsBound = false;
 
     //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -119,6 +119,14 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         } else {
             findViewById(R.id.verifyMessage).setVisibility(View.VISIBLE);
         }
+    }
+
+    //******************************************************//
+    //*********** ONLY USED FOR TESTING PURPOSES ***********//
+    //******************************************************//
+
+    public static void setServiceIsBound(Boolean b) {
+        serviceIsBound = b;
     }
 
 }
