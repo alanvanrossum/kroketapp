@@ -43,10 +43,10 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         float newX = gyro.getX();
         float newY = gyro.getY();
 
-        float minX = 0-gyroWidth;
-        float maxX = screenWidth;
-        float minY = 0-gyroHeight;
-        float maxY = screenHeight;
+        float minX = 0;
+        float maxX = screenWidth-gyroWidth;
+        float minY = 0;
+        float maxY = screenHeight-gyroHeight;
 
         if(newX<minX){
            gyro.setX(minX);
@@ -65,31 +65,26 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     private void placeCoinsRandomly(float gyroX,float gyroY) {
         //unavailable range: gyroX-gyroWidth, gyroX+2*gyroWidth, gyroY-gyroWidth, gyroY+2*gyroHeight
         Random rand = new Random();
-        int xRange = Math.round(screenWidth);
-        int yRange = Math.round(screenHeight);
-        System.out.println(screenWidth);
-        System.out.println(Math.round(screenWidth));
-        System.out.println(screenHeight);
-        System.out.println(Math.round(screenHeight));
-
+        int xRange = Math.round(screenWidth-3*gyroWidth);
+        int yRange = Math.round(screenHeight-3*gyroHeight);
         //test
         //
         int goldX = rand.nextInt(xRange);
         int goldY = rand.nextInt(yRange);
-//        if(goldX>gyroX-gyroWidth){
-//            goldX+=3*gyroWidth;
-//        }
-//        if(goldY>gyroY-gyroHeight){
-//            goldY+=3*gyroHeight;
-//        }
+        if(goldX>gyroX-gyroWidth){
+            goldX+=3*gyroWidth;
+        }
+        if(goldY>gyroY-gyroHeight){
+            goldY+=3*gyroHeight;
+        }
         int silverX = rand.nextInt(xRange);
         int silverY = rand.nextInt(yRange);
-//        if(silverX>gyroX-gyroWidth){
-//            silverX+=3*gyroWidth;
-//        }
-//        if(silverX>goldX){
-//            silverX+=coinWidth;
-//        }
+        if(silverX>gyroX-gyroWidth){
+            silverX+=3*gyroWidth;
+        }
+        if(silverY>gyroY-gyroHeight){
+            silverY+=3*gyroHeight;
+        }
 //        if(silverY>gyroY-gyroHeight){
 //            silverY+=3*gyroHeight;
 //        }
@@ -98,18 +93,18 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 //        }
         int bronzeX = rand.nextInt(xRange);
         int bronzeY = rand.nextInt(yRange);
-//        if(bronzeX>gyroX-gyroWidth){
-//            bronzeX+=3*gyroWidth;
-//        }
+        if(bronzeX>gyroX-gyroWidth){
+            bronzeX+=3*gyroWidth;
+        }
 //        if(bronzeX>goldX){
 //            bronzeX+=coinWidth;
 //        }
 //        if(bronzeX>silverX){
 //            bronzeX+=coinWidth;
 //        }
-//        if(bronzeY>gyroY-gyroHeight){
-//            bronzeY+=3*gyroHeight;
-//        }
+        if(bronzeY>gyroY-gyroHeight){
+            bronzeY+=3*gyroHeight;
+        }
 //        if(bronzeY>goldY){
 //            bronzeY+=coinHeight;
 //        }
@@ -123,7 +118,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         silver.setY(silverY);
         bronze.setX(bronzeX);
         bronze.setY(bronzeY);
-    
+
 
 
     }
@@ -150,7 +145,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     @Override
     protected void onStart() {
         super.onStart();
-        //Change the current activity.
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight= metrics.heightPixels-150;
@@ -165,7 +160,8 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         gyroHeight=50;
         coinWidth=50;
         coinHeight=50;
-        placeCoinsRandomly(gyro.getX(),gyro.getY());
+        placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
+        //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
