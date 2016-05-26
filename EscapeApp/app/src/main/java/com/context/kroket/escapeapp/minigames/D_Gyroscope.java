@@ -27,6 +27,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     private Sensor motionSensor;
     private ImageView gyro,gold,silver,bronze;
     float screenWidth,screenHeight,gyroWidth,gyroHeight,coinWidth,coinHeight;
+    private int goldCount,silverCount,bronzeCount;
 
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -60,10 +61,39 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         if(newY>maxY){
             gyro.setY(maxY);
         }
+        collide();
     }
 
-    private void placeCoinsRandomly(float gyroX,float gyroY) {
+    private void collide() {
+        if(collideWith(gold)){
+            goldCount++;
+            System.out.println("goldcoins are now: "+ goldCount);
+            placeCoinsRandomly();
+        } else if(collideWith(silver)){
+            silverCount++;
+            System.out.println("silver coins are now: "+ silverCount);
+
+            placeCoinsRandomly();
+        } else if(collideWith(bronze)){
+            bronzeCount++;
+            System.out.println("bronze coins are now: "+ bronzeCount);
+
+            placeCoinsRandomly();
+        }
+    }
+
+    private boolean collideWith(ImageView coin) {
+        if(Math.abs(coin.getX()-gyro.getX())<50 &&Math.abs(coin.getY()-gyro.getY())<50){
+            return true;
+        }
+        return false;
+    }
+
+
+    private void placeCoinsRandomly() {
         //unavailable range: gyroX-gyroWidth, gyroX+2*gyroWidth, gyroY-gyroWidth, gyroY+2*gyroHeight
+        float gyroX=gyro.getX();
+        float gyroY=gyro.getY();
         Random rand = new Random();
         int xRange = Math.round(screenWidth-3*gyroWidth);
         int yRange = Math.round(screenHeight-3*gyroHeight);
@@ -133,6 +163,9 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
+        goldCount=0;
+        silverCount=0;
+        bronzeCount=0;
 
         //set screenwidth/height
 
@@ -160,7 +193,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         gyroHeight=50;
         coinWidth=50;
         coinHeight=50;
-        placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
+        placeCoinsRandomly();
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
