@@ -27,10 +27,10 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event){
-//        values[0]: x*sin(θ/2)
-//        values[1]: y*sin(θ/2)
-//        values[2]: z*sin(θ/2)
-//        values[3]: cos(θ/2)
+//        event.values[0]: x*sin(θ/2)
+//        event.values[1]: y*sin(θ/2)
+//        event.values[2]: z*sin(θ/2)
+//        event.values[3]: cos(θ/2)
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         float screenHeight= metrics.heightPixels;
@@ -50,25 +50,17 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         float maxX = screenWidth;
         float minY = 0-s.getHeight();
         float maxY = screenHeight;
+
         if(newX<minX || newX>maxX ||newY<minY || newY>maxY){
             //you just fell off the screen!!!
             for(int i=0;i<10;i++){
                 System.out.println("YOU DIED");
             }
         }
-
-
-
-
-
-
-
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +75,6 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
