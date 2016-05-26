@@ -19,10 +19,13 @@ import android.widget.ImageView;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
 
+import java.util.Random;
+
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
-    private ImageView gold,silver,bronze;
+    private ImageView gyro,gold,silver,bronze;
+    float screenWidth,screenHeight,gyroWidth,gyroHeight,coinWidth,coinHeight;
 
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -30,42 +33,98 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 //        event.values[1]: y*sin(θ/2)
 //        event.values[2]: z*sin(θ/2)
 //        event.values[3]: cos(θ/2)
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float screenHeight= metrics.heightPixels;
-        float screenWidth = metrics.widthPixels;
 
-        ImageView s = (ImageView) findViewById(R.id.gyroimage);
+        float oldX = gyro.getX();
+        float oldY = gyro.getY();
 
-        float oldX = s.getX();
-        float oldY = s.getY();
+        gyro.setX(oldX+event.values[0]*-35);
+        gyro.setY(oldY+event.values[1]*35);
+        float newX = gyro.getX();
+        float newY = gyro.getY();
 
-        s.setX(oldX+event.values[0]*-35);
-        s.setY(oldY+event.values[1]*35);
-        float newX = s.getX();
-        float newY = s.getY();
-
-        float minX = 0-s.getWidth();
+        float minX = 0-gyroWidth;
         float maxX = screenWidth;
-        float minY = 0-s.getHeight();
+        float minY = 0-gyroHeight;
         float maxY = screenHeight;
 
         if(newX<minX){
-           s.setX(minX);
+           gyro.setX(minX);
         }
         if(newX>maxX){
-            s.setX(maxX);
+            gyro.setX(maxX);
         }
         if(newY<minY){
-            s.setY(minY);
+            gyro.setY(minY);
         }
         if(newY>maxY){
-            s.setY(maxY);
+            gyro.setY(maxY);
         }
     }
 
-    private void placeCoinsRandomly(int i) {
-        
+    private void placeCoinsRandomly(float gyroX,float gyroY) {
+        //unavailable range: gyroX-gyroWidth, gyroX+2*gyroWidth, gyroY-gyroWidth, gyroY+2*gyroHeight
+        Random rand = new Random();
+        int xRange = Math.round(screenWidth);
+        int yRange = Math.round(screenWidth);
+        System.out.println(screenWidth);
+        System.out.println(Math.round(screenWidth));
+        System.out.println(screenHeight);
+        System.out.println(Math.round(screenHeight));
+
+        //test
+        for(int i=0;i<100;i++){
+            System.out.println(rand.nextInt(Math.round(xRange)));
+        }
+        //
+        int goldX = rand.nextInt(xRange);
+        int goldY = rand.nextInt(yRange);
+//        if(goldX>gyroX-gyroWidth){
+//            goldX+=3*gyroWidth;
+//        }
+//        if(goldY>gyroY-gyroHeight){
+//            goldY+=3*gyroHeight;
+//        }
+        int silverX = rand.nextInt(xRange);
+        int silverY = rand.nextInt(yRange);
+//        if(silverX>gyroX-gyroWidth){
+//            silverX+=3*gyroWidth;
+//        }
+//        if(silverX>goldX){
+//            silverX+=coinWidth;
+//        }
+//        if(silverY>gyroY-gyroHeight){
+//            silverY+=3*gyroHeight;
+//        }
+//        if(silverY>goldY){
+//            silverY+=coinHeight;
+//        }
+        int bronzeX = rand.nextInt(xRange);
+        int bronzeY = rand.nextInt(yRange);
+//        if(bronzeX>gyroX-gyroWidth){
+//            bronzeX+=3*gyroWidth;
+//        }
+//        if(bronzeX>goldX){
+//            bronzeX+=coinWidth;
+//        }
+//        if(bronzeX>silverX){
+//            bronzeX+=coinWidth;
+//        }
+//        if(bronzeY>gyroY-gyroHeight){
+//            bronzeY+=3*gyroHeight;
+//        }
+//        if(bronzeY>goldY){
+//            bronzeY+=coinHeight;
+//        }
+//        if(bronzeY>silverY){
+//            bronzeY+=coinHeight;
+//        }
+        gold.setX(0);
+        gold.setY(0);
+        silver.setX(silverX);
+        silver.setY(silverY);
+        bronze.setX(bronzeX);
+        bronze.setY(bronzeY);
+
     }
 
     @Override
@@ -79,11 +138,21 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
 
+        //set screenwidth/height
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenHeight= metrics.heightPixels;
+        screenWidth = metrics.widthPixels;
         //set the coins
-        ImageView gold = (ImageView) findViewById(R.id.goldcoin);
-        ImageView silver = (ImageView) findViewById(R.id.silvercoin);
-        ImageView bronze = (ImageView) findViewById(R.id.bronzecoin);
-        placeCoinsRandomly(0);
+        gold = (ImageView) findViewById(R.id.goldcoin);
+        silver = (ImageView) findViewById(R.id.silvercoin);
+        bronze = (ImageView) findViewById(R.id.bronzecoin);
+        gyro = (ImageView) findViewById(R.id.gyroimage);
+        gyroWidth=gyro.getWidth();
+        gyroHeight=gyro.getHeight();
+        coinWidth=gold.getWidth();
+        coinHeight=gold.getHeight();
+
 
     }
 
@@ -93,6 +162,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     protected void onStart() {
         super.onStart();
         //Change the current activity.
+        placeCoinsRandomly(gyro.getX(),gyro.getY());
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
