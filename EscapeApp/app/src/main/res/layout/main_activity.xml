@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.context.kroket.escapeapp.MainActivity"
+    tools:context=".mainscreens.MainActivity"
     android:orientation="vertical">
 
     <EditText

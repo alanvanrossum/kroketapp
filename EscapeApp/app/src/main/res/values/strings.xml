@@ -7,7 +7,7 @@
     <string name="codeButton">Code</string>
     <string name="picButton">Picture</string>
     <string name="code">M I H A</string>
-    <string name="codedec">Decipher the following code:</string>
+    <string name="codedec">Decipher the following code by looking for letters in the painting and matching them to the alphabet:</string>
     <string name="clickButton">START</string>
     <string name="amount">Times clicked: 0</string>
     <string name="gameB">Tap the button 125 times before time runs out!</string>
@@ -19,4 +19,7 @@
     <string name="verifyButton">Verify</string>
     <string name="gameC">Forward the colorcode to the Oculus player!</string>
     <string name="startC">Start</string>
+    <string name="title_activity_d__gyroscope">D_Gyroscope</string>
+    <string name="gyroheader" color="@color/white">Don\'t let the ball fall off!</string>
+    <string name="action_settings">Settings</string>
 </resources>

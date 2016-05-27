@@ -1,19 +1,19 @@
-package com.context.kroket.escapeapp;
+package com.context.kroket.escapeapp.mainscreens;
 
 /**
  * Created by Harvey van Veltom on 19/05/2016.
  */
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityInstrumentationTestCase2;
 
-import com.robotium.solo.Solo;
+import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.Before;
 
 import org.junit.runner.RunWith;
 
@@ -47,7 +47,7 @@ public class MainActivityTest{
     @Test
     public void clickWithoutNameTest() {
         //Click the connect button.
-        onView(withId(R.id.connectButton)).perform(click());
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
 
         //Check if the connection message has been updated.
         onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));
@@ -85,7 +85,7 @@ public class MainActivityTest{
         onView(withId(R.id.startButton)).perform(click());
 
         //Check if we started a waiting activity.
-        intended(hasComponent(hasShortClassName(".WaitingActivity")));
+        intended(hasComponent(hasShortClassName(".mainscreens.WaitingActivity")));
         MainActivity.switchStart(false);
     }
 

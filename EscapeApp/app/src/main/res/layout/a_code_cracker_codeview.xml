@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.context.kroket.escapeapp.MainActivity"
+    tools:context=".mainscreens.MainActivity"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -25,7 +25,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.07"
         android:textStyle="bold"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:gravity="center" />
 
     <TextView android:id="@+id/code"
         android:layout_width="wrap_content"

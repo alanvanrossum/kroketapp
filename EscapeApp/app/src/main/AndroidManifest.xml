@@ -9,8 +9,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme"
+        android:name=".application.ActivityManager">
+        <activity android:name=".mainscreens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,19 +20,20 @@
         </activity>
 
         <activity
-            android:name=".Game_A_Activity"
+            android:name=".minigames.A_Code_Cracker_Pictureview"
             android:label="@string/title_activity_game__a_"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Game_AA_Activity" />
+        <activity android:name=".minigames.A_CodeCrackerCodeview" />
 
         <service
-            android:name=".ConnectionService"
+            android:name=".network.ConnectionService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".Game_B_Activity" />
-        <activity android:name=".WaitingActivity" />
-        <activity android:name=".Game_C_Activity"></activity>
+        <activity android:name=".minigames.B_TapGame" />
+        <activity android:name=".mainscreens.WaitingActivity" />
+        <activity android:name=".minigames.C_ColorSequence"></activity>
+        <activity android:name=".minigames.D_Gyroscope"></activity>
     </application>
 
 </manifest>
