@@ -1,4 +1,6 @@
+
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 23
@@ -19,8 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testCoverageEnabled = true
         }
+    }
+
+    jacoco {
+        version 'jacoco-0.7.6.201602180812'
     }
 }
 
@@ -49,3 +57,89 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
 }
 
+
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+check.dependsOn 'checkstyle', 'findbugs', 'pmd'
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "high"
+    classes = files("$project.buildDir/intermediates/classes/")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+            xml.enabled = false
+            html.enabled = true
+    }
+
+    classpath = files()
+}
+
+task pmd(type: Pmd) {
+    ignoreFailures = true
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "createDebugCoverageReport") {
+    def coverageSourceDirs = [
+            'src/main/java'
+    ]
+    group = "Reporting"
+    description = "Generates Jacoco coverage reports. still needs work"
+    reports {
+        xml{
+            enabled = false
+        }
+        csv.enabled false
+        html{
+            enabled true
+            destination "${buildDir}/reports/jacoco"
+        }
+    }
+    classDirectories = fileTree(
+            dir: 'build/intermediates/classes',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/*Activity*.*',
+                       '**/*Fragment*.*'
+            ]
+    )
+    sourceDirectories = files(coverageSourceDirs)
+    additionalSourceDirs = files(coverageSourceDirs)
+
+    if (project.hasProperty('coverageFiles')) {
+        // convert the comma separated string to an array to create an aggregate report from
+        // multiple coverage.ec files
+        def coverageFilesArray = coverageFiles.split(',')
+        executionData = files(coverageFilesArray)
+    }
+    else {
+        executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+    }
+}
