@@ -33,8 +33,7 @@ before_script:
 script:
   - adb shell input keyevent 82 &
   - sleep 2
-  - ./gradlew test
-  
+  - ./gradlew test 
   - adb shell input keyevent 82 &
   - sleep 2
   - ./gradlew build connectedCheck
