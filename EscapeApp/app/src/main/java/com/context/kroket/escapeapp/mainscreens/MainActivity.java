@@ -14,10 +14,13 @@ import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.A_Code_Cracker_Pictureview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.D_Gyroscope;
+import com.context.kroket.escapeapp.minigames.C_ColorSequence;
+
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 /**
  * Responsible for making sure the player can connect to and start the game.
+ * 
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -120,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
     private static boolean gameB = false;
 
     /**
+     * Boolean used to start game_C_Activity intent.
+     */
+    private static boolean gameC = false;
+
+    /**
      * Boolean used to enable the start button.
      */
     private static boolean enableStart = false;
@@ -154,6 +162,15 @@ public class MainActivity extends AppCompatActivity {
     public static void switchGameB(Boolean b) { gameB = b; }
 
     /**
+     * SwitchGameB allows us to change the gameB boolean.
+     * This GameB boolean is used to quickly switch to B_TapGame.
+     * This method is only used for testing.
+     *
+     * @param b Boolean.
+     */
+    public static void switchGameC(Boolean b) { gameC = b; }
+
+    /**
      * SwitchGameA allows us to change the enableStart boolean.
      * This enableStart boolean is used to set the startbutton to enabled
      * so it can be tested. This method is only used for testing.
@@ -184,10 +201,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(dialogIntent);
         }
 
+        if(gameC == true) {
+            Intent dialogIntent = new Intent(this, C_ColorSequence.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+
         if(enableStart == true){
             Button start = (Button) findViewById(R.id.startButton);
             start.setEnabled(true);
         }
+
+
     }
 
 }
