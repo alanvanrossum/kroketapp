@@ -51,8 +51,14 @@ public class ConnectionService extends Service {
         list = new ArrayList<String>();
         new connectTask().execute("");
 
+        //Wait for the tcpClient to be instantiated
+        try {
+            Thread.sleep(1000,0);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         //Send the name and type of the player to the server.
-        while (tcpClient == null) {}
         tcpClient.sendMessage(playername);
         tcpClient.sendMessage(type);
 
