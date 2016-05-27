@@ -25,7 +25,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.07"
         android:textStyle="bold"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:gravity="center" />
 
     <TextView android:id="@+id/code"
         android:layout_width="wrap_content"
