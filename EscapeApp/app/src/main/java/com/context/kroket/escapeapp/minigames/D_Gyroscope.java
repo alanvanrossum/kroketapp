@@ -28,7 +28,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     private ImageView gyro,gold,silver,bronze;
     float screenWidth,screenHeight,gyroWidth,gyroHeight,coinWidth,coinHeight;
     private int goldCount,silverCount,bronzeCount;
-
+//travis
     @Override
     public void onSensorChanged(SensorEvent event){
 //        event.values[0]: x*sin(θ/2)
