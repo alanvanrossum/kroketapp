@@ -61,7 +61,7 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
         EditText answer = (EditText) solo.getView(R.id.answerA);
         solo.clearEditText(answer);
         solo.typeText(answer, "1234");
-        
+
         //Hide the android keyboard.
         solo.hideSoftKeyboard();
 
