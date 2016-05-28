@@ -50,25 +50,26 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
      */
     @Test
     public void testWrongAnswer() {
-//        //Switch from MainActivity to A_CodeCrackerCodeView.
-//        MainActivity.switchGameAA(true);
-//        Button buttonConnect = (Button) solo.getView(R.id.connectButton);
-//        solo.clickOnView(buttonConnect);
-//
-//        //Hide the android keyboard.
-//        solo.hideSoftKeyboard();
-//
-//        //Click the verify button of A_CodeCrackerCodeView when
-//        //we don't have an answer filled in.
-//        Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
-//        solo.clickOnView(buttonVerify);
-//
-//        //Check if the verifyMessage view is visible(only becomes visible)
-//        //if we have filled in a wrong answer.
-//        TextView verify = (TextView) solo.getView(R.id.verifyMessage);
-//        assertEquals("view should be visible", verify.getVisibility(), View.VISIBLE);
-//
-//        MainActivity.switchGameAA(false);
+        //Switch from MainActivity to A_CodeCrackerCodeView.
+        MainActivity.switchGameAA(true);
+        Button buttonConnect = (Button) solo.getView(R.id.connectButton);
+        solo.clickOnView(buttonConnect);
+
+        //Hide the android keyboard.
+        solo.hideSoftKeyboard();
+
+        //Click the verify button of A_CodeCrackerCodeView when
+        //we don't have an answer filled in.
+        Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
+        solo.clickOnView(buttonVerify);
+
+        //Check if the verifyMessage view is visible(only becomes visible)
+        //if we have filled in a wrong answer.
+        solo.hideSoftKeyboard();
+        TextView verify = (TextView) solo.getView(R.id.verifyMessage);
+        assertEquals("view should be visible", verify.getVisibility(), View.VISIBLE);
+
+        MainActivity.switchGameAA(false);
     }
 
     /**
