@@ -22,7 +22,7 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 public class A_CodeCrackerCodeview extends AppCompatActivity {
 
     //The answer to this minigame.
-    public final String correctCode = "1234";
+    public final String correctCode = "2719173";
     ConnectionService connectionService;
     static boolean serviceIsBound = false;
 
