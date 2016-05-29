@@ -26,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.not;
 
 /**
@@ -69,7 +70,8 @@ public class A_CodeCrackerCodeviewTest {
         //Click the pic button.
         onView(withId(R.id.verifyButton)).perform(click());
 
-        onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
+        assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
+        //onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
         MainActivity.switchGameAA(false);
     }
 
@@ -77,14 +79,18 @@ public class A_CodeCrackerCodeviewTest {
     public void testRightAnswer() {
         //Switch from MainActivity to A_CodeCrackerCodeview.
         MainActivity.switchGameAA(true);
+        A_CodeCrackerCodeview.enableTesting(true);
         onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
 
-        onView(withId(R.id.answerA)).perform();
+        onView(withId(R.id.answerA)).perform(typeText("2719173"));
         //Click the pic button.
+
+
         onView(withId(R.id.verifyButton)).perform(click());
 
-        onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
+        onView(withId(R.id.waiting)).check(matches( isDisplayed()));
         MainActivity.switchGameAA(false);
+        A_CodeCrackerCodeview.enableTesting(false);
     }
 
 }

@@ -30,6 +30,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     public static int goldCount,silverCount,bronzeCount;
     public static int goldX, goldY, bronzeX, bronzeY, silverX, silverY;
     public static boolean testing = false;
+    public static int count = 0;
 //travis
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -113,9 +114,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
          bronzeX = rand.nextInt(xRange);
          bronzeY = rand.nextInt(yRange);
 
-        if(testing){
-            setRanges();
-        }
+
         if(goldX>gyroX-gyroWidth){
             goldX+=3*gyroWidth;
         }
@@ -154,6 +153,11 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 //            bronzeY+=coinHeight;
 //        }
 
+        if(testing){
+            setRanges();
+        }
+
+
         gold.setX(goldX);
         gold.setY(goldY);
         silver.setX(silverX);
@@ -161,8 +165,19 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         bronze.setX(bronzeX);
         bronze.setY(bronzeY);
 
+        if(collision && count == 0){
+            count++;
+            setCollision(gyroX,gyroY);
+        }
 
-
+    }
+    public static void setCollision(float x, float y) {
+        gold.setX(x);
+        gold.setY(y);
+        silver.setX(x);
+        silver.setY(y);
+        bronze.setX(x);
+        bronze.setY(y);
     }
 
     @Override
@@ -297,4 +312,9 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         gold.setX(gyro.getX());
         gold.setY(gyro.getY());
     }
+
+    public static void setCollisionTrue(boolean b) {
+        collision = b;
+    }
+    public static boolean collision = false;
 }

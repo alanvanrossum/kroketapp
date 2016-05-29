@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
@@ -107,7 +108,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
             //Send message to server that minigame A is finished.
-            if (serviceIsBound) {
+            if (serviceIsBound && testing == false) {
                 connectionService.endA();
             } else {
                 System.out.println("ConnectionService not bound in CodeCrackerCodeView");
@@ -117,7 +118,10 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
             Intent intent = new Intent(this, WaitingActivity.class);
             startActivity(intent);
         } else {
-            findViewById(R.id.verifyMessage).setVisibility(View.VISIBLE);
+            TextView verifyMessage = (TextView) findViewById(R.id.verifyMessage);//.setVisibility(View.VISIBLE);
+            numberOfAttempts++;
+            verifyMessage.setVisibility(View.VISIBLE);
+            verifyMessage.setText("The answer you entered is incorrect! number of attempts: " + numberOfAttempts);
         }
     }
 
@@ -127,6 +131,12 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
 
     public static void setServiceIsBound(Boolean b) {
         serviceIsBound = b;
+    }
+    public static boolean testing = false;
+    public static void enableTesting(boolean b) {testing = b;}
+    public static int numberOfAttempts = 0;
+    public static int getNumberOfAttempts() {
+        return numberOfAttempts;
     }
 
 }

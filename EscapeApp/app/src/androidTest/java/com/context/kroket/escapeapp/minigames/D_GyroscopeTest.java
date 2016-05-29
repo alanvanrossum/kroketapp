@@ -36,11 +36,7 @@ public class D_GyroscopeTest {
 
     @Before
     public void setUp() {
-        D_Gyroscope.setTestValues(100,100,250,250,450,450);
-        D_Gyroscope.setTrue();
-        //Switch from MainActivity to D.
-        MainActivity.switchGameD(true);
-        onView(withId(R.id.connectButton)).perform(click());
+
     }
 
     @After
@@ -50,6 +46,11 @@ public class D_GyroscopeTest {
 
     @Test
     public void testPlaceCoinsRandomlyGoldX() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
 
         assertEquals(100,D_Gyroscope.getGoldX());
 
@@ -57,39 +58,75 @@ public class D_GyroscopeTest {
 
     @Test
     public void testPlaceCoinsRandomlyGoldY() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
         assertEquals(100, D_Gyroscope.getGoldY());
     }
 
     @Test
     public void testPlaceCoinsRandomlySilverX() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
         assertEquals(250, D_Gyroscope.getSilverX());
     }
 
     @Test
     public void testPlaceCoinsRandomlySilverY() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
         assertEquals(250, D_Gyroscope.getSilverY());
     }
 
     @Test
     public void testPlaceCoinsRandomlyBronzeX() {
-        assertEquals(600, D_Gyroscope.getBronzeX());
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
+        assertEquals(450, D_Gyroscope.getBronzeX());
     }
 
     @Test
     public void testPlaceCoinsRandomlyBronzeY() {
-        assertEquals(600, D_Gyroscope.getBronzeY());
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
+        assertEquals(450, D_Gyroscope.getBronzeY());
     }
 
     @Test
     public void testCollideWithFalse() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
         ImageView silverCoin = D_Gyroscope.getSilver();
         assertEquals(D_Gyroscope.collideWith(silverCoin), false);
     }
 
     @Test
     public void testCollideWithGold() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        D_Gyroscope.setCollisionTrue(true);
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
         //getActivity().runOnUiThread();
-        D_Gyroscope.setUpCollisionGold();
+        //D_Gyroscope.setUpCollisionGold();
         D_Gyroscope.collide();
         assertEquals(D_Gyroscope.getGoldCount(),1);
     }
