@@ -244,6 +244,52 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     public static int getGoldY() {
         return goldY;
     }
+    public static int getSilverX() {
+        return silverX;
+    }
+    public static int getSilverY() {
+        return silverY;
+    }
+    public static int getBronzeX() {
+        return bronzeX;
+    }
+    public static int getBronzeY() {
+        return bronzeY;
+    }
+    public static ImageView getSilver() {
+        return silver;
+    }
 
+    public static float getGyroX() {
+        return gyro.getX();
+    }
 
+    public static float getGyroY() {
+        return gyro.getY();
+    }
+
+    public static void setGold(float xcoord, float ycoord) {
+        gold.setX(xcoord);
+        gold.setY(ycoord);
+    }
+    public static void setSilver(float xcoord, float ycoord) {
+        silver.setX(xcoord);
+        silver.setY(ycoord);
+    }
+    public static void setBronze(float xcoord, float ycoord) {
+        bronze.setX(xcoord);
+        bronze.setY(ycoord);
+    }
+
+    public static int getGoldCount() {
+        return goldCount;
+    }
+
+    public static int getSilverCount() {
+        return silverCount;
+    }
+
+    public static int getBronzeCount() {
+        return bronzeCount;
+    }
 }

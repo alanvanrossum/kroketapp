@@ -72,5 +72,6 @@ public class C_ColorSequenceTest {
         //Assert we have made one runtrough meaning the color stream
         //has been shown once successfully.
         assertTrue(C_ColorSequence.getRunthroughs() == 1);
+        MainActivity.switchGameC(false);
     }
 }
