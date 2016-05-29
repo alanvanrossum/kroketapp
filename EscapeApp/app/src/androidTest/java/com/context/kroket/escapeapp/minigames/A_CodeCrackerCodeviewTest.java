@@ -1,5 +1,6 @@
 package com.context.kroket.escapeapp.minigames;
 
+import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -26,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Harvey van Veltom on 19/05/2016.
@@ -59,4 +61,17 @@ public class A_CodeCrackerCodeviewTest {
 //        MainActivity.switchGameAA(false);
  //   }
 
+    @Test
+    public void testWrongAnswer() {
+        MainActivity.switchGameAA(true);
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+
+        //onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
+
+        onView(withId(R.id.verifyButton)).perform(click());
+
+        onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
+        //assertTrue(A_CodeCrackerCodeview.getHit() == true);
+
+    }
 }

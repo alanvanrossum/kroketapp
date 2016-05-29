@@ -58,8 +58,8 @@ public class MainActivityTest{
      * Test used to see what happens if you enter a name and connect. Code is commented out because
      * the android app gets timed out. Issue lies probably with the use of intending.
      */
-   // @Test
-   // public void clickWithNameTest() {
+    @Test
+    public void clickWithNameTest() {
 //
 //        Intent resultData = new Intent();
 //        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
@@ -70,7 +70,7 @@ public class MainActivityTest{
 //
 //        onView(withId(R.id.connectionMessage)).check(matches(withText("connected")));
 
-    //}
+    }
 
     /**
      * Method to see if the start button works correctly.

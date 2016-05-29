@@ -53,8 +53,8 @@ public class B_TapGameTest {
     /**
      * Method checks the functionality of clicking the B_TapGame start button twice.
      */
-  //  @Test
-//    public void clickStartButtonTwice() {
+    @Test
+    public void clickStartButtonTwice() {
 //        //Switch from MainActivity to B_TapGame.
 //        MainActivity.switchGameB(true);
 //        onView(withId(R.id.connectButton)).perform(click());
@@ -66,5 +66,5 @@ public class B_TapGameTest {
 //        //This only happens if you press the button twice.
 //        onView(withId(R.id.amount)).check(matches(withText("Times clicked: 1")));
 //        MainActivity.switchGameB(false);
-//    }
+    }
 }
