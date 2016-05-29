@@ -75,11 +75,11 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
         //assertEquals("view should be visible", verify.getVisibility(), View.VISIBLE);
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         assertTrue(A_CodeCrackerCodeview.getAttemptAmount() == 1);
 
         MainActivity.switchGameAA(false);

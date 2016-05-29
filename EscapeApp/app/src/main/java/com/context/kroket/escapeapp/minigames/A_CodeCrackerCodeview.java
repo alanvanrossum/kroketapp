@@ -110,7 +110,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
             //Send message to server that minigame A is finished.
-            if (serviceIsBound) {
+            if (serviceIsBound && false == true) {
                 connectionService.endA();
             } else {
                 System.out.println("ConnectionService not bound in CodeCrackerCodeView");
