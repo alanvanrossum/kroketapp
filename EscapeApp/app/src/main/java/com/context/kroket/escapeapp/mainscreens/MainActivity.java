@@ -127,11 +127,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private static boolean gameC = false;
 
+    private static boolean gameD = false;
     /**
      * Boolean used to enable the start button.
      */
     private static boolean enableStart = false;
 
+
+
+    public static void switchGameD(Boolean b) {
+        gameD = b;
+    }
     /**
      * SwitchGameA allows us to change the gameA boolean.
      * This GameA boolean is used to quickly switch to A_Code_Cracker_Pictureview.
@@ -203,6 +209,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(gameC == true) {
             Intent dialogIntent = new Intent(this, C_ColorSequence.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+        if(gameD == true) {
+            Intent dialogIntent = new Intent(this, D_Gyroscope.class);
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
         }

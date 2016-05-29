@@ -25,9 +25,11 @@ import java.util.Random;
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
-    private ImageView gyro,gold,silver,bronze;
-    float screenWidth,screenHeight,gyroWidth,gyroHeight,coinWidth,coinHeight;
-    private int goldCount,silverCount,bronzeCount;
+    public static ImageView gyro,gold,silver,bronze;
+    public static float screenWidth,screenHeight,gyroWidth,gyroHeight,coinWidth,coinHeight;
+    public static int goldCount,silverCount,bronzeCount;
+    public static int goldX, goldY, bronzeX, bronzeY, silverX, silverY;
+    public static boolean testing = false;
 //travis
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -64,7 +66,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         collide();
     }
 
-    private void collide() {
+    public static void collide() {
         if(collideWith(gold)){
             goldCount++;
             System.out.println("goldcoins are now: "+ goldCount);
@@ -82,17 +84,17 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         }
     }
 
-    private boolean collideWith(ImageView coin) {
+    public static boolean collideWith(ImageView coin) {
         if(Math.abs(coin.getX()-gyro.getX())<50 &&Math.abs(coin.getY()-gyro.getY())<50){
             return true;
         }
         return false;
     }
 
-    private void placeCoinsRandomly(){
+    public static void placeCoinsRandomly(){
         placeCoinsRandomly(0,0);
     }
-    private void placeCoinsRandomly(float offsetX,float offsetY) {
+    public static void placeCoinsRandomly(float offsetX,float offsetY) {
         //unavailable range: gyroX-gyroWidth, gyroX+2*gyroWidth, gyroY-gyroWidth, gyroY+2*gyroHeight
         float gyroX=gyro.getX()+offsetX;
         float gyroY=gyro.getY()+offsetY;
@@ -101,16 +103,26 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         int yRange = Math.round(screenHeight-3*gyroHeight);
         //test
         //
-        int goldX = rand.nextInt(xRange);
-        int goldY = rand.nextInt(yRange);
+         goldX = rand.nextInt(xRange);
+         goldY = rand.nextInt(yRange);
+
+         silverX = rand.nextInt(xRange);
+         silverY = rand.nextInt(yRange);
+
+
+         bronzeX = rand.nextInt(xRange);
+         bronzeY = rand.nextInt(yRange);
+
+        if(testing){
+            setRanges();
+        }
         if(goldX>gyroX-gyroWidth){
             goldX+=3*gyroWidth;
         }
         if(goldY>gyroY-gyroHeight){
             goldY+=3*gyroHeight;
         }
-        int silverX = rand.nextInt(xRange);
-        int silverY = rand.nextInt(yRange);
+
         if(silverX>gyroX-gyroWidth){
             silverX+=3*gyroWidth;
         }
@@ -123,8 +135,6 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 //        if(silverY>goldY){
 //            silverY+=coinHeight;
 //        }
-        int bronzeX = rand.nextInt(xRange);
-        int bronzeY = rand.nextInt(yRange);
         if(bronzeX>gyroX-gyroWidth){
             bronzeX+=3*gyroWidth;
         }
@@ -198,6 +208,41 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
+    }
+
+    public static void setTestValues(int gx, int gy, int sx, int sy, int bx, int by) {
+        goldXTest = gx;
+        goldYTest = gy;
+        silverXTest = sx;
+        silverYTest = sy;
+        bronzeXTest = bx;
+        bronzeYTest = by;
+    }
+
+    static int goldXTest = 0;
+    static int goldYTest = 0;
+    static int silverXTest = 0;
+    static int silverYTest = 0;
+    static int bronzeXTest = 0;
+    static int bronzeYTest = 0;
+
+    public static void setRanges() {
+        goldX = goldXTest;
+        goldY = goldYTest;
+        silverX = silverXTest;
+        silverY = silverYTest;
+        bronzeX = bronzeXTest;
+        bronzeY = bronzeYTest;
+    }
+
+    public static void setTrue() {
+        testing = true;
+    }
+    public static int getGoldX() {
+        return goldX;
+    }
+    public static int getGoldY() {
+        return goldY;
     }
 
 
