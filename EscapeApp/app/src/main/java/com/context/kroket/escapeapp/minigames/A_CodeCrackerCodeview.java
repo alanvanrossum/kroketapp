@@ -4,11 +4,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
@@ -25,6 +27,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     public final String correctCode = "2719173";
     ConnectionService connectionService;
     static boolean serviceIsBound = false;
+    public static int attemptAmount  = 0;
 
     //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -117,7 +120,14 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
             Intent intent = new Intent(this, WaitingActivity.class);
             startActivity(intent);
         } else {
-            findViewById(R.id.verifyMessage).setVisibility(View.VISIBLE);
+
+            TextView verifyMessage = (TextView) findViewById(R.id.verifyMessage);
+            verifyMessage.setVisibility(View.VISIBLE);
+
+            attemptAmount++;
+            String x = "The answer you entered is incorrect! Number of attempts: " + attemptAmount;
+            verifyMessage.setText(x);
+
         }
     }
 
@@ -127,6 +137,9 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
 
     public static void setServiceIsBound(Boolean b) {
         serviceIsBound = b;
+    }
+    public static int getAttemptAmount() {
+        return attemptAmount;
     }
 
 }
