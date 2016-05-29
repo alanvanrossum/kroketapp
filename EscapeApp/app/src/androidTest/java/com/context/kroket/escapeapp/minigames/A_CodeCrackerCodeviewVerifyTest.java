@@ -55,13 +55,13 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
         Button buttonConnect = (Button) solo.getView(R.id.connectButton);
         solo.clickOnView(buttonConnect);
 
-      //  Fill in the correct answer in the answerA view.
-        //EditText answer = (EditText) solo.getView(R.id.answerA);
-       // solo.clearEditText(answer);
-       // solo.typeText(answer, "1234");
+        //Fill in the correct answer in the answerA view.
+        EditText answer = (EditText) solo.getView(R.id.answerA);
+        solo.clearEditText(answer);
+        solo.typeText(answer, "1234");
 
         //Hide the android keyboard.
-        solo.hideSoftKeyboard();
+        //solo.hideSoftKeyboard();
 
         //Click the verify button of A_CodeCrackerCodeView when
         //we don't have an answer filled in.
