@@ -109,7 +109,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         if (answer.getText().toString().matches(correctCode)) {
             //Send message to server that minigame A is finished.
             if (serviceIsBound && testing == false) {
-                connectionService.endA();
+                //connectionService.endA();
             } else {
                 System.out.println("ConnectionService not bound in CodeCrackerCodeView");
             }

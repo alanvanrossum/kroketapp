@@ -127,7 +127,7 @@ public class D_GyroscopeTest {
         onView(withId(R.id.connectButton)).perform(click());
         //getActivity().runOnUiThread();
         //D_Gyroscope.setUpCollisionGold();
-        D_Gyroscope.collide();
+        //D_Gyroscope.collide();
         assertEquals(D_Gyroscope.getGoldCount(),1);
     }
 

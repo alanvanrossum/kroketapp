@@ -178,6 +178,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         silver.setY(y);
         bronze.setX(x);
         bronze.setY(y);
+        collide();
     }
 
     @Override
