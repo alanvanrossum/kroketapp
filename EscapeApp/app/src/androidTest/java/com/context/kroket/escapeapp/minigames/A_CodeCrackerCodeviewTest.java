@@ -6,9 +6,11 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
+import com.robotium.solo.Solo;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,7 +39,33 @@ import static org.junit.Assert.assertTrue;
 /**
  * A_CodeCrackerCodeviewTest is used to test the A_CodeCrackerCodeview class.
  */
-public class A_CodeCrackerCodeviewTest {
+public class A_CodeCrackerCodeviewTest extends
+        ActivityInstrumentationTestCase2<MainActivity> {
+
+
+    /**
+     * Solo is used by robotium to interact with the game's ui elements.
+     */
+    private Solo solo;
+
+    /**
+     * Constructor for the test class.
+     * Requirement of robotium.
+     */
+    public A_CodeCrackerCodeviewTest() {
+        super(MainActivity.class);
+    }
+
+    /**
+     * Set's up solo object that is used by robotium
+     * to interact with ui elements.
+     *
+     * @throws Exception
+     */
+    public void setUp() throws Exception {
+        solo = new Solo(getInstrumentation(), getActivity());
+    }
+
 
 
     @Rule
@@ -68,10 +96,19 @@ public class A_CodeCrackerCodeviewTest {
 
         //onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
 
+        solo.hideSoftKeyboard();
+
         onView(withId(R.id.verifyButton)).perform(click());
 
         onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
         //assertTrue(A_CodeCrackerCodeview.getHit() == true);
 
+        MainActivity.switchGameAA(false);
+
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
     }
 }
