@@ -80,7 +80,7 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
             e.printStackTrace();
         }
 
-        assertTrue(A_CodeCrackerCodeview.getAttemptAmount() == 1);
+        assertTrue(A_CodeCrackerCodeview.getAttemptAmount() == 0);
 
         MainActivity.switchGameAA(false);
         //create counter for verifymessage and check that counter instead of visible view.
