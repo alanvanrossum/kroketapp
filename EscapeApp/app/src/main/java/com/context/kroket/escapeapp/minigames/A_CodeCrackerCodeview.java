@@ -28,6 +28,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     ConnectionService connectionService;
     static boolean serviceIsBound = false;
     public static int attemptAmount  = 0;
+    public static boolean hit = false;
 
     //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -58,6 +59,10 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
             serviceIsBound = false;
         }
     };
+
+    public static boolean getHit() {
+        return hit;
+    }
 
 
     /**
@@ -106,6 +111,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
      */
     public void verifyButton(View view) {
         EditText answer = (EditText) findViewById(R.id.answerA);
+        hit = true;
 
         //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
