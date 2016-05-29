@@ -109,5 +109,6 @@ public class D_GyroscopeTest {
         D_Gyroscope.setBronze(gyroX,gyroY);
         D_Gyroscope.collide();
         assertEquals(D_Gyroscope.getBronzeCount(),1);
+
     }
 }
