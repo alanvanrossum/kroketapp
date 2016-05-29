@@ -18,6 +18,22 @@
         android:layout_gravity="center_horizontal"
         android:onClick="picButton"/>
 
+    <EditText
+        android:id="@+id/answerA"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/answerA"
+        android:textAlignment="center"
+        android:textColor="#0317f8"
+        android:inputType="number|phone" />
+
+    <Button android:id="@+id/verifyButton"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:text="@string/verifyButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="verifyButton"/>
+
     <TextView android:id="@+id/codedec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,27 +52,10 @@
         android:textStyle="bold"
         android:textSize="50dp" />
 
-    <EditText
-        android:id="@+id/answerA"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/answerA"
-        android:textAlignment="center"
-        android:textColor="#0317f8"
-        android:inputType="number|phone" />
-
-    <Button android:id="@+id/verifyButton"
-        android:layout_width="106dp"
-        android:layout_height="wrap_content"
-        android:text="@string/verifyButton"
-        android:layout_gravity="center_horizontal"
-        android:onClick="verifyButton"/>
-
     <TextView android:id="@+id/verifyMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/verifyMessage"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="0.07"
         android:textStyle="bold"
         android:textSize="20dp"

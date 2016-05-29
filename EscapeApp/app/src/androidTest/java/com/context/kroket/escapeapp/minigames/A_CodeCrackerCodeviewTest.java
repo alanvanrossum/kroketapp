@@ -1,5 +1,6 @@
 package com.context.kroket.escapeapp.minigames;
 
+import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -56,6 +57,33 @@ public class A_CodeCrackerCodeviewTest {
 
         //Check if we instantiated a A_Code_Cracker_Pictureview.
         intended(hasComponent(hasShortClassName(".minigames.A_Code_Cracker_Pictureview")));
+        MainActivity.switchGameAA(false);
+    }
+
+    @Test
+    public void testWrongAnswer() {
+        //Switch from MainActivity to A_CodeCrackerCodeview.
+        MainActivity.switchGameAA(true);
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+
+        //Click the pic button.
+        onView(withId(R.id.verifyButton)).perform(click());
+
+        onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
+        MainActivity.switchGameAA(false);
+    }
+
+    @Test
+    public void testRightAnswer() {
+        //Switch from MainActivity to A_CodeCrackerCodeview.
+        MainActivity.switchGameAA(true);
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+
+        onView(withId(R.id.answerA)).perform();
+        //Click the pic button.
+        onView(withId(R.id.verifyButton)).perform(click());
+
+        onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
         MainActivity.switchGameAA(false);
     }
 

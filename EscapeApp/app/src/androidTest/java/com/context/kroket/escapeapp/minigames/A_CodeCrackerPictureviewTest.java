@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
@@ -46,9 +47,9 @@ public class A_CodeCrackerPictureviewTest {
         //Click the code button.
         onView(withId(R.id.codeButton)).perform(click());
 
-        //Check that we switched to A_CodeCrackerCodeview by checking the code view.
-        //If the switch didn't succeed we wouldn't be able to access the code view.
-        onView(withId(R.id.code)).check(matches(withHint("M I H A")));
+        //Check that we switched to A_CodeCrackerCodeview by checking the verify button.
+        //If the switch didn't succeed we wouldn't be able to access the verify button.
+        onView(withId(R.id.verifyButton)).check(matches(isDisplayed()));
 
         //intended(hasComponent(hasShortClassName(".A_CodeCrackerCodeview")));
 
