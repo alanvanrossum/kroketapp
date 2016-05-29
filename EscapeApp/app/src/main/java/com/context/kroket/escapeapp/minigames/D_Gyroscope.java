@@ -292,4 +292,9 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     public static int getBronzeCount() {
         return bronzeCount;
     }
+
+    public static void setUpCollisionGold() {
+        gold.setX(gyro.getX());
+        gold.setY(gyro.getY());
+    }
 }
