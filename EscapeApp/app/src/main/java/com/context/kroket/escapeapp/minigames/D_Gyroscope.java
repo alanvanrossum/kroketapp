@@ -178,6 +178,11 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         silver.setY(y);
         bronze.setX(x);
         bronze.setY(y);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         collide();
     }
 
@@ -202,6 +207,9 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     }
 
 
+    public static int getCount() {
+        return count;
+    }
 
     @Override
     protected void onStart() {
