@@ -128,7 +128,7 @@ public class D_GyroscopeTest {
         //getActivity().runOnUiThread();
         //D_Gyroscope.setUpCollisionGold();
         //D_Gyroscope.collide();
-        assertEquals(D_Gyroscope.getCount(),1);
+        assertEquals(1,D_Gyroscope.getCount());
         assertEquals(D_Gyroscope.getGoldCount(),1);
     }
 

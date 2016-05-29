@@ -108,12 +108,12 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
             //Send message to server that minigame A is finished.
-            if(testing == false){
-            if (serviceIsBound) {
-                connectionService.endA();
-            } else {
-                System.out.println("ConnectionService not bound in CodeCrackerCodeView");
-            }}
+            //if(testing == false){
+            //if (serviceIsBound) {
+             //   connectionService.endA();
+            //} else {
+            //    System.out.println("ConnectionService not bound in CodeCrackerCodeView");
+            //}}
 
             //Go to the waiting screen.
             Intent intent = new Intent(this, WaitingActivity.class);
