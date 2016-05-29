@@ -57,8 +57,8 @@ public class C_ColorSequenceTest {
     /**
      * Check if we can press start correctly
      */
-    @Test
-    public void testStart() {
+   // @Test
+ //   public void testStart() {
 //        //Parse in a stream of colors.
 //        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
 //
@@ -72,5 +72,5 @@ public class C_ColorSequenceTest {
 //        //Assert we have made one runtrough meaning the color stream
 //        //has been shown once successfully.
 //        assertTrue(C_ColorSequence.getRunthroughs() == 1);
-    }
+//    }
 }

@@ -44,22 +44,22 @@ public class MainActivityTest{
     /**
      * Tests whether the connection message changes when no name is entered.
      */
-    @Test
-    public void clickWithoutNameTest() {
+    //@Test
+   // public void clickWithoutNameTest() {
 //        //Click the connect button.
 //        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
 //
 //        //Check if the connection message has been updated.
 //        onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));
-    }
+ //   }
 
 
     /**
      * Test used to see what happens if you enter a name and connect. Code is commented out because
      * the android app gets timed out. Issue lies probably with the use of intending.
      */
-    @Test
-    public void clickWithNameTest() {
+   // @Test
+   // public void clickWithNameTest() {
 //
 //        Intent resultData = new Intent();
 //        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
@@ -70,13 +70,13 @@ public class MainActivityTest{
 //
 //        onView(withId(R.id.connectionMessage)).check(matches(withText("connected")));
 
-    }
+    //}
 
     /**
      * Method to see if the start button works correctly.
      */
-    @Test
-    public void clickStartButtonTest() {
+  //  @Test
+//    public void clickStartButtonTest() {
         //Enable the start button.
 //        MainActivity.switchStart(true);
 //        onView(withId(R.id.connectButton)).perform(click());
@@ -87,6 +87,6 @@ public class MainActivityTest{
 //        //Check if we started a waiting activity.
 //        intended(hasComponent(hasShortClassName(".mainscreens.WaitingActivity")));
 //        MainActivity.switchStart(false);
-    }
+    //}
 
 }

@@ -126,7 +126,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
             Intent intent = new Intent(this, WaitingActivity.class);
             startActivity(intent);
         } else {
-
+            //hit = true;
             TextView verifyMessage = (TextView) findViewById(R.id.verifyMessage);
             verifyMessage.setVisibility(View.VISIBLE);
 

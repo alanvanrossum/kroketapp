@@ -45,8 +45,8 @@ public class A_CodeCrackerCodeviewTest {
     /**
      * Method checks the functionality of A_CodeCrackerCodeview pic button.
      */
-    @Test
-    public void clickPicButton() {
+   // @Test
+   // public void clickPicButton() {
 //        //Switch from MainActivity to A_CodeCrackerCodeview.
 //        MainActivity.switchGameAA(true);
 //        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
@@ -57,6 +57,6 @@ public class A_CodeCrackerCodeviewTest {
 //        //Check if we instantiated a A_Code_Cracker_Pictureview.
 //        intended(hasComponent(hasShortClassName(".minigames.A_Code_Cracker_Pictureview")));
 //        MainActivity.switchGameAA(false);
-    }
+ //   }
 
 }
