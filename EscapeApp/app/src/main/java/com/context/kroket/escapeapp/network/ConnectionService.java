@@ -88,9 +88,11 @@ public class ConnectionService extends Service {
         }
 
         //start the activity belonging to the minigame
-        Intent dialogIntent = new Intent(this, minigameclass);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
+        if (minigameclass != null) {
+            Intent dialogIntent = new Intent(this, minigameclass);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
     }
 
     /**
@@ -216,9 +218,10 @@ public class ConnectionService extends Service {
          * @param input the input received.
          */
         public void parseInput(String input) {
-            if (input.startsWith("INITM[")) {
+            String init = "INITM[";
+            if (input.startsWith(init)) {
                 int pos = input.indexOf(']');
-                String action = input.substring(6, pos);
+                String action = input.substring(init.length(), pos);
 
                 //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
@@ -242,8 +245,10 @@ public class ConnectionService extends Service {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (action.contentEquals("startB")) {
                 minigameclass = B_TapGame.class;
-            } else if (action.substring(0,6).contentEquals("startC")) {
-                colorSeq = action.substring(7);
+            //} else if (action.substring(0,6).contentEquals("startC")) {
+            } else if (action.startsWith("startC[")) {
+                //After the startC[ the color sequence is present.
+                colorSeq = action.substring("startC[".length());
                 minigameclass = C_ColorSequence.class;
             }
             return minigameclass;
