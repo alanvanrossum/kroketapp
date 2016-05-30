@@ -115,39 +115,53 @@ public class D_GyroscopeTest {
         onView(withId(R.id.connectButton)).perform(click());
         ImageView silverCoin = D_Gyroscope.getSilver();
         assertEquals(D_Gyroscope.collideWith(silverCoin), false);
+        D_Gyroscope.resetCount();
     }
 
     @Test
     public void testCollideWithGold() {
         D_Gyroscope.setTestValues(100,100,250,250,450,450);
         D_Gyroscope.setTrue();
-        D_Gyroscope.setCollisionTrue(true);
+        D_Gyroscope.setCollisionGold(true);
         //Switch from MainActivity to D.
         MainActivity.switchGameD(true);
         onView(withId(R.id.connectButton)).perform(click());
         //getActivity().runOnUiThread();
         //D_Gyroscope.setUpCollisionGold();
         //D_Gyroscope.collide();
-        assertEquals(1,D_Gyroscope.getCount());
+        //assertEquals(1,D_Gyroscope.getCount());
         assertEquals(D_Gyroscope.getGoldCount(),1);
+        D_Gyroscope.setCollisionGold(false);
+        D_Gyroscope.resetCount();
     }
 
-//    @Test
-//    public void testCollideWithSilver() {
-//        float gyroX = D_Gyroscope.getGyroX();
-//        float gyroY = D_Gyroscope.getGyroY();
-//        D_Gyroscope.setSilver(gyroX,gyroY);
-//        D_Gyroscope.collide();
-//        assertEquals(D_Gyroscope.getSilverCount(),1);
-//    }
-//
-//    @Test
-//    public void testCollideWithBronze() {
-//        float gyroX = D_Gyroscope.getGyroX();
-//        float gyroY = D_Gyroscope.getGyroY();
-//        D_Gyroscope.setBronze(gyroX,gyroY);
-//        D_Gyroscope.collide();
-//        assertEquals(D_Gyroscope.getBronzeCount(),1);
-//
-//    }
+    @Test
+    public void testCollideWithSilver() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        D_Gyroscope.setCollisionSilver(true);
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
+
+        assertEquals(D_Gyroscope.getSilverCount(),1);
+
+        D_Gyroscope.setCollisionSilver(false);
+        D_Gyroscope.resetCount();
+    }
+
+    @Test
+    public void testCollideWithBronze() {
+        D_Gyroscope.setTestValues(100,100,250,250,450,450);
+        D_Gyroscope.setTrue();
+        D_Gyroscope.setCollisionBronze(true);
+        //Switch from MainActivity to D.
+        MainActivity.switchGameD(true);
+        onView(withId(R.id.connectButton)).perform(click());
+
+        assertEquals(D_Gyroscope.getBronzeCount(),1);
+
+        D_Gyroscope.setCollisionSilver(false);
+        D_Gyroscope.resetCount();
+    }
 }

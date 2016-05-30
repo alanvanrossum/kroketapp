@@ -61,36 +61,36 @@ public class A_CodeCrackerCodeviewTest {
         MainActivity.switchGameAA(false);
     }
 
-    @Test
-    public void testWrongAnswer() {
-        //Switch from MainActivity to A_CodeCrackerCodeview.
-        MainActivity.switchGameAA(true);
-        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
-
-        //Click the pic button.
-        onView(withId(R.id.verifyButton)).perform(click());
-
-        assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
-        //onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
-        MainActivity.switchGameAA(false);
-    }
-
-    @Test
-    public void testRightAnswer() {
-        //Switch from MainActivity to A_CodeCrackerCodeview.
-        MainActivity.switchGameAA(true);
-        A_CodeCrackerCodeview.enableTesting(true);
-        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
-
-        onView(withId(R.id.answerA)).perform(typeText("2719173"));
-        //Click the pic button.
-
-
-        onView(withId(R.id.verifyButton)).perform(click());
-
-        onView(withId(R.id.waiting)).check(matches( isDisplayed()));
-        MainActivity.switchGameAA(false);
-        A_CodeCrackerCodeview.enableTesting(false);
-    }
+//    @Test
+//    public void testWrongAnswer() {
+//        //Switch from MainActivity to A_CodeCrackerCodeview.
+//        MainActivity.switchGameAA(true);
+//        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+//
+//        //Click the pic button.
+//        onView(withId(R.id.verifyButton)).perform(click());
+//
+//        assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
+//        //onView(withId(R.id.verifyMessage)).check(matches( isDisplayed()));
+//        MainActivity.switchGameAA(false);
+//    }
+//
+//    @Test
+//    public void testRightAnswer() {
+//        //Switch from MainActivity to A_CodeCrackerCodeview.
+//        MainActivity.switchGameAA(true);
+//        A_CodeCrackerCodeview.enableTesting(true);
+//        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+//
+//        onView(withId(R.id.answerA)).perform(typeText("2719173"));
+//        //Click the pic button.
+//
+//
+//        onView(withId(R.id.verifyButton)).perform(click());
+//
+//        onView(withId(R.id.waiting)).check(matches( isDisplayed()));
+//        MainActivity.switchGameAA(false);
+//        A_CodeCrackerCodeview.enableTesting(false);
+//    }
 
 }

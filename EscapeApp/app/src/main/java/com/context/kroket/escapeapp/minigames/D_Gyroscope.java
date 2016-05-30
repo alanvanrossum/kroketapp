@@ -68,7 +68,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     }
 
     public static void collide() {
-        count++;
+
         if(collideWith(gold)){
             goldCount++;
             System.out.println("goldcoins are now: "+ goldCount);
@@ -166,9 +166,25 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         bronze.setX(bronzeX);
         bronze.setY(bronzeY);
 
-        if(collision && count == 0){
+        if(collisionGold && count == 0){
+            count++;
+            gold.setX(gyro.getX());
+            gold.setY(gyro.getY());
+            collide();
+        }
 
-            setCollision(gyroX,gyroY);
+        if(collisionSilver && count == 0){
+            count++;
+            silver.setX(gyro.getX());
+            silver.setY(gyro.getY());
+            collide();
+        }
+
+        if(collisionBronze && count == 0){
+            count++;
+            bronze.setX(gyro.getX());
+            bronze.setY(gyro.getY());
+            collide();
         }
 
     }
@@ -323,8 +339,19 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         gold.setY(gyro.getY());
     }
 
-    public static void setCollisionTrue(boolean b) {
-        collision = b;
+    public static void setCollisionGold(boolean b) {
+        collisionGold = b;
     }
-    public static boolean collision = false;
+    public static void setCollisionSilver(boolean b) {
+        collisionSilver = b;
+    }
+    public static void setCollisionBronze(boolean b) {
+        collisionBronze = b;
+    }
+    public static boolean collisionGold = false;
+    public static boolean collisionSilver = false;
+    public static boolean collisionBronze = false;
+    public static void resetCount() {
+        count = 0;
+    }
 }
