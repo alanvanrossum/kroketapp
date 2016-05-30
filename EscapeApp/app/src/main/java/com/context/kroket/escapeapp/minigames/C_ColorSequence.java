@@ -154,9 +154,6 @@ public class C_ColorSequence extends AppCompatActivity {
          */
         @Override
         public void onReceive(Context context, Intent intent) {
-//            String colors = intent.getStringExtra("colorSequence");
-//            System.out.println("colors received " + colors);
-//            parseColors(colors);
             HashMap<String, String> colorCommand = (HashMap<String, String>) intent.getExtras().get("colorSequence");
             parseColors(colorCommand);
         }

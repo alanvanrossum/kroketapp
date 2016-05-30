@@ -24,11 +24,9 @@ public class ConnectionService extends Service {
 
     private static GameClient tcpClient;
     private static ArrayList<String> list;
+    public HashMap<String, String> colorCommand;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
-    //public String colorSeq;
-    //public ArrayList<Color> colorSeq;
-    public HashMap<String, String> colorCommand;
 
     /**
      * Called by the system every time a client explicitly starts the service.
