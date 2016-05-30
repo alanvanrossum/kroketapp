@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
+import com.context.kroket.escapeapp.network.CommandParser;
 
 import junit.framework.Assert;
 
@@ -15,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -38,7 +40,8 @@ public class C_ColorSequenceTest {
     @Test
     public void testParseColors() {
         //Parse a stream of colors.
-        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
+        HashMap<String, String> command = CommandParser.parseInput("INITM[startC][RED][BLUE][YELLOW][GREEN]");
+        C_ColorSequence.parseColors(command);
         ArrayList<Integer> parsedArrayList = C_ColorSequence.getSequence();
 
         //Create an ArrayList testArrayList with the same
@@ -60,7 +63,8 @@ public class C_ColorSequenceTest {
     @Test
     public void testStart() {
         //Parse in a stream of colors.
-        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
+        HashMap<String, String> command = CommandParser.parseInput("INITM[startC][RED][BLUE][YELLOW][GREEN]");
+        C_ColorSequence.parseColors(command);
 
         //Switch to C_ColorSequence activity.
         MainActivity.switchGameC(true);
