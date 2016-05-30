@@ -40,3 +40,7 @@ script:
   - adb shell input keyevent 82 &
   - sleep 2
   - ./gradlew build connectedCheck
+
+  - ./gradlew pmd
+  - ./gradlew checkstyle
+  - ./gradlew findbugs 
