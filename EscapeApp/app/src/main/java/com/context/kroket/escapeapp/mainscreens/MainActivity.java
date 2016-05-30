@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 //        Intent intent = new Intent(this, D_Gyroscope.class);
-//        startActivity(intent);
+ //       startActivity(intent);
         Button start = (Button) findViewById(R.id.startButton);
         if (start != null) {
             start.setEnabled(false);
