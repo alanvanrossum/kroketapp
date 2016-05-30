@@ -37,16 +37,12 @@ public class A_CodeCrackerPictureviewTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+
     @Before
     public void setUp() {
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.apic;
-
+        //Switch from MainActivity to A_Code_Cracker_PictureView.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.apic;
         onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
-    }
-
-    @After
-    public void tearDown() {
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
     }
 
     /**
@@ -54,16 +50,11 @@ public class A_CodeCrackerPictureviewTest {
      */
     @Test
     public void clickCodeButton() {
-
-
         //Click the code button.
         onView(withId(R.id.codeButton)).perform(click());
 
-        //Check that we switched to A_CodeCrackerCodeview by checking the verify button.
-        //If the switch didn't succeed we wouldn't be able to access the verify button.
+        //assert that we are now in the A_CodeCrackerCodeview activity.
         onView(withId(R.id.verifyButton)).check(matches(isDisplayed()));
-
-
     }
 
 

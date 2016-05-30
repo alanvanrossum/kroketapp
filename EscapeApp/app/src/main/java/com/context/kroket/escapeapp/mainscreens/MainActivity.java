@@ -36,12 +36,10 @@ public class MainActivity extends AppCompatActivity {
         Button start = (Button) findViewById(R.id.startButton);
         boolean connect = false;
 
-        if(TestActivtiy != ActivitySwitch.notest){
+        //Only used in testing, to quickly forward to another view.
+        if(TestActivity != ActivitySwitch.notest){
             checkConditions();
         }
-
-        //Only used in testing, to quickly forward to another view.
-        //checkConditions();
 
         //First check if the player has entered his/her name.
         if (name.getText().toString().matches("")) {
@@ -112,8 +110,17 @@ public class MainActivity extends AppCompatActivity {
     //*********** ONLY USED FOR TESTING PURPOSES ***********//
     //******************************************************//
 
+    /**
+     * ActivitySwitch is an enum used by the test classes to
+     * quickly switch between all the views.
+     */
     public enum ActivitySwitch {
-        startEn(MainActivity.class), acode(A_CodeCrackerCodeview.class), apic(A_Code_Cracker_Pictureview.class), btap(B_TapGame.class), csequence(C_ColorSequence.class),notest(MainActivity.class);
+        startEn(MainActivity.class),
+        acode(A_CodeCrackerCodeview.class),
+        apic(A_Code_Cracker_Pictureview.class),
+        btap(B_TapGame.class),
+        csequence(C_ColorSequence.class),
+        notest(MainActivity.class);
 
         private Class ClassAC;
 
@@ -126,138 +133,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static ActivitySwitch TestActivtiy = ActivitySwitch.notest;
+    //The ActivitySwitch used by the testclasses.
+    public static ActivitySwitch TestActivity = ActivitySwitch.notest;
 
 
-
+    /**
+     * checkConditions checks if the ActivitySwitch is startEn.
+     * if so it enables the startButton. if that isn't the case we
+     * switch to the activity specified in ActivitySwitch.
+     */
     private void checkConditions() {
-        if(TestActivtiy == ActivitySwitch.startEn){
+        if(TestActivity == ActivitySwitch.startEn){
             Button start = (Button) findViewById(R.id.startButton);
             start.setEnabled(true);
         }
         else {
-            Intent dialogIntent = new Intent(this, TestActivtiy.returnClass());
+            Intent dialogIntent = new Intent(this, TestActivity.returnClass());
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
         }
     }
-//    /**
-//     * Boolean used to start game_AA_Activity intent.
-//     */
-//    private static boolean gameAA = false;
-//
-//    /**
-//     * Boolean used to start game_A_Activity intent.
-//     */
-//    private static boolean gameA = false;
-//
-//    /**
-//     * Boolean used to start game_B_Activity intent.
-//     */
-//    private static boolean gameB = false;
-//
-//    /**
-//     * Boolean used to start game_C_Activity intent.
-//     */
-//    private static boolean gameC = false;
-//
-//    private static boolean gameD = false;
-//    /**
-//     * Boolean used to enable the start button.
-//     */
-//    private static boolean enableStart = false;
-//
-//
-//
-//    public static void switchGameD(Boolean b) {
-//        gameD = b;
-//    }
-//    /**
-//     * SwitchGameA allows us to change the gameA boolean.
-//     * This GameA boolean is used to quickly switch to A_Code_Cracker_Pictureview.
-//     * This method is only used for testing.
-//     *
-//     * @param b Boolean.
-//     */
-//    public static void switchGameA(Boolean b) {
-//        gameA = b;
-//    }
-//
-//    /**
-//     * SwitchGameAA allows us to change the gameAA boolean.
-//     * This GameAA boolean is used to quickly switch to A_CodeCrackerCodeview.
-//     * This method is only used for testing.
-//     *
-//     * @param b Boolean.
-//     */
-//    public static void switchGameAA(Boolean b) { gameAA = b; }
-//
-//    /**
-//     * SwitchGameB allows us to change the gameB boolean.
-//     * This GameB boolean is used to quickly switch to B_TapGame.
-//     * This method is only used for testing.
-//     *
-//     * @param b Boolean.
-//     */
-//    public static void switchGameB(Boolean b) { gameB = b; }
-//
-//    /**
-//     * SwitchGameB allows us to change the gameB boolean.
-//     * This GameB boolean is used to quickly switch to B_TapGame.
-//     * This method is only used for testing.
-//     *
-//     * @param b Boolean.
-//     */
-//    public static void switchGameC(Boolean b) { gameC = b; }
-//
-//    /**
-//     * SwitchGameA allows us to change the enableStart boolean.
-//     * This enableStart boolean is used to set the startbutton to enabled
-//     * so it can be tested. This method is only used for testing.
-//     *
-//     * @param b Boolean.
-//     */
-//    public static void switchStart(Boolean b) { enableStart = b; }
-//
-//    /**
-//     * CheckConditions is a method used for testing only. for testing purposes we need to
-//     * be able to switch between activities quickly. checkConditions enables us to do that.
-//     */
-//    private void checkConditions() {
-//        if(gameAA == true) {
-//            Intent dialogIntent = new Intent(this, A_CodeCrackerCodeview.class);
-//            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(dialogIntent);
-//
-//        }
-//        if(gameA == true) {
-//            Intent dialogIntent = new Intent(this, A_Code_Cracker_Pictureview.class);
-//            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(dialogIntent);
-//        }
-//        if(gameB == true) {
-//            Intent dialogIntent = new Intent(this, B_TapGame.class);
-//            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(dialogIntent);
-//        }
-//
-//        if(gameC == true) {
-//            Intent dialogIntent = new Intent(this, C_ColorSequence.class);
-//            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(dialogIntent);
-//        }
-//        if(gameD == true) {
-//            Intent dialogIntent = new Intent(this, D_Gyroscope.class);
-//            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(dialogIntent);
-//        }
-//
-//        if(enableStart == true){
-//            Button start = (Button) findViewById(R.id.startButton);
-//            start.setEnabled(true);
-//        }
-//
-//
-//    }
-
 }

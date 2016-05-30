@@ -53,15 +53,18 @@ public class A_CodeCrackerCodeviewTest  extends
      */
     @Test
     public void testclickPicButton() {
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.acode;
+        //enable and switch to the A_CodeCrackerCodeview class.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
         Button buttonConnect = (Button) solo.getView(R.id.connectButton);
         solo.clickOnView(buttonConnect);
 
+        //click the pic button
         Button picButton = (Button) solo.getView(R.id.picButton);
         solo.clickOnView(picButton);
 
+        //assert that we are now in the A_Code_Cracker_Pictureview activity.
         solo.assertCurrentActivity("should be pictureView", A_Code_Cracker_Pictureview.class);
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
+
 
     }
 
@@ -71,7 +74,9 @@ public class A_CodeCrackerCodeviewTest  extends
      */
     @Test
     public void testWrongAnswer() {
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.acode;
+
+        //enable and switch to the A_CodeCrackerCodeview class.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
         Button buttonConnect = (Button) solo.getView(R.id.connectButton);
         solo.clickOnView(buttonConnect);
 
@@ -83,20 +88,14 @@ public class A_CodeCrackerCodeviewTest  extends
         Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
         solo.clickOnView(buttonVerify);
 
-        //Check if the verifyMessage view is visible(only becomes visible)
-        //if we have filled in a wrong answer.
-        //TextView verify = (TextView) solo.getView(R.id.verifyMessage);
-        //assertEquals("view should be visible", verify.getVisibility(), View.VISIBLE);
-
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        //assert that the number of attempts is now 1.
         assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
-
     }
 
     /**
@@ -106,7 +105,7 @@ public class A_CodeCrackerCodeviewTest  extends
     @Test
     public void testRightAnswer() {
         //Switch from MainActivity to A_CodeCrackerCodeView.
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.acode;
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
         A_CodeCrackerCodeview.enableTesting(true);
         Button buttonConnect = (Button) solo.getView(R.id.connectButton);
         solo.clickOnView(buttonConnect);
@@ -119,9 +118,6 @@ public class A_CodeCrackerCodeviewTest  extends
         //Hide the android keyboard.
         solo.hideSoftKeyboard();
 
-        //Temporarily switch of serviceIsBound.
-        //A_CodeCrackerCodeview.setServiceIsBound(false);
-
         //Click the verify button of A_CodeCrackerCodeView when
         //we have the right answer filled in.
         Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
@@ -130,10 +126,7 @@ public class A_CodeCrackerCodeviewTest  extends
         //Assert we are now in the WaitingActivity class.
         solo.assertCurrentActivity("should be waiting", WaitingActivity.class);
 
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
         A_CodeCrackerCodeview.enableTesting(false);
-
-        // A_CodeCrackerCodeview.setServiceIsBound(true);
     }
 
 

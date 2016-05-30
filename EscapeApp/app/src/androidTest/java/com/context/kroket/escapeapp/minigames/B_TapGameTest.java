@@ -37,13 +37,9 @@ public class B_TapGameTest {
 
     @Before
     public void setUp() {
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.btap;
+        //Switch from MainActivity to B_TapGame class.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.btap;
         onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
-    }
-
-    @After
-    public void tearDown() {
-        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
     }
 
     /**
@@ -51,14 +47,11 @@ public class B_TapGameTest {
      */
     @Test
     public void clickStartButtonOnce() {
-
-
         //Click the start button.
         onView(withId(R.id.clickButton)).perform(click());
 
         //Check if the start button's text has been updated.
         onView(withId(R.id.clickButton)).check(matches(withText("CLICK ME!")));
-
     }
 
     /**
@@ -66,7 +59,6 @@ public class B_TapGameTest {
      */
     @Test
     public void clickStartButtonTwice() {
-
         //Double click the start button.
         onView(withId(R.id.clickButton)).perform(doubleClick());
 
