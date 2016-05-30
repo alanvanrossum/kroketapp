@@ -23,6 +23,8 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 import java.util.Random;
 
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
+    public boolean setCoins = false;
+
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
 
@@ -132,24 +134,25 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 
         placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
         //Change the current activity.
+
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
 
-    public static void setTestValues(int gx, int gy, int sx, int sy, int bx, int by) {
-        goldXTest = gx;
-        goldYTest = gy;
-        silverXTest = sx;
-        silverYTest = sy;
-        bronzeXTest = bx;
-        bronzeYTest = by;
-    }
-
-    static int goldXTest = 0;
-    static int goldYTest = 0;
-    static int silverXTest = 0;
-    static int silverYTest = 0;
-    static int bronzeXTest = 0;
-    static int bronzeYTest = 0;
+//    public static void setTestValues(int gx, int gy, int sx, int sy, int bx, int by) {
+//        goldXTest = gx;
+//        goldYTest = gy;
+//        silverXTest = sx;
+//        silverYTest = sy;
+//        bronzeXTest = bx;
+//        bronzeYTest = by;
+//    }
+//
+//    static int goldXTest = 0;
+//    static int goldYTest = 0;
+//    static int silverXTest = 0;
+//    static int silverYTest = 0;
+//    static int bronzeXTest = 0;
+//    static int bronzeYTest = 0;
 
 //    public static void setRanges() {
 //        goldX = goldXTest;
