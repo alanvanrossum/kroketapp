@@ -38,7 +38,7 @@ public class E_Squasher extends AppCompatActivity {
             public void onClick(View arg0){
                 squashCount++;
                 tv=(TextView)findViewById(R.id.squashtext);
-              
+
                 tv.setText("Bugs squashed: "+squashCount);
                 setRandomBugLocation();
             }
@@ -52,7 +52,21 @@ public class E_Squasher extends AppCompatActivity {
         int newY = rand.nextInt((int)screenHeight);
         bugButton.setX(newX);
         bugButton.setY(newY);
+        setRandomImageSource();
         setRandomBugRotation();
+    }
+
+    private void setRandomImageSource() {
+        Random rand=new Random();
+        switch(rand.nextInt(3)){
+            case 0:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.spider,getApplicationContext().getTheme()));
+                break;
+            case 1:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.bug,getApplicationContext().getTheme()));
+                break;
+            case 2:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.beetle,getApplicationContext().getTheme()));
+
+        }
+
     }
 
     private void setRandomBugRotation() {
