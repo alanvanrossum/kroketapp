@@ -2,6 +2,7 @@ package com.context.kroket.escapeapp.network;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -13,6 +14,7 @@ import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This service is responsible for registering players by sending information
@@ -24,7 +26,9 @@ public class ConnectionService extends Service {
     private static ArrayList<String> list;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
-    public String colorSeq;
+    //public String colorSeq;
+    //public ArrayList<Color> colorSeq;
+    public HashMap<String, String> colorCommand;
 
     /**
      * Called by the system every time a client explicitly starts the service.
@@ -109,7 +113,7 @@ public class ConnectionService extends Service {
                 Thread.sleep(1000);
                 Intent in = new Intent();
                 in.setAction("colorBroadcast");
-                in.putExtra("colorSequence", colorSeq);
+                in.putExtra("colorSequence", colorCommand);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -209,28 +213,32 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
-            parseInput(input);
+            System.out.println("Received: " + input);
+
+
+            HashMap<String, String> command = CommandParser.parseInput(input);
+            parseInput(command);
         }
 
         /**
          * Parses the input received from the server.
          *
-         * @param input the input received.
+         * @param command the hashmap which contains the parsed input.
          */
-        public void parseInput(String input) {
-            String init = "INITM[";
-            if (input.startsWith(init)) {
-                int pos = input.indexOf(']');
-                String action = input.substring(init.length(), pos);
+        public void parseInput(HashMap<String, String> command) {
+
+            //Command is for the mobile client
+            if (command.get("command").equals("INITM")) {
+
+                String action = command.get("param_0");
 
                 //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
-                    Class minigameclass = getMinigameClassFromInput(action);
+                    Class minigameclass = getMinigameClassFromInput(action, command);
                     startMinigame(minigameclass);
                 } else if (action.contentEquals("minigameDone")) {
                     endMinigame();
                 }
-
             }
         }
 
@@ -239,17 +247,16 @@ public class ConnectionService extends Service {
          * @param action the received action.
          * @return the class corresponding to the action.
          */
-        public Class getMinigameClassFromInput(String action) {
+        public Class getMinigameClassFromInput(String action, HashMap<String, String> command) {
             Class minigameclass = null;
             if (action.contentEquals("startA")) {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (action.contentEquals("startB")) {
                 minigameclass = B_TapGame.class;
-            //} else if (action.substring(0,6).contentEquals("startC")) {
-            } else if (action.startsWith("startC[")) {
-                //After the startC[ the color sequence is present.
-                colorSeq = action.substring("startC[".length());
+            } else if (action.contentEquals("startC")) {
                 minigameclass = C_ColorSequence.class;
+                //Set the command for the colorSequence, to be broadcasted later on.
+                colorCommand = command;
             }
             return minigameclass;
         }
