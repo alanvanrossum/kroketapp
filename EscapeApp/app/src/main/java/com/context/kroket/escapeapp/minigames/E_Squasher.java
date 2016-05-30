@@ -58,12 +58,17 @@ public class E_Squasher extends AppCompatActivity {
 
     private void setRandomImageSource() {
         Random rand=new Random();
-        switch(rand.nextInt(3)){
+        switch(rand.nextInt(5)){
             case 0:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.spider,getApplicationContext().getTheme()));
                 break;
             case 1:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.bug,getApplicationContext().getTheme()));
                 break;
             case 2:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.beetle,getApplicationContext().getTheme()));
+                break;
+            case 3:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.mosquito,getApplicationContext().getTheme()));
+                break;
+            case 4:  bugButton.setImageDrawable(getResources().getDrawable(R.drawable.sowbug,getApplicationContext().getTheme()));
+                break;
 
         }
 
