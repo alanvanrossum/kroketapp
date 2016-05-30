@@ -25,9 +25,10 @@ import java.util.Random;
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
-    private ImageView gyro,gold,silver,bronze;
-    float screenWidth,screenHeight,gyroWidth,gyroHeight,coinWidth,coinHeight;
-    private int goldCount,silverCount,bronzeCount;
+    private ImageView gyro;
+    float screenWidth,screenHeight,gyroWidth,gyroHeight,minX,maxX,minY,maxY;
+    private Coin gold, silver, bronze;
+
 //travis
     @Override
     public void onSensorChanged(SensorEvent event){
@@ -38,55 +39,22 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 
         float oldX = gyro.getX();
         float oldY = gyro.getY();
-
-        gyro.setX(oldX+event.values[0]*-35);
-        gyro.setY(oldY+event.values[1]*35);
-        float newX = gyro.getX();
-        float newY = gyro.getY();
-
-        float minX = 0;
-        float maxX = screenWidth-gyroWidth;
-        float minY = 0;
-        float maxY = screenHeight-gyroHeight;
-
-        if(newX<minX){
-           gyro.setX(minX);
-        }
-        if(newX>maxX){
-            gyro.setX(maxX);
-        }
-        if(newY<minY){
-            gyro.setY(minY);
-        }
-        if(newY>maxY){
-            gyro.setY(maxY);
-        }
+        gyro.setX(clamp((oldX+event.values[0]*-35),minX,maxX));
+        gyro.setY(clamp((oldY+event.values[1]*35),minY,maxY));
         collide();
+    }
+    private float clamp(float value, float min,float max){
+        if(value<min)
+            return min;
+        if(value>max)
+            return max;
+        return value;
     }
 
     private void collide() {
-        if(collideWith(gold)){
-            goldCount++;
-            System.out.println("goldcoins are now: "+ goldCount);
-            placeCoinsRandomly();
-        } else if(collideWith(silver)){
-            silverCount++;
-            System.out.println("silver coins are now: "+ silverCount);
-
-            placeCoinsRandomly();
-        } else if(collideWith(bronze)){
-            bronzeCount++;
-            System.out.println("bronze coins are now: "+ bronzeCount);
-
+        if(gold.collideWithGyro(gyro.getX(),gyro.getY())||silver.collideWithGyro(gyro.getX(),gyro.getY())||bronze.collideWithGyro(gyro.getX(),gyro.getY())){
             placeCoinsRandomly();
         }
-    }
-
-    private boolean collideWith(ImageView coin) {
-        if(Math.abs(coin.getX()-gyro.getX())<50 &&Math.abs(coin.getY()-gyro.getY())<50){
-            return true;
-        }
-        return false;
     }
 
     private void placeCoinsRandomly(){
@@ -99,60 +67,10 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         Random rand = new Random();
         int xRange = Math.round(screenWidth-3*gyroWidth);
         int yRange = Math.round(screenHeight-3*gyroHeight);
-        //test
-        //
-        int goldX = rand.nextInt(xRange);
-        int goldY = rand.nextInt(yRange);
-        if(goldX>gyroX-gyroWidth){
-            goldX+=3*gyroWidth;
-        }
-        if(goldY>gyroY-gyroHeight){
-            goldY+=3*gyroHeight;
-        }
-        int silverX = rand.nextInt(xRange);
-        int silverY = rand.nextInt(yRange);
-        if(silverX>gyroX-gyroWidth){
-            silverX+=3*gyroWidth;
-        }
-        if(silverY>gyroY-gyroHeight){
-            silverY+=3*gyroHeight;
-        }
-//        if(silverY>gyroY-gyroHeight){
-//            silverY+=3*gyroHeight;
-//        }
-//        if(silverY>goldY){
-//            silverY+=coinHeight;
-//        }
-        int bronzeX = rand.nextInt(xRange);
-        int bronzeY = rand.nextInt(yRange);
-        if(bronzeX>gyroX-gyroWidth){
-            bronzeX+=3*gyroWidth;
-        }
-//        if(bronzeX>goldX){
-//            bronzeX+=coinWidth;
-//        }
-//        if(bronzeX>silverX){
-//            bronzeX+=coinWidth;
-//        }
-        if(bronzeY>gyroY-gyroHeight){
-            bronzeY+=3*gyroHeight;
-        }
-//        if(bronzeY>goldY){
-//            bronzeY+=coinHeight;
-//        }
-//        if(bronzeY>silverY){
-//            bronzeY+=coinHeight;
-//        }
 
-        gold.setX(goldX);
-        gold.setY(goldY);
-        silver.setX(silverX);
-        silver.setY(silverY);
-        bronze.setX(bronzeX);
-        bronze.setY(bronzeY);
-
-
-
+        gold.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
+        silver.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
+        bronze.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
     }
 
     @Override
@@ -165,15 +83,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
-        goldCount=0;
-        silverCount=0;
-        bronzeCount=0;
-
-        //set screenwidth/height
-
-
-
-    }
+  }
 
 
 
@@ -187,14 +97,18 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         screenWidth = metrics.widthPixels-30;
 
         //set the coins
-        gold = (ImageView) findViewById(R.id.goldcoin);
-        silver = (ImageView) findViewById(R.id.silvercoin);
-        bronze = (ImageView) findViewById(R.id.bronzecoin);
+        gold = new Coin((ImageView) findViewById(R.id.goldcoin));
+        silver = new Coin((ImageView) findViewById(R.id.silvercoin));
+        bronze = new Coin((ImageView) findViewById(R.id.bronzecoin));
         gyro = (ImageView) findViewById(R.id.gyroimage);
         gyroWidth=50;
         gyroHeight=50;
-        coinWidth=50;
-        coinHeight=50;
+
+        minX = 0;
+        maxX = screenWidth-gyroWidth;
+        minY = 0;
+        maxY = screenHeight-gyroHeight;
+
         placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
