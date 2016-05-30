@@ -76,20 +76,6 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         silver.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
         bronze.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
     }
-//    public static void setCollision(float x, float y) {
-//        gold.setX(gyro.getX());
-//        gold.setY(gyro.getY());
-//        //silver.setX(x);
-//        //silver.setY(y);
-//        //bronze.setX(x);
-//        //bronze.setY(y);
-//        try {
-//            Thread.sleep(500);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        collide();
-//    }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
@@ -102,11 +88,6 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
   }
-
-
-//    public static int getCount() {
-//        return count;
-//    }
 
     @Override
     protected void onStart() {
@@ -134,108 +115,4 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
-
-    public static void setTestValues(int gx, int gy, int sx, int sy, int bx, int by) {
-        goldXTest = gx;
-        goldYTest = gy;
-        silverXTest = sx;
-        silverYTest = sy;
-        bronzeXTest = bx;
-        bronzeYTest = by;
-    }
-
-    static int goldXTest = 0;
-    static int goldYTest = 0;
-    static int silverXTest = 0;
-    static int silverYTest = 0;
-    static int bronzeXTest = 0;
-    static int bronzeYTest = 0;
-
-//    public static void setRanges() {
-//        goldX = goldXTest;
-//        goldY = goldYTest;
-//        silverX = silverXTest;
-//        silverY = silverYTest;
-//        bronzeX = bronzeXTest;
-//        bronzeY = bronzeYTest;
-//    }
-//
-//    public static void setTrue() {
-//        testing = true;
-//    }
-//    public static int getGoldX() {
-//        return goldX;
-//    }
-//    public static int getGoldY() {
-//        return goldY;
-//    }
-//    public static int getSilverX() {
-//        return silverX;
-//    }
-//    public static int getSilverY() {
-//        return silverY;
-//    }
-//    public static int getBronzeX() {
-//        return bronzeX;
-//    }
-//    public static int getBronzeY() {
-//        return bronzeY;
-//    }
-//    public static ImageView getSilver() {
-//        return silver;
-//    }
-//
-//    public static float getGyroX() {
-//        return gyro.getX();
-//    }
-//
-//    public static float getGyroY() {
-//        return gyro.getY();
-//    }
-//
-//    public static void setGold(float xcoord, float ycoord) {
-//        gold.setX(xcoord);
-//        gold.setY(ycoord);
-//    }
-//    public static void setSilver(float xcoord, float ycoord) {
-//        silver.setX(xcoord);
-//        silver.setY(ycoord);
-//    }
-//    public static void setBronze(float xcoord, float ycoord) {
-//        bronze.setX(xcoord);
-//        bronze.setY(ycoord);
-//    }
-//
-//    public static int getGoldCount() {
-//        return goldCount;
-//    }
-//
-//    public static int getSilverCount() {
-//        return silverCount;
-//    }
-//
-//    public static int getBronzeCount() {
-//        return bronzeCount;
-//    }
-//
-//    public static void setUpCollisionGold() {
-//        gold.setX(gyro.getX());
-//        gold.setY(gyro.getY());
-//    }
-//
-//    public static void setCollisionGold(boolean b) {
-//        collisionGold = b;
-//    }
-//    public static void setCollisionSilver(boolean b) {
-//        collisionSilver = b;
-//    }
-//    public static void setCollisionBronze(boolean b) {
-//        collisionBronze = b;
-//    }
-//    public static boolean collisionGold = false;
-//    public static boolean collisionSilver = false;
-//    public static boolean collisionBronze = false;
-//    public static void resetCount() {
-//        count = 0;
-//    }
 }

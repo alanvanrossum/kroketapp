@@ -44,6 +44,25 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
         solo = new Solo(getInstrumentation(), getActivity());
     }
 
+
+    /**
+     * Method checks the functionality of A_CodeCrackerCodeview pic button.
+     */
+    @Test
+    public void clickPicButton() {
+        //Switch from MainActivity to A_CodeCrackerCodeView.
+
+        MainActivity.switchGameAA(true);
+        Button buttonConnect = (Button) solo.getView(R.id.connectButton);
+        solo.clickOnView(buttonConnect);
+
+        Button picButton = (Button) solo.getView(R.id.picButton);
+        solo.clickOnView(picButton);
+
+        solo.assertCurrentActivity("should be pictureView", A_Code_Cracker_Pictureview.class);
+
+    }
+
     /**
      * The method checks to see what happens when we enter the wrong
      * answer in A_CodeCrackerCodeView.
@@ -51,6 +70,7 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
     @Test
     public void testWrongAnswer() {
         //Switch from MainActivity to A_CodeCrackerCodeView.
+
         MainActivity.switchGameAA(true);
         Button buttonConnect = (Button) solo.getView(R.id.connectButton);
         solo.clickOnView(buttonConnect);
@@ -69,10 +89,11 @@ public class A_CodeCrackerCodeviewVerifyTest  extends
         //assertEquals("view should be visible", verify.getVisibility(), View.VISIBLE);
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
         MainActivity.switchGameAA(false);
     }
