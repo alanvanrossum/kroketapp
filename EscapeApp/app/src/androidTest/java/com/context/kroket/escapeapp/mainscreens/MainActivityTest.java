@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -35,7 +36,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
  */
 public class MainActivityTest{
 
-    //private Solo solo;
 
 
     @Rule
@@ -78,15 +78,18 @@ public class MainActivityTest{
     @Test
     public void clickStartButtonTest() {
         //Enable the start button.
-        MainActivity.switchStart(true);
+        //MainActivity.switchStart(true);
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.startEn;
         onView(withId(R.id.connectButton)).perform(click());
 
         //Click the start button.
         onView(withId(R.id.startButton)).perform(click());
 
         //Check if we started a waiting activity.
-        intended(hasComponent(hasShortClassName(".mainscreens.WaitingActivity")));
-        MainActivity.switchStart(false);
+        onView(withId(R.id.waiting)).check(matches(isDisplayed()));
+        //intended(hasComponent(hasShortClassName(".mainscreens.WaitingActivity")));
+        //MainActivity.switchStart(false);
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
     }
 
 }

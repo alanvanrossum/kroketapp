@@ -12,6 +12,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,14 +37,24 @@ public class A_CodeCrackerPictureviewTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+    @Before
+    public void setUp() {
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.apic;
+
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+    }
+
+    @After
+    public void tearDown() {
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
+    }
+
     /**
      * Method checks the functionality of A_Code_Cracker_Pictureview code button.
      */
     @Test
     public void clickCodeButton() {
-        //Switch from MainActivity to A_Code_Cracker_Pictureview.
-        MainActivity.switchGameA(true);
-        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+
 
         //Click the code button.
         onView(withId(R.id.codeButton)).perform(click());
@@ -51,8 +63,8 @@ public class A_CodeCrackerPictureviewTest {
         //If the switch didn't succeed we wouldn't be able to access the verify button.
         onView(withId(R.id.verifyButton)).check(matches(isDisplayed()));
 
-        //intended(hasComponent(hasShortClassName(".A_CodeCrackerCodeview")));
 
-        MainActivity.switchGameA(false);
     }
+
+
 }

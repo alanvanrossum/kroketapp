@@ -10,6 +10,8 @@ import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
 import junit.framework.Assert;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,13 +34,25 @@ public class C_ColorSequenceTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+    @Before
+    public void setUp(){
+        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.csequence;
+        onView(withId(R.id.connectButton)).perform(click());
+
+    }
+
+    @After
+    public void tearDown() {
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
+    }
     /**
      * Check if the parseColors method functions correctly.
      */
     @Test
     public void testParseColors() {
         //Parse a stream of colors.
-        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
+        //C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
         ArrayList<Integer> parsedArrayList = C_ColorSequence.getSequence();
 
         //Create an ArrayList testArrayList with the same
@@ -59,12 +73,13 @@ public class C_ColorSequenceTest {
      */
     @Test
     public void testStart() {
-        //Parse in a stream of colors.
-        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
-
-        //Switch to C_ColorSequence activity.
-        MainActivity.switchGameC(true);
-        onView(withId(R.id.connectButton)).perform(click());
+//        //Parse in a stream of colors.
+//        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
+//
+//        //Switch to C_ColorSequence activity.
+//        //MainActivity.switchGameC(true);
+//
+//        onView(withId(R.id.connectButton)).perform(click());
 
         //Click the startC button.
         onView(withId(R.id.startC)).perform(click());
@@ -72,6 +87,6 @@ public class C_ColorSequenceTest {
         //Assert we have made one runtrough meaning the color stream
         //has been shown once successfully.
         assertTrue(C_ColorSequence.getRunthroughs() == 1);
-        MainActivity.switchGameC(false);
+
     }
 }

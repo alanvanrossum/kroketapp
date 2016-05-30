@@ -11,6 +11,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,21 +35,30 @@ public class B_TapGameTest {
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
 
+    @Before
+    public void setUp() {
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.btap;
+        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+    }
+
+    @After
+    public void tearDown() {
+        MainActivity.TestActivtiy = MainActivity.ActivitySwitch.notest;
+    }
+
     /**
      * Method checks the functionality of clicking the B_TapGame start button once.
      */
     @Test
     public void clickStartButtonOnce() {
-        //Switch from MainActivity to B_TapGame.
-        MainActivity.switchGameB(true);
-        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+
 
         //Click the start button.
         onView(withId(R.id.clickButton)).perform(click());
 
         //Check if the start button's text has been updated.
         onView(withId(R.id.clickButton)).check(matches(withText("CLICK ME!")));
-        MainActivity.switchGameB(false);
+
     }
 
     /**
@@ -55,9 +66,6 @@ public class B_TapGameTest {
      */
     @Test
     public void clickStartButtonTwice() {
-        //Switch from MainActivity to B_TapGame.
-        MainActivity.switchGameB(true);
-        onView(withId(R.id.connectButton)).perform(click());
 
         //Double click the start button.
         onView(withId(R.id.clickButton)).perform(doubleClick());
@@ -65,6 +73,6 @@ public class B_TapGameTest {
         //Check if the amount text has been updated to Times clicked: 1.
         //This only happens if you press the button twice.
         onView(withId(R.id.amount)).check(matches(withText("Times clicked: 1")));
-        MainActivity.switchGameB(false);
+
     }
 }
