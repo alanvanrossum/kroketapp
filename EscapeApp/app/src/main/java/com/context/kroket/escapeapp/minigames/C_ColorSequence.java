@@ -14,8 +14,8 @@ import android.view.View;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.network.CommandParser;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -88,15 +88,15 @@ public class C_ColorSequence extends AppCompatActivity {
     /**
      * Put the command with colors in an arraylist.
      *
-     * @param command the command with the colorsequence as parameters.
+     * @param params the parameters of the command, which contains the colors.
      */
-    public static void parseColors(HashMap<String, String> command) {
+    public static void parseColors(ArrayList<String> params) {
         colorSequence = new ArrayList<Integer>();
 
-        int pointer = 1;
-        while (command.containsKey(String.format("param_%d", pointer))) {
+        int pointer = 0;
+        while (pointer < params.size()) {
 
-            String colorString = command.get(String.format("param_%d", pointer));
+            String colorString = params.get(pointer);
             int color;
             switch (colorString) {
                 case "RED": colorSequence.add(Color.RED);
@@ -154,8 +154,8 @@ public class C_ColorSequence extends AppCompatActivity {
          */
         @Override
         public void onReceive(Context context, Intent intent) {
-            HashMap<String, String> colorCommand = (HashMap<String, String>) intent.getExtras().get("colorSequence");
-            parseColors(colorCommand);
+            ArrayList<String> params = (ArrayList<String>) intent.getExtras().get("colorSequence");
+            parseColors(params);
         }
     }
 

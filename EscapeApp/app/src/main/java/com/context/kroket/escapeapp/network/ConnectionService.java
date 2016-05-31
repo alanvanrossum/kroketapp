@@ -15,6 +15,7 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This service is responsible for registering players by sending information
@@ -24,7 +25,7 @@ public class ConnectionService extends Service {
 
     private static GameClient tcpClient;
     private static ArrayList<String> list;
-    public HashMap<String, String> colorCommand;
+    public ArrayList<String> colorParams;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
 
@@ -111,7 +112,7 @@ public class ConnectionService extends Service {
                 Thread.sleep(1000);
                 Intent in = new Intent();
                 in.setAction("colorBroadcast");
-                in.putExtra("colorSequence", colorCommand);
+                in.putExtra("colorSequence", colorParams);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -211,11 +212,8 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
-            System.out.println("Received: " + input);
-
-
             HashMap<String, String> command = CommandParser.parseInput(input);
-            parseInput(command);
+            parseInput(command, input);
         }
 
         /**
@@ -223,7 +221,7 @@ public class ConnectionService extends Service {
          *
          * @param command the hashmap which contains the parsed input.
          */
-        public void parseInput(HashMap<String, String> command) {
+        public void parseInput(HashMap<String, String> command, String input) {
 
             //Command is for the mobile client
             if (command.get("command").equals("INITM")) {
@@ -232,7 +230,7 @@ public class ConnectionService extends Service {
 
                 //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
-                    Class minigameclass = getMinigameClassFromInput(action, command);
+                    Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
                     startMinigame(minigameclass);
                 } else if (action.contentEquals("minigameDone")) {
                     endMinigame();
@@ -245,7 +243,7 @@ public class ConnectionService extends Service {
          * @param action the received action.
          * @return the class corresponding to the action.
          */
-        public Class getMinigameClassFromInput(String action, HashMap<String, String> command) {
+        public Class getMinigameClassFromInput(String action, ArrayList<String> params) {
             Class minigameclass = null;
             if (action.contentEquals("startA")) {
                 minigameclass = A_CodeCrackerCodeview.class;
@@ -254,7 +252,7 @@ public class ConnectionService extends Service {
             } else if (action.contentEquals("startC")) {
                 minigameclass = C_ColorSequence.class;
                 //Set the command for the colorSequence, to be broadcasted later on.
-                colorCommand = command;
+                colorParams = params;
             }
             return minigameclass;
         }

@@ -68,11 +68,11 @@ public class CommandParser {
      *          the raw input
      * @return list of all parameters
      */
-    public static List<String> parseParams(String input) {
+    public static ArrayList<String> parseParams(String input) {
         // because there potentially could be many occurences
         // we use regular expressions here
 
-        List<String> paramList = new ArrayList<String>();
+        ArrayList<String> paramList = new ArrayList<String>();
 
         Matcher matcher = paramPattern.matcher(input);
         while (matcher.find()) {
