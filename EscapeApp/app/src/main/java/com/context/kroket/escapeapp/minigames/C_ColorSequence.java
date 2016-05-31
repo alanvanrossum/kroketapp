@@ -14,8 +14,10 @@ import android.view.View;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
+import com.context.kroket.escapeapp.network.CommandParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class C_ColorSequence extends AppCompatActivity {
 
@@ -84,28 +86,19 @@ public class C_ColorSequence extends AppCompatActivity {
     }
 
     /**
-     * Put the string with colors in an arraylist.
+     * Put the command with colors in an arraylist.
      *
-     * @param c the string with colors.
+     * @param params the parameters of the command, which contains the colors.
      */
-    public static void parseColors(String c) {
+    public static void parseColors(ArrayList<String> params) {
         colorSequence = new ArrayList<Integer>();
-        String colors = c;
-        String curCol = colors;
-        int ind;
 
-        while (!colors.equals("")) {
-            ind = colors.indexOf(",");
+        int pointer = 0;
+        while (pointer < params.size()) {
 
-            if (ind != -1) {
-                curCol = colors.substring(0,ind);
-                colors = colors.substring(ind + 1);
-            } else {
-                curCol = colors;
-                colors = "";
-            }
-
-            switch (curCol) {
+            String colorString = params.get(pointer);
+            int color;
+            switch (colorString) {
                 case "RED": colorSequence.add(Color.RED);
                     break;
                 case "GREEN": colorSequence.add(Color.GREEN);
@@ -115,6 +108,7 @@ public class C_ColorSequence extends AppCompatActivity {
                 case "YELLOW":  colorSequence.add(Color.YELLOW);
                     break;
             }
+            pointer++;
         }
 
         //Add white at the end, so the screen becomes white again.
@@ -160,9 +154,8 @@ public class C_ColorSequence extends AppCompatActivity {
          */
         @Override
         public void onReceive(Context context, Intent intent) {
-            String colors = intent.getStringExtra("colorSequence");
-            System.out.println("colors received " + colors);
-            parseColors(colors);
+            ArrayList<String> params = (ArrayList<String>) intent.getExtras().get("colorSequence");
+            parseColors(params);
         }
     }
 

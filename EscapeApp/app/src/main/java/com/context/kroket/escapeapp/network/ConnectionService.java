@@ -2,6 +2,7 @@ package com.context.kroket.escapeapp.network;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -13,6 +14,8 @@ import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This service is responsible for registering players by sending information
@@ -22,9 +25,9 @@ public class ConnectionService extends Service {
 
     private static GameClient tcpClient;
     private static ArrayList<String> list;
+    public ArrayList<String> colorParams;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
-    public String colorSeq;
 
     /**
      * Called by the system every time a client explicitly starts the service.
@@ -88,9 +91,11 @@ public class ConnectionService extends Service {
         }
 
         //start the activity belonging to the minigame
-        Intent dialogIntent = new Intent(this, minigameclass);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
+        if (minigameclass != null) {
+            Intent dialogIntent = new Intent(this, minigameclass);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
     }
 
     /**
@@ -107,7 +112,7 @@ public class ConnectionService extends Service {
                 Thread.sleep(1000);
                 Intent in = new Intent();
                 in.setAction("colorBroadcast");
-                in.putExtra("colorSequence", colorSeq);
+                in.putExtra("colorSequence", colorParams);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -207,27 +212,29 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
-            parseInput(input);
+            HashMap<String, String> command = CommandParser.parseInput(input);
+            parseInput(command, input);
         }
 
         /**
          * Parses the input received from the server.
          *
-         * @param input the input received.
+         * @param command the hashmap which contains the parsed input.
          */
-        public void parseInput(String input) {
-            if (input.startsWith("INITM[")) {
-                int pos = input.indexOf(']');
-                String action = input.substring(6, pos);
+        public void parseInput(HashMap<String, String> command, String input) {
+
+            //Command is for the mobile client
+            if (command.get("command").equals("INITM")) {
+
+                String action = command.get("param_0");
 
                 //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
-                    Class minigameclass = getMinigameClassFromInput(action);
+                    Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
                     startMinigame(minigameclass);
                 } else if (action.contentEquals("minigameDone")) {
                     endMinigame();
                 }
-
             }
         }
 
@@ -236,15 +243,16 @@ public class ConnectionService extends Service {
          * @param action the received action.
          * @return the class corresponding to the action.
          */
-        public Class getMinigameClassFromInput(String action) {
+        public Class getMinigameClassFromInput(String action, ArrayList<String> params) {
             Class minigameclass = null;
             if (action.contentEquals("startA")) {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (action.contentEquals("startB")) {
                 minigameclass = B_TapGame.class;
-            } else if (action.substring(0,6).contentEquals("startC")) {
-                colorSeq = action.substring(7);
+            } else if (action.contentEquals("startC")) {
                 minigameclass = C_ColorSequence.class;
+                //Set the command for the colorSequence, to be broadcasted later on.
+                colorParams = params;
             }
             return minigameclass;
         }

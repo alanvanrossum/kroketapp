@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
+import com.context.kroket.escapeapp.network.CommandParser;
 
 import junit.framework.Assert;
 
@@ -17,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -37,7 +39,14 @@ public class C_ColorSequenceTest {
     @Before
     public void setUp(){
         //add a ColorSequence and switch to C_ColorSequence activity.
-        C_ColorSequence.parseColors("RED,BLUE,YELLOW,GREEN");
+        ArrayList<String> parsedArrayList = new ArrayList<String>();
+        parsedArrayList.add("RED");
+        parsedArrayList.add("BLUE");
+        parsedArrayList.add("YELLOW");
+        parsedArrayList.add("GREEN");
+
+        C_ColorSequence.parseColors(parsedArrayList);
+
         MainActivity.TestActivity = MainActivity.ActivitySwitch.csequence;
         onView(withId(R.id.connectButton)).perform(click());
 
@@ -49,7 +58,7 @@ public class C_ColorSequenceTest {
     @Test
     public void testParseColors() {
         //parsedArrayList is the colorSequence we parsed in.
-        ArrayList<Integer> parsedArrayList = C_ColorSequence.getSequence();
+        ArrayList<Integer> parsedArrayListInteger = C_ColorSequence.getSequence();
 
         //Create an ArrayList testArrayList with the same
         //colors as parsedArrayList.
@@ -61,7 +70,7 @@ public class C_ColorSequenceTest {
         testArrayList.add(Color.WHITE);
 
         //Assert the two ArrayLists are equal.
-        Assert.assertEquals(parsedArrayList,testArrayList);
+        Assert.assertEquals(parsedArrayListInteger,testArrayList);
     }
 
     /**
@@ -69,11 +78,11 @@ public class C_ColorSequenceTest {
      */
     @Test
     public void testStart() {
-        //Click the startC button.
-        onView(withId(R.id.startC)).perform(click());
+    //Click the startC button.
+    onView(withId(R.id.startC)).perform(click());
 
-        //Assert we have made one runtrough meaning the color stream
-        //has been shown once successfully.
-        assertTrue(C_ColorSequence.getRunthroughs() == 1);
+    //Assert we have made one runtrough meaning the color stream
+    //has been shown once successfully.
+    assertTrue(C_ColorSequence.getRunthroughs() == 1);
     }
 }

@@ -15,6 +15,7 @@ import com.context.kroket.escapeapp.minigames.A_Code_Cracker_Pictureview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.D_Gyroscope;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
+import com.context.kroket.escapeapp.minigames.E_Squasher;
 
 import com.context.kroket.escapeapp.network.ConnectionService;
 
@@ -93,8 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-//        Intent intent = new Intent(this, D_Gyroscope.class);
- //       startActivity(intent);
+
         Button start = (Button) findViewById(R.id.startButton);
         if (start != null) {
             start.setEnabled(false);
