@@ -36,11 +36,13 @@ script:
   - adb shell input keyevent 82 &
   - sleep 2
   - ./gradlew test 
-  
   - adb shell input keyevent 82 &
   - sleep 2
   - ./gradlew build connectedCheck
 
+after_script:
   - ./gradlew pmd
+  - echo "== PMD_RESULT =="; cat $TEST_DIR/app/build/reports/pmd/pmd.html echo "== END_PMD_RESULT =="
   - ./gradlew checkstyle
   - ./gradlew findbugs 
+  - echo "== FINDBUGS_RESULT =="; $TEST_DIR/app/build/reports/findbugs/findbugs.html echo "== END_FINDBUGS_RESULT =="
