@@ -40,8 +40,8 @@ public class C_ColorSequenceTest {
     @Test
     public void testParseColors() {
         //Parse a stream of colors.
-        HashMap<String, String> command = CommandParser.parseInput("INITM[startC][RED][BLUE][YELLOW][GREEN]");
-        C_ColorSequence.parseColors(command);
+        ArrayList<String> params = CommandParser.parseParams("INITM[startC][RED][BLUE][YELLOW][GREEN]");
+        C_ColorSequence.parseColors(params);
         ArrayList<Integer> parsedArrayList = C_ColorSequence.getSequence();
 
         //Create an ArrayList testArrayList with the same
@@ -63,8 +63,8 @@ public class C_ColorSequenceTest {
     @Test
     public void testStart() {
         //Parse in a stream of colors.
-        HashMap<String, String> command = CommandParser.parseInput("INITM[startC][RED][BLUE][YELLOW][GREEN]");
-        C_ColorSequence.parseColors(command);
+        ArrayList<String> params = CommandParser.parseParams("INITM[startC][RED][BLUE][YELLOW][GREEN]");
+        C_ColorSequence.parseColors(params);
 
         //Switch to C_ColorSequence activity.
         MainActivity.switchGameC(true);
