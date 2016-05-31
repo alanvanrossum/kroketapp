@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         //Intent intent = new Intent(this, E_Squasher.class);
         //startActivity(intent);
+        
         Button start = (Button) findViewById(R.id.startButton);
         if (start != null) {
             start.setEnabled(false);
