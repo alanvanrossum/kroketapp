@@ -26,6 +26,10 @@ android {
             testCoverageEnabled = true
         }
     }
+      
+    lintOptions {
+          abortOnError false
+    }
 
     jacoco {
         version 'jacoco-0.7.6.201602180812'
