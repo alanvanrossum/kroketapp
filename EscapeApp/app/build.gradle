@@ -61,21 +61,8 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
 }
 
-
-apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
-
-check.dependsOn 'checkstyle', 'findbugs', 'pmd'
-
-task checkstyle(type: Checkstyle) {
-    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-
-    classpath = files()
-}
 
 task findbugs(type: FindBugs) {
     ignoreFailures = true
@@ -145,5 +132,68 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "createDebugCoverageReport"
     }
     else {
         executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+    }
+}
+
+
+apply plugin: 'checkstyle'
+
+task checkstyleMain (type: Checkstyle) {
+    ignoreFailures = false
+    showViolations = false
+    source 'src/main', 'src/release'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    reports {
+        xml.destination "$project.buildDir/reports/checkstyle/main.xml"
+    }
+    classpath = files()
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+}
+
+task checkstyleTest (type: Checkstyle){
+    ignoreFailures = false
+    showViolations = false
+    source 'src/androidTest'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    reports {
+        xml.destination "$project.buildDir/reports/checkstyle/test.xml"
+    }
+    classpath = files()
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+}
+
+
+task checkstyleReport << {
+    checkType = project.ext.get("checkType")
+    if (file("$buildDir/reports/checkstyle/${checkType}.xml").exists()) {
+        ant.xslt(in: "$project.buildDir/reports/checkstyle/${checkType}.xml",
+                style:"${rootProject.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
+                out:"$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
+        )
+    }
+}
+
+task checkstyle(dependsOn:['checkstyleMain', 'checkstyleTest']){
+    description 'Runs Checkstyle inspection against Android sourcesets.'
+    group = 'Code Quality'
+}
+
+gradle.taskGraph.afterTask {Task task, TaskState state ->
+    if(state.failure) {
+        if (task.name in ['checkstyleMain', 'checkstyleTest']) {
+            checkstyleReport {
+                def matcher = task.name =~ /^checkstyle(.*)$/
+                if (matcher.matches()) {
+                    project.ext.set("checkType", matcher.group(1).toLowerCase())
+                }
+            }
+            checkstyleReport.execute()
+        }
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
@@ -24,7 +25,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     //The answer to this minigame.
     public final String correctCode = "2719173";
     ConnectionService connectionService;
-    static boolean serviceIsBound = false;
+    boolean serviceIsBound = false;
 
     //Defines callbacks for service binding, used in bindService().
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -107,17 +108,21 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
             //Send message to server that minigame A is finished.
+            if(testing == false){
             if (serviceIsBound) {
-                connectionService.endA();
+               connectionService.endA();
             } else {
                 System.out.println("ConnectionService not bound in CodeCrackerCodeView");
-            }
+            }}
 
             //Go to the waiting screen.
             Intent intent = new Intent(this, WaitingActivity.class);
             startActivity(intent);
         } else {
-            findViewById(R.id.verifyMessage).setVisibility(View.VISIBLE);
+            TextView verifyMessage = (TextView) findViewById(R.id.verifyMessage);//.setVisibility(View.VISIBLE);
+            numberOfAttempts++;
+            verifyMessage.setVisibility(View.VISIBLE);
+            verifyMessage.setText("The answer you entered is incorrect! number of attempts: " + numberOfAttempts);
         }
     }
 
@@ -125,8 +130,12 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     //*********** ONLY USED FOR TESTING PURPOSES ***********//
     //******************************************************//
 
-    public static void setServiceIsBound(Boolean b) {
-        serviceIsBound = b;
+
+    public static boolean testing = false;
+    public static void enableTesting(boolean b) {testing = b;}
+    public static int numberOfAttempts = 0;
+    public static int getNumberOfAttempts() {
+        return numberOfAttempts;
     }
 
 }

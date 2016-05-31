@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -35,7 +36,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
  */
 public class MainActivityTest{
 
-    //private Solo solo;
 
 
     @Rule
@@ -53,40 +53,22 @@ public class MainActivityTest{
         onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));
     }
 
-
-    /**
-     * Test used to see what happens if you enter a name and connect. Code is commented out because
-     * the android app gets timed out. Issue lies probably with the use of intending.
-     */
-    @Test
-    public void clickWithNameTest() {
-//
-//        Intent resultData = new Intent();
-//        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-//        intending(hasComponent(hasShortClassName(".ConnectionService"))).respondWith(result);
-//
-//        onView(withId(R.id.player_name)).perform(typeText("MobileTest"), closeSoftKeyboard());
-//        onView(withId(R.id.connectButton)).perform(click());
-//
-//        onView(withId(R.id.connectionMessage)).check(matches(withText("connected")));
-
-    }
-
     /**
      * Method to see if the start button works correctly.
      */
     @Test
     public void clickStartButtonTest() {
         //Enable the start button.
-        MainActivity.switchStart(true);
-        onView(withId(R.id.connectButton)).perform(click());
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.startEn;
 
-        //Click the start button.
+        onView(withId(R.id.connectButton)).perform(click());
         onView(withId(R.id.startButton)).perform(click());
 
         //Check if we started a waiting activity.
-        intended(hasComponent(hasShortClassName(".mainscreens.WaitingActivity")));
-        MainActivity.switchStart(false);
+        onView(withId(R.id.waiting)).check(matches(isDisplayed()));
+
+
+        //MainActivity.TestActivity = MainActivity.ActivitySwitch.notest;
     }
 
 }

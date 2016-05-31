@@ -11,6 +11,8 @@ import com.context.kroket.escapeapp.network.CommandParser;
 
 import junit.framework.Assert;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,15 +36,29 @@ public class C_ColorSequenceTest {
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
 
+    @Before
+    public void setUp(){
+        //add a ColorSequence and switch to C_ColorSequence activity.
+        ArrayList<String> parsedArrayList = new ArrayList<String>();
+        parsedArrayList.add("RED");
+        parsedArrayList.add("BLUE");
+        parsedArrayList.add("YELLOW");
+        parsedArrayList.add("GREEN");
+
+        C_ColorSequence.parseColors(parsedArrayList);
+
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.csequence;
+        onView(withId(R.id.connectButton)).perform(click());
+
+    }
+
     /**
      * Check if the parseColors method functions correctly.
      */
     @Test
     public void testParseColors() {
-        //Parse a stream of colors.
-        ArrayList<String> params = CommandParser.parseParams("INITM[startC][RED][BLUE][YELLOW][GREEN]");
-        C_ColorSequence.parseColors(params);
-        ArrayList<Integer> parsedArrayList = C_ColorSequence.getSequence();
+        //parsedArrayList is the colorSequence we parsed in.
+        ArrayList<Integer> parsedArrayListInteger = C_ColorSequence.getSequence();
 
         //Create an ArrayList testArrayList with the same
         //colors as parsedArrayList.
@@ -54,7 +70,7 @@ public class C_ColorSequenceTest {
         testArrayList.add(Color.WHITE);
 
         //Assert the two ArrayLists are equal.
-        Assert.assertEquals(parsedArrayList,testArrayList);
+        Assert.assertEquals(parsedArrayListInteger,testArrayList);
     }
 
     /**
@@ -62,19 +78,11 @@ public class C_ColorSequenceTest {
      */
     @Test
     public void testStart() {
-        //Parse in a stream of colors.
-        ArrayList<String> params = CommandParser.parseParams("INITM[startC][RED][BLUE][YELLOW][GREEN]");
-        C_ColorSequence.parseColors(params);
+    //Click the startC button.
+    onView(withId(R.id.startC)).perform(click());
 
-        //Switch to C_ColorSequence activity.
-        MainActivity.switchGameC(true);
-        onView(withId(R.id.connectButton)).perform(click());
-
-        //Click the startC button.
-        onView(withId(R.id.startC)).perform(click());
-
-        //Assert we have made one runtrough meaning the color stream
-        //has been shown once successfully.
-        assertTrue(C_ColorSequence.getRunthroughs() == 1);
+    //Assert we have made one runtrough meaning the color stream
+    //has been shown once successfully.
+    assertTrue(C_ColorSequence.getRunthroughs() == 1);
     }
 }

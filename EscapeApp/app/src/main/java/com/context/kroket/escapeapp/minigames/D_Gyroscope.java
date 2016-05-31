@@ -25,9 +25,11 @@ import java.util.Random;
 public class D_Gyroscope extends AppCompatActivity implements SensorEventListener{
     private SensorManager motionSensorManager;
     private Sensor motionSensor;
+
     private ImageView gyro;
     float screenWidth,screenHeight,gyroWidth,gyroHeight,minX,maxX,minY,maxY;
     private Coin gold, silver, bronze;
+
 
 //travis
     @Override
@@ -57,6 +59,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         }
     }
 
+
     private void placeCoinsRandomly(){
         placeCoinsRandomly(0,0);
     }
@@ -67,6 +70,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         Random rand = new Random();
         int xRange = Math.round(screenWidth-3*gyroWidth);
         int yRange = Math.round(screenHeight-3*gyroHeight);
+
 
         gold.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
         silver.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
@@ -84,8 +88,6 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
   }
-
-
 
     @Override
     protected void onStart() {
@@ -113,6 +115,4 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
-
-
 }
