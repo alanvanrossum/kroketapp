@@ -44,5 +44,6 @@ after_script:
   - ./gradlew pmd
   - echo "== PMD_RESULT =="; cat app/build/reports/pmd/pmd.html echo "== END_PMD_RESULT =="
   - ./gradlew checkstyle
+  - echo "== CHECKSTYLE_RESULT =="; cat app/build/reports/checkstyle/checkstyle.html echo "== END_CHECKSTYLE_RESULT =="
   - ./gradlew findbugs 
   - echo "== FINDBUGS_RESULT =="; cat app/build/reports/findbugs/findbugs.html echo "== END_FINDBUGS_RESULT =="
