@@ -21,8 +21,8 @@
         />
     <ImageView
         android:id="@+id/turnlock"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
         android:src="@drawable/turnlock"
         android:layout_weight="0.88"
         android:layout_centerHorizontal = "true"

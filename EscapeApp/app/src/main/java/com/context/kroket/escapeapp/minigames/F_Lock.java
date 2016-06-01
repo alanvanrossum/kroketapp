@@ -20,6 +20,7 @@ public class F_Lock extends AppCompatActivity {
         addListenersToArrows();
         turnlock = (ImageView) findViewById(R.id.turnlock);
         turnlock.setRotation(232);
+        rotation=232;
     }
     private void addListenersToArrows() {
         left =(ImageButton) findViewById(R.id.arrowleft);
