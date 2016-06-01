@@ -12,15 +12,14 @@ import com.context.kroket.escapeapp.R;
 public class F_Lock extends AppCompatActivity {
     ImageButton left,right;
     ImageView turnlock;
-    int rotation=0;
+    boolean rotatingRight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.f__lock);
         addListenersToArrows();
         turnlock = (ImageView) findViewById(R.id.turnlock);
-        turnlock.setRotation(232);
-        rotation=232;
+
     }
     private void addListenersToArrows() {
         left =(ImageButton) findViewById(R.id.arrowleft);
@@ -42,14 +41,22 @@ public class F_Lock extends AppCompatActivity {
     }
 
     private void rotateRight() {
-        rotation+=9;
-        turnlock.setRotation(rotation);
+        if(!rotatingRight){
+            rotatingRight=true;
+        }
+        rotate(9);
     }
 
 
     private void rotateLeft() {
-        rotation-=9;
-        turnlock.setRotation(rotation);
+        if(rotatingRight){
+            rotatingRight=false;
+        }
+        rotate(-9);
+    }
+
+    private void rotate(int alpha) {
+        turnlock.setRotation(turnlock.getRotation()+alpha);
     }
 
 }
