@@ -232,7 +232,9 @@ public class ConnectionService extends Service {
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
                     startMinigame(minigameclass);
-                } else if (action.contentEquals("minigameDone")) {
+//                } else if (action.contentEquals("minigameDone")) {
+//                    endMinigame();
+                } else if (action.contentEquals("doneC")) {
                     endMinigame();
                 }
             }
