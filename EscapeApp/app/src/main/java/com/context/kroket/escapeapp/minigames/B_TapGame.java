@@ -161,6 +161,8 @@ public class B_TapGame extends AppCompatActivity {
      * @param view the view that was clicked.
      */
     public void restartButton(View view) {
+
+        //TO do sent a restart message to the player
         Intent intent = new Intent(this, B_TapGame.class);
         startActivity(intent);
     }

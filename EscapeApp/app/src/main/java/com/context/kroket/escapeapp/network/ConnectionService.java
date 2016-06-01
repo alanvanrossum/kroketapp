@@ -27,6 +27,9 @@ public class ConnectionService extends Service {
     private static ArrayList<String> list;
     public ArrayList<String> colorParams;
     public ArrayList<String> buttonParams;
+    public String BTActionString;
+    public String BTExtraString;
+    public ArrayList<String> BTExtraArray;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
 
@@ -87,11 +90,17 @@ public class ConnectionService extends Service {
     private void startMinigame(Class minigameclass) {
         //Broadcast the colorsequence if necessary.
         if (minigameclass.equals(C_ColorSequence.class)) {
+            BTActionString = "colorBroadcast";
+            BTExtraString = "colorSequence";
+            BTExtraArray = colorParams;
             BroadcastThread myThreadC = new BroadcastThread();
             myThreadC.start();
         }
         if (minigameclass.equals(B_TapGame.class)) {
-            BroadcastThreadB myThreadB = new BroadcastThreadB();
+            BTActionString = "buttonBroadcast";
+            BTExtraString = "buttonSequence";
+            BTExtraArray = buttonParams;
+            BroadcastThread myThreadB = new BroadcastThread();
             myThreadB.start();
         }
 
@@ -116,8 +125,10 @@ public class ConnectionService extends Service {
             try {
                 Thread.sleep(1000);
                 Intent in = new Intent();
-                in.setAction("colorBroadcast");
-                in.putExtra("colorSequence", colorParams);
+//                in.setAction("colorBroadcast");
+//                in.putExtra("colorSequence", colorParams);
+                in.setAction(BTActionString);
+                in.putExtra(BTExtraString, BTExtraArray);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -127,29 +138,29 @@ public class ConnectionService extends Service {
         }
     }
 
-    /**
-     * Thread for sending information to activities.
-     */
-    public class BroadcastThreadB extends Thread{
-
-        /**
-         * Run the thread: broadcast information.
-         */
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(1000);
-                Intent in = new Intent();
-                in.setAction("buttonBroadcast");
-                in.putExtra("buttonSequence", buttonParams);
-                sendBroadcast(in);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            stopSelf();
-        }
-    }
+//    /**
+//     * Thread for sending information to activities.
+//     */
+//    public class BroadcastThreadB extends Thread{
+//
+//        /**
+//         * Run the thread: broadcast information.
+//         */
+//        @Override
+//        public void run() {
+//            try {
+//                Thread.sleep(1000);
+//                Intent in = new Intent();
+//                in.setAction("buttonBroadcast");
+//                in.putExtra("buttonSequence", buttonParams);
+//                sendBroadcast(in);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//            stopSelf();
+//        }
+//    }
 
     /**
      * Ends any minigame. Returns to the waiting screen.
