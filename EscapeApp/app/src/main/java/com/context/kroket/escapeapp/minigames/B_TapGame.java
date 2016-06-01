@@ -1,9 +1,12 @@
 package com.context.kroket.escapeapp.minigames;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,11 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.ArrayList;
 
 /**
  * This activity is responsible for minigame B.
@@ -23,7 +31,7 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 public class B_TapGame extends AppCompatActivity {
 
     long startTime;
-    long timeLimit = 20000;     //Amount of time to click.
+    long timeLimit = 40000;     //Amount of time to click.
     int goal = 125;             //The amount of times that should be clicked.
     int amount = -1;            //Amount = -1 when the timer has not started yet.
     int seconds;
@@ -33,6 +41,17 @@ public class B_TapGame extends AppCompatActivity {
     Button restartButton;
     TextView clickButton;
     TextView amountView;
+    TextView buttonView;
+
+    //Receiver for broadcastst.
+    Receiver updateReceiver;
+
+    static ArrayList<String> buttons = new ArrayList<>();
+    static String firstButton;
+    static String secondButton;
+    static String thirdButton;
+    static String fourthButton;
+
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
@@ -55,6 +74,7 @@ public class B_TapGame extends AppCompatActivity {
             }
         }
     };
+
 
     /**
      * Defines what should happen (update) when there is still time left.
@@ -120,13 +140,19 @@ public class B_TapGame extends AppCompatActivity {
      */
     @Override
     protected void onStart() {
+
+        updateReceiver = new Receiver();
+        registerReceiver(updateReceiver, new IntentFilter("colorBroadcast"));
+
+
         super.onStart();
 
         Intent i = new Intent(this, ConnectionService.class);
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
 
         //Change the current activity to this
-        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
+
     }
 
     /**
@@ -135,16 +161,16 @@ public class B_TapGame extends AppCompatActivity {
      * @param view the view that was clicked.
      */
     public void restartButton(View view) {
-            Intent intent = new Intent(this, B_TapGame.class);
-            startActivity(intent);
+        Intent intent = new Intent(this, B_TapGame.class);
+        startActivity(intent);
     }
 
     /**
      * Initializes the layout.
      *
      * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied.
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,6 +181,7 @@ public class B_TapGame extends AppCompatActivity {
         restartButton = ((Button) findViewById(R.id.restartButton));
         clickButton = ((TextView) findViewById(R.id.clickButton));
         amountView = ((TextView) findViewById(R.id.amount));
+        buttonView = ((TextView) findViewById(R.id.buttonSequence));
 
         restartButton.setVisibility(View.INVISIBLE);
         restartButton.setEnabled(false);
@@ -181,6 +208,50 @@ public class B_TapGame extends AppCompatActivity {
             clickButton.setText("Finish");
             Intent i = new Intent(this, WaitingActivity.class);
             startActivity(i);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+
+    public void showButtons() {
+        if(amount > 25 && amount < 50) {
+            buttonView.setText(firstButton);
+        }
+        if(amount > 50 && amount < 75) {
+            buttonView.setText(firstButton + " + " + secondButton);
+        }
+        if(amount > 75 && amount < 100) {
+            buttonView.setText(firstButton + " + " + secondButton + " + " + thirdButton);
+        }
+        if(amount > 100 && amount < 125) {
+            buttonView.setText(firstButton + " + " + secondButton + " + " + thirdButton + " + " + fourthButton);
+        }
+
+    }
+
+
+    /**
+     * Class for receiving broadcasts.
+     */
+    private static class Receiver extends BroadcastReceiver {
+
+        /**
+         * Defines what should happen when a message is received.
+         *
+         * @param context The Context in which the receiver is running.
+         * @param intent The Intent being received.
+         */
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
+            firstButton = buttons.get(0);
+            secondButton = buttons.get(1);
+            thirdButton = buttons.get(2);
+            fourthButton = buttons.get(3);
         }
     }
 }

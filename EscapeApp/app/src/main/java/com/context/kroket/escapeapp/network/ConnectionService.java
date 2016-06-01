@@ -26,6 +26,7 @@ public class ConnectionService extends Service {
     private static GameClient tcpClient;
     private static ArrayList<String> list;
     public ArrayList<String> colorParams;
+    public ArrayList<String> buttonParams;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
 
@@ -86,8 +87,12 @@ public class ConnectionService extends Service {
     private void startMinigame(Class minigameclass) {
         //Broadcast the colorsequence if necessary.
         if (minigameclass.equals(C_ColorSequence.class)) {
-            BroadcastThread myThread = new BroadcastThread();
-            myThread.start();
+            BroadcastThread myThreadC = new BroadcastThread();
+            myThreadC.start();
+        }
+        if (minigameclass.equals(B_TapGame.class)) {
+            BroadcastThreadB myThreadB = new BroadcastThreadB();
+            myThreadB.start();
         }
 
         //start the activity belonging to the minigame
@@ -113,6 +118,30 @@ public class ConnectionService extends Service {
                 Intent in = new Intent();
                 in.setAction("colorBroadcast");
                 in.putExtra("colorSequence", colorParams);
+                sendBroadcast(in);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            stopSelf();
+        }
+    }
+
+    /**
+     * Thread for sending information to activities.
+     */
+    public class BroadcastThreadB extends Thread{
+
+        /**
+         * Run the thread: broadcast information.
+         */
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+                Intent in = new Intent();
+                in.setAction("buttonBroadcast");
+                in.putExtra("buttonSequence", buttonParams);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -251,6 +280,7 @@ public class ConnectionService extends Service {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (action.contentEquals("startB")) {
                 minigameclass = B_TapGame.class;
+                buttonParams = params;
             } else if (action.contentEquals("startC")) {
                 minigameclass = C_ColorSequence.class;
                 //Set the command for the colorSequence, to be broadcasted later on.
