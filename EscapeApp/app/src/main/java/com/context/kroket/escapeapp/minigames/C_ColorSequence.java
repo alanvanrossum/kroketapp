@@ -129,7 +129,7 @@ public class C_ColorSequence extends AppCompatActivity {
 
             counter++;
 
-            timeHandler.postDelayed(this, 170);     //Will repeat after 170 ms.
+            timeHandler.postDelayed(this, 190);     //Will repeat after 190 ms.
 
             if (counter >= colorSequence.size()) {
                 timeHandler.removeCallbacks(updateColorThread);
