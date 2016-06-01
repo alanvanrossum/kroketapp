@@ -142,7 +142,7 @@ public class B_TapGame extends AppCompatActivity {
     protected void onStart() {
 
         updateReceiver = new Receiver();
-        registerReceiver(updateReceiver, new IntentFilter("colorBroadcast"));
+        registerReceiver(updateReceiver, new IntentFilter("buttonBroadcast"));
 
 
         super.onStart();
@@ -200,8 +200,10 @@ public class B_TapGame extends AppCompatActivity {
                 timerHandler.postDelayed(timerRunnable, 0);
                 ((Button) view).setText("CLICK ME!");
                 amount++;
+
             } else if (seconds >= 0) {
                 amount++;
+                showButtons();
                 amountView.setText("Times clicked: " + amount);
             }
         } else {
@@ -218,16 +220,16 @@ public class B_TapGame extends AppCompatActivity {
 
 
     public void showButtons() {
-        if(amount > 25 && amount < 50) {
-            buttonView.setText(firstButton);
+        if(amount == 25) {
+            buttonView.setText(firstButton + "");
         }
-        if(amount > 50 && amount < 75) {
+        if(amount == 50) {
             buttonView.setText(firstButton + " + " + secondButton);
         }
-        if(amount > 75 && amount < 100) {
+        if(amount == 75) {
             buttonView.setText(firstButton + " + " + secondButton + " + " + thirdButton);
         }
-        if(amount > 100 && amount < 125) {
+        if(amount == 100) {
             buttonView.setText(firstButton + " + " + secondButton + " + " + thirdButton + " + " + fourthButton);
         }
 
@@ -248,10 +250,10 @@ public class B_TapGame extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
-            firstButton = buttons.get(0);
-            secondButton = buttons.get(1);
-            thirdButton = buttons.get(2);
-            fourthButton = buttons.get(3);
+            firstButton = buttons.get(1);
+            secondButton = buttons.get(2);
+            thirdButton = buttons.get(3);
+            fourthButton = buttons.get(4);
         }
     }
 }
