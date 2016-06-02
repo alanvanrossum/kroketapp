@@ -8,7 +8,7 @@ import java.net.Socket;
  * Client class responsible for incoming and outgoing messages to the server.
  */
 public class GameClient {
-    public static final String SERVERIP = "80.112.155.241";
+    public static final String SERVERIP = "80.112.155.241";//"80.112.155.241";
     //"145.94.142.195"; //"145.94.177.139"; //"192.168.178.19"; //the ip adress of the server  Alan: "145.94.178.99."
     public static final int SERVERPORT = 1234; //The port we will be listening.
     private String serverMessage;

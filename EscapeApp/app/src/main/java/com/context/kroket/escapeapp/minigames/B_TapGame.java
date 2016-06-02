@@ -45,11 +45,8 @@ public class B_TapGame extends AppCompatActivity {
     Receiver updateReceiver;
 
     static ArrayList<String> buttons = new ArrayList<>();
-    static String firstButton;
-    static String secondButton;
-    static String thirdButton;
-    static String fourthButton;
 
+    static ArrayList<String> sequences = new ArrayList<String>();
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
@@ -221,16 +218,17 @@ public class B_TapGame extends AppCompatActivity {
 
     public void showButtons() {
         if(amount == 25) {
-            buttonView.setText(firstButton + "");
+            buttonView.setText("First sequence: " + sequences.get(0));
+
         }
         if(amount == 50) {
-            buttonView.setText(firstButton + " + " + secondButton);
+            buttonView.setText("Second sequence: " + sequences.get(1));
         }
         if(amount == 75) {
-            buttonView.setText(firstButton + " + " + secondButton + " + " + thirdButton);
+            buttonView.setText("Third sequence: " + sequences.get(2));
         }
         if(amount == 100) {
-            buttonView.setText(firstButton + " + " + secondButton + " + " + thirdButton + " + " + fourthButton);
+            buttonView.setText("Fourth sequence: " + sequences.get(3));
         }
 
     }
@@ -250,10 +248,26 @@ public class B_TapGame extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
-            firstButton = buttons.get(1);
-            secondButton = buttons.get(2);
-            thirdButton = buttons.get(3);
-            fourthButton = buttons.get(4);
+
+            String addString = "";
+
+            for(int x = 0; x < 4; x++){
+                sequences.add(addString);
+            }
+
+            for(int k = 0; k <= 3; k++) {
+
+                for (int i = 4*k + 1; i <= 4*k + 4; i++) {
+                    String temp = sequences.get(k);
+                    if (i == 4*k + 1) {
+                        temp = buttons.get(i);
+                    } else {
+                        temp = temp + " + " + buttons.get(i);
+                    }
+                    sequences.set(k, temp);
+                }
+            }
+
         }
     }
 }
