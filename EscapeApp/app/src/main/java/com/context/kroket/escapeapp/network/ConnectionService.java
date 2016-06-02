@@ -2,7 +2,6 @@ package com.context.kroket.escapeapp.network;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -15,7 +14,6 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * This service is responsible for registering players by sending information
@@ -125,10 +123,12 @@ public class ConnectionService extends Service {
     /**
      * Ends any minigame. Returns to the waiting screen.
      */
-    public void endMinigame() {
-        Intent dialogIntent = new Intent(this, WaitingActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
+    public void goToWaitingScreen() {
+        if (!inWaitingActivity()) {
+            Intent dialogIntent = new Intent(this, WaitingActivity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
     }
 
     /**
@@ -222,20 +222,30 @@ public class ConnectionService extends Service {
          * @param command the hashmap which contains the parsed input.
          */
         public void parseInput(HashMap<String, String> command, String input) {
+            String action = command.get("param_0");
 
-            //Command is for the mobile client
+            // Start the game
+            if (command.get("command").equals("START")) {
+                // Go to waiting screen
+                goToWaitingScreen();
+            }
+
+            // Messages received from VR player
             if (command.get("command").equals("INITM")) {
-
-                String action = command.get("param_0");
 
                 //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
                     startMinigame(minigameclass);
-//                } else if (action.contentEquals("minigameDone")) {
-//                    endMinigame();
                 } else if (action.contentEquals("doneC")) {
-                    endMinigame();
+                    goToWaitingScreen();
+                }
+            // Messages received which were sent by the player itself or the other mobile player.
+            } else if (command.get("command").equals("INITVR")) {
+                if (action.contentEquals("doneA") || action.contentEquals("doneB")) {
+                    System.out.println("action: " + action);
+                    System.out.println("end minigame");
+                    goToWaitingScreen();
                 }
             }
         }
