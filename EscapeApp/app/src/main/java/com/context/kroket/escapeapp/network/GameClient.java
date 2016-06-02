@@ -10,26 +10,29 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.net.SocketTimeoutException;
 
-import android.os.AsyncTask;
-
 import android.util.Log;
 
 /**
  * Client class responsible for incoming and outgoing messages to the server.
  */
 public class GameClient {
+
+    /** The remote host we will be connecting to. */
     public static final String SERVERIP = "192.168.1.208";
 
-    public static final int SERVERPORT = 1234; // The port we will be listening.
+    /** The remote port we will be connecting to. */
+    public static final int SERVERPORT = 1234;
 
     private String serverMessage;
     private OnMessageReceived messageListener = null;
     private boolean running = false;
-    public boolean connection = false;
+    private static boolean connected = false;
+    private static boolean connecting = false;
 
     PrintWriter dataOutputStream;
     BufferedReader dataInputStream;
     Socket serverSocket;
+
 
     private static final String TAG = "GameClient";
 
@@ -41,6 +44,8 @@ public class GameClient {
      */
     public GameClient(OnMessageReceived listener) {
         messageListener = listener;
+        connected = false;
+
     }
 
     /**
@@ -50,7 +55,7 @@ public class GameClient {
      */
     public void sendMessage(String message) {
 
-        if (!connection)
+        if (!connected)
             return;
 
         // Wait for the PrintWriter to be initialized.
@@ -72,8 +77,18 @@ public class GameClient {
 
     public void run() {
         running = true;
+        connecting = true;
+        connected = false;
 
         createSocket();
+    }
+
+    public static boolean isConnecting() {
+        return connecting;
+    }
+
+    public static boolean isConnected() {
+        return connected;
     }
 
     /*
@@ -84,7 +99,8 @@ public class GameClient {
 
         try {
 
-            connection = false;
+            connecting = true;
+            connected = false;
 
             InetAddress serverAddress = InetAddress.getByName(SERVERIP);
             SocketAddress socketAddress = new InetSocketAddress(serverAddress, SERVERPORT);
@@ -92,8 +108,7 @@ public class GameClient {
             serverSocket.setReuseAddress(true);
             serverSocket.connect(socketAddress, 2000);
 
-            connection = true;
-
+            connected = true;
 
             createStreams();
 
@@ -109,6 +124,10 @@ public class GameClient {
         } catch (IOException e) {
             Log.e(TAG, "IOException");
         }
+        finally {
+            connected = false;
+            connecting = false;
+        }
     }
 
 
@@ -116,6 +135,9 @@ public class GameClient {
      * Closes the server socket.
      */
     private void closeSocket() {
+
+        connected = false;
+        connecting = false;
 
         if (serverSocket == null)
             return;
@@ -159,6 +181,7 @@ public class GameClient {
             e.printStackTrace();
         } finally {
             closeSocket();
+
         }
     }
 

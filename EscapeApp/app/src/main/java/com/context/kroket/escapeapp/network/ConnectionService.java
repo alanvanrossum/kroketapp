@@ -16,7 +16,7 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import android.util.Log;
 /**
  * This service is responsible for registering players by sending information
  * to the server, and for receiving and acting on messaged sent by the server.
@@ -28,7 +28,7 @@ public class ConnectionService extends Service {
     public ArrayList<String> colorParams;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
-
+    private static final String TAG = "ConnectionService";
     /**
      * Called by the system every time a client explicitly starts the service.
      * This method registers the player by sending the player's name and the
@@ -48,8 +48,7 @@ public class ConnectionService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String playername = "REGISTER[" + intent.getStringExtra("string_name") + "]";
-        String type = "TYPE[MOBILE]";
+        String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
 
         list = new ArrayList<String>();
         new connectTask().execute("");
@@ -62,8 +61,7 @@ public class ConnectionService extends Service {
         }
 
         //Send the name and type of the player to the server.
-        tcpClient.sendMessage(playername);
-        tcpClient.sendMessage(type);
+        tcpClient.sendMessage(registerString);
 
         return START_STICKY;
     }
@@ -170,6 +168,8 @@ public class ConnectionService extends Service {
      */
     private class connectTask extends AsyncTask<String, String, GameClient> {
 
+
+
         /**
          * Method to run the GameClient dataInputStream a background thread.
          *
@@ -179,23 +179,27 @@ public class ConnectionService extends Service {
         @Override
         protected GameClient doInBackground(String... message) {
             try {
+
+                Log.i(TAG, "Creating GameClient...");
+
                 tcpClient = new GameClient(new GameClient.OnMessageReceived() {
 
                     @Override
                     public void messageReceived(String mes) {
                         publishProgress(mes);
                     }
-                });
+                }
+                );
 
                 tcpClient.run();
 
             } catch (Exception e) {
-                System.out.println("no connection");
                 this.cancel(true);
             }
 
-            return null;
+            return tcpClient;
         }
+
 
         /**
          * Runs on the UI thread after {@link #publishProgress} is invoked.
@@ -211,6 +215,8 @@ public class ConnectionService extends Service {
             super.onProgressUpdate(values);
             list.add(values[0]);
             String input = values[0];
+
+
 
             HashMap<String, String> command = CommandParser.parseInput(input);
             parseInput(command, input);
