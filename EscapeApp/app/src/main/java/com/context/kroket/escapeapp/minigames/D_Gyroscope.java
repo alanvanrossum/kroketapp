@@ -95,8 +95,10 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        screenHeight= metrics.heightPixels-150;
-        screenWidth = metrics.widthPixels-30;
+        screenHeight= metrics.heightPixels;
+        screenHeight*=0.8;
+        screenWidth = metrics.widthPixels;
+        screenWidth*=0.8;
 
         //set the coins
         gold = new Coin((ImageView) findViewById(R.id.goldcoin));
