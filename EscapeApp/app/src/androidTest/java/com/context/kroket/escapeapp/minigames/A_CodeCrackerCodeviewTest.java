@@ -1,62 +1,142 @@
 package com.context.kroket.escapeapp.minigames;
 
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
+import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
+import com.robotium.solo.Solo;
 
-import org.junit.Rule;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withHint;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.not;
 
 /**
- * Created by Harvey van Veltom on 19/05/2016.
+ * Class tests the A_CodeCrackerCodeView class. mainly the verify button and message.
+ * test class uses robotium instead of espresso because we need to close android's
+ * keyboard.
  */
-@RunWith(AndroidJUnit4.class)
-@LargeTest
-/**
- * A_CodeCrackerCodeviewTest is used to test the A_CodeCrackerCodeview class.
- */
-public class A_CodeCrackerCodeviewTest {
+public class A_CodeCrackerCodeviewTest  extends
+        ActivityInstrumentationTestCase2<MainActivity> {
 
+    /**
+     * Solo is used by robotium to interact with the game's ui elements.
+     */
+    private Solo solo;
 
-    @Rule
-    public IntentsTestRule<MainActivity> myActivityRule = new IntentsTestRule<MainActivity>(MainActivity.class);
+    /**
+     * Constructor for the test class.
+     * Requirement of robotium.
+     */
+    public A_CodeCrackerCodeviewTest() {
+        super(MainActivity.class);
+    }
+
+    /**
+     * Set's up solo object that is used by robotium
+     * to interact with ui elements.
+     *
+     * @throws Exception
+     */
+    public void setUp() throws Exception {
+        solo = new Solo(getInstrumentation(), getActivity());
+    }
+
 
 
     /**
      * Method checks the functionality of A_CodeCrackerCodeview pic button.
      */
     @Test
-    public void clickPicButton() {
-        //Switch from MainActivity to A_CodeCrackerCodeview.
-        MainActivity.switchGameAA(true);
-        onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+    public void testclickPicButton() {
+        //enable and switch to the A_CodeCrackerCodeview class.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
+        Button buttonConnect = (Button) solo.getView(R.id.connectButton);
+        solo.clickOnView(buttonConnect);
 
-        //Click the pic button.
-        onView(withId(R.id.picButton)).perform(click());
+        //click the pic button
+        Button picButton = (Button) solo.getView(R.id.picButton);
+        solo.clickOnView(picButton);
 
-        //Check if we instantiated a A_Code_Cracker_Pictureview.
-        intended(hasComponent(hasShortClassName(".minigames.A_Code_Cracker_Pictureview")));
-        MainActivity.switchGameAA(false);
+        //assert that we are now in the A_Code_Cracker_Pictureview activity.
+        solo.assertCurrentActivity("should be pictureView", A_Code_Cracker_Pictureview.class);
+
+
     }
 
+    /**
+     * The method checks to see what happens when we enter the wrong
+     * answer in A_CodeCrackerCodeView.
+     */
+    @Test
+    public void testWrongAnswer() {
+
+        //enable and switch to the A_CodeCrackerCodeview class.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
+        Button buttonConnect = (Button) solo.getView(R.id.connectButton);
+        solo.clickOnView(buttonConnect);
+
+        //Hide the android keyboard.
+        solo.hideSoftKeyboard();
+
+        //Click the verify button of A_CodeCrackerCodeView when
+        //we don't have an answer filled in.
+        Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
+        solo.clickOnView(buttonVerify);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //assert that the number of attempts is now 1.
+        assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
+    }
+
+    /**
+     * The method checks to see what happens when we enter the right
+     * answer in A_CodeCrackerCodeView.
+     */
+    @Test
+    public void testRightAnswer() {
+        //Switch from MainActivity to A_CodeCrackerCodeView.
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
+        A_CodeCrackerCodeview.enableTesting(true);
+        Button buttonConnect = (Button) solo.getView(R.id.connectButton);
+        solo.clickOnView(buttonConnect);
+
+        //Fill in the correct answer in the answerA view.
+        EditText answer = (EditText) solo.getView(R.id.answerA);
+        solo.clearEditText(answer);
+        solo.typeText(answer, "2719173");
+
+        //Hide the android keyboard.
+        solo.hideSoftKeyboard();
+
+        //Click the verify button of A_CodeCrackerCodeView when
+        //we have the right answer filled in.
+        Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
+        solo.clickOnView(buttonVerify);
+
+        //Assert we are now in the WaitingActivity class.
+        solo.assertCurrentActivity("should be waiting", WaitingActivity.class);
+
+        A_CodeCrackerCodeview.enableTesting(false);
+    }
+
+
+    /**
+     * Close all activities of solo at the end of a test.
+     *
+     * @throws Exception
+     */
+    @Override
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
+    }
 }

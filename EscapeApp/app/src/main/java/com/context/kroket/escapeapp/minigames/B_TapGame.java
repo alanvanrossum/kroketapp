@@ -75,6 +75,8 @@ public class B_TapGame extends AppCompatActivity {
         if (amount >= goal) {
             connectionService.endB();
             done = true;
+            Intent intent = new Intent(this, WaitingActivity.class);
+            startActivity(intent);
         } else {
             //Goal not reached. Able to start game again.
             amountView.setText("Too bad! \nClick restart to try again.");
