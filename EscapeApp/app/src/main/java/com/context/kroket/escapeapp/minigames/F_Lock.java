@@ -97,7 +97,7 @@ public class F_Lock extends AppCompatActivity {
 
     /**
      * This method sets the rotation for the turning part of the lock. A rotation of 9 degrees corresponds to a rotation of one number.
-     * @param alpha The angle in which the lock must rotate. Can be 9 or -9 for positive or negative turning respectively
+     * @param alpha The angle in which the lock must rotate. Can be 9 or -9 for positive or negative turning respectively.
      */
     private void rotate(int alpha) {
         turnlock.setRotation((turnlock.getRotation()+alpha)%360);
