@@ -23,7 +23,7 @@ public class F_Lock extends AppCompatActivity {
      * Finally, this method creates a simple arraylist of integers to store the current value of the lock everytime the direction is changed.
      * @param savedInstanceState If the activity is being re-initialized after
      *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied.
+     *     recently supplied
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
