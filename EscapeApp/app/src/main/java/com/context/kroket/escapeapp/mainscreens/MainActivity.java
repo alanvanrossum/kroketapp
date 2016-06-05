@@ -17,7 +17,7 @@ import com.context.kroket.escapeapp.minigames.D_Gyroscope;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.minigames.E_Squasher;
 
-import android.os.Parcelable;
+import com.context.kroket.escapeapp.minigames.F_Lock;
 
 import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.network.GameClient;
