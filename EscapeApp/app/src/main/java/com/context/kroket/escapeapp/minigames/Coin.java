@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  *
  */
-public class Coin {
+public abstract class Coin {
     int count;
     ImageView iv;
 
@@ -18,8 +18,31 @@ public class Coin {
      * @param newiv
      */
     public Coin(ImageView newiv){
-        iv=newiv;
-        count=0;
+        iv = newiv;
+        count = 0;
+    }
+
+    /**
+     * Adds the amount to the score belonging to the type of coin.
+     */
+    public abstract void score();
+
+    /**
+     * Set the count for the coin.
+     *
+     * @param count the number to be set.
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
+     * Get the count for this coin.
+     *
+     * @return the count
+     */
+    public int getCount() {
+        return count;
     }
 
     /**
@@ -45,9 +68,10 @@ public class Coin {
      * @return  True if the skullball overlaps with the coin
      *          False if it doesn't.
      */
-    public boolean collideWithGyro(float gyroX,float gyroY){
-        if(Math.abs(iv.getX()-gyroX)<50 &&Math.abs(iv.getY()-gyroY)<50){
-            count++;
+    public boolean collideWithGyro(float gyroX, float gyroY){
+        if(Math.abs(iv.getX() - gyroX) < 50 && Math.abs(iv.getY() - gyroY) < 50){
+            //count++;
+            this.score();
             return true;
         }
         return false;

@@ -1,21 +1,19 @@
 package com.context.kroket.escapeapp.minigames;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -28,8 +26,9 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 
     private ImageView gyro;
     float screenWidth,screenHeight,gyroWidth,gyroHeight,minX,maxX,minY,maxY;
-    private Coin gold, silver, bronze;
+    private Coin gold, silver, bronze, dead;
 
+    TextView amountView;
 
     /**
      * This method is called when the gyroscopic value of the mobile device changes.
@@ -71,7 +70,15 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
      * If it does, it places the coins randomly again by calling placeCoinsRandomly()
      */
     private void collide() {
-        if(gold.collideWithGyro(gyro.getX(),gyro.getY())||silver.collideWithGyro(gyro.getX(),gyro.getY())||bronze.collideWithGyro(gyro.getX(),gyro.getY())){
+        if(gold.collideWithGyro(gyro.getX(), gyro.getY()) || silver.collideWithGyro(gyro.getX(), gyro.getY())
+                || bronze.collideWithGyro(gyro.getX(), gyro.getY())){
+            placeCoinsRandomly();
+            amountView.setText("Score: " + Integer.toString(gold.getCount() + silver.getCount() + bronze.getCount()));
+        } else if (dead.collideWithGyro(gyro.getX(), gyro.getY())) {
+            gold.setCount(0);
+            silver.setCount(0);
+            bronze.setCount(0);
+            amountView.setText("Score: " + Integer.toString(gold.getCount() + silver.getCount() + bronze.getCount()));
             placeCoinsRandomly();
         }
     }
@@ -97,9 +104,10 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         int yRange = Math.round(screenHeight-3*gyroHeight);
 
 
-        gold.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
-        silver.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
-        bronze.placeRandomly(rand,xRange,yRange,gyroX,gyroY);
+        gold.placeRandomly(rand, xRange, yRange, gyroX, gyroY);
+        silver.placeRandomly(rand, xRange, yRange, gyroX, gyroY);
+        bronze.placeRandomly(rand, xRange, yRange, gyroX, gyroY);
+        dead.placeRandomly(rand, xRange, yRange, gyroX, gyroY);
     }
 
     /**
@@ -123,6 +131,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         motionSensorManager.registerListener(this,motionSensor,SensorManager.SENSOR_DELAY_FASTEST);
+        amountView = ((TextView) findViewById(R.id.coinAmount));
   }
 
     /**
@@ -142,9 +151,11 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         screenWidth*=0.8;
 
         //set the coins
-        gold = new Coin((ImageView) findViewById(R.id.goldcoin));
-        silver = new Coin((ImageView) findViewById(R.id.silvercoin));
-        bronze = new Coin((ImageView) findViewById(R.id.bronzecoin));
+        gold = new GoldCoin((ImageView) findViewById(R.id.goldcoin));
+        silver = new SilverCoin((ImageView) findViewById(R.id.silvercoin));
+        bronze = new BronzeCoin((ImageView) findViewById(R.id.bronzecoin));
+        dead = new DeadCoin((ImageView) findViewById(R.id.deadcoin));
+
         gyro = (ImageView) findViewById(R.id.gyroimage);
         gyroWidth=50;
         gyroHeight=50;
@@ -154,7 +165,8 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         minY = 0;
         maxY = screenHeight-gyroHeight;
 
-        placeCoinsRandomly(screenWidth/2-gyroWidth/2,screenHeight/2-gyroHeight/2);
+        placeCoinsRandomly(screenWidth / 2 - gyroWidth / 2, screenHeight / 2 - gyroHeight / 2);
+
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
