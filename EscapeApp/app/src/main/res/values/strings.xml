@@ -24,6 +24,6 @@
     <string name="action_settings">Settings</string>
     <string name="squashtext">Squash the bugs!</string>
 
-    <string name="title_activity_registered">RegisteredActivity</string>
+    <string name="title_activity_registered">EscapeApp</string>
     <string name="registered">You\'ve sucessfully registered!\n\nWaiting for game to start...</string>
 </resources>
