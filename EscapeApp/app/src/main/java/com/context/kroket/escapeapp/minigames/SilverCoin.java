@@ -18,6 +18,9 @@ public class SilverCoin extends Coin{
         super(newiv);
     }
 
+    /**
+     * Increase the score.
+     */
     public void score() {
         count = count + 2;
     }

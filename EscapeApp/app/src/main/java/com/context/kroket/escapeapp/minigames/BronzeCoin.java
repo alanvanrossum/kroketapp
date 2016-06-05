@@ -18,6 +18,9 @@ public class BronzeCoin extends Coin{
         super(newiv);
     }
 
+    /**
+     * Increase the score.
+     */
     public void score() {
         count = count + 1;
     }

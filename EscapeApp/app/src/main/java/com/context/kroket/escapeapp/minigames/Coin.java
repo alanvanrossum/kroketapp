@@ -69,8 +69,13 @@ public abstract class Coin {
      *          False if it doesn't.
      */
     public boolean collideWithGyro(float gyroX, float gyroY){
-        if(Math.abs(iv.getX() - gyroX) < 50 && Math.abs(iv.getY() - gyroY) < 50){
-            //count++;
+        if (this instanceof DeadCoin) {
+            if(Math.abs(iv.getX() - gyroX) < 105 && Math.abs(iv.getY() - gyroY) < 105){
+                return true;
+            }
+        }
+
+        if(Math.abs(iv.getX() - gyroX) < 70 && Math.abs(iv.getY() - gyroY) < 70){
             this.score();
             return true;
         }
@@ -88,8 +93,8 @@ public abstract class Coin {
      * @param gyroY The location of the skullball on the y-axis
      */
     public void placeRandomly(Random rand, int xRange, int yRange, float gyroX, float gyroY) {
-        setX(clamp(rand.nextInt(xRange),gyroX,50));
-        setY(clamp(rand.nextInt(yRange),gyroY,50));
+        setX(clamp(rand.nextInt(xRange), gyroX, 70));
+        setY(clamp(rand.nextInt(yRange), gyroY, 70));
     }
 
     /**
@@ -101,7 +106,7 @@ public abstract class Coin {
      */
     private float clamp(int value, float gyroLoc, int size) {
         if(value>gyroLoc-size)
-            return value+3*size;
+            return value + 3 * size;
         return value;
     }
 }
