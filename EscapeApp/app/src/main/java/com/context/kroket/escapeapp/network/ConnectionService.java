@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.RegisteredActivity;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
@@ -120,6 +121,14 @@ public class ConnectionService extends Service {
         }
     }
 
+    public void launchRegisteredAcitvity() {
+        if (!inWaitingActivity()) {
+            Intent dialogIntent = new Intent(this, RegisteredActivity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+    }
+
     /**
      * Ends any minigame. Returns to the waiting screen.
      */
@@ -224,8 +233,11 @@ public class ConnectionService extends Service {
         public void parseInput(HashMap<String, String> parsed, String input) {
             String command = parsed.get("command");
 
+            if (command.equals("SUCCESS")) {
+                launchRegisteredAcitvity();
+            }
             // Start the game
-            if (command.equals("START")) {
+            else if (command.equals("START")) {
                 // Go to waiting screen
                 goToWaitingScreen();
             }

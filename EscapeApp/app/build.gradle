@@ -1,4 +1,3 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 
@@ -26,9 +25,9 @@ android {
             testCoverageEnabled = true
         }
     }
-      
+
     lintOptions {
-          abortOnError false
+        abortOnError false
     }
 
     jacoco {
@@ -40,7 +39,7 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
- 
+
 
     androidTestCompile 'com.android.support.test:runner:0.5'
     // Set this dependency to use JUnit 4 rules
@@ -59,6 +58,7 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
 }
 
 apply plugin: 'findbugs'
@@ -75,8 +75,8 @@ task findbugs(type: FindBugs) {
     exclude '**/gen/**'
 
     reports {
-            xml.enabled = false
-            html.enabled = true
+        xml.enabled = false
+        html.enabled = true
     }
 
     classpath = files()
@@ -102,11 +102,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "createDebugCoverageReport"
     group = "Reporting"
     description = "Generates Jacoco coverage reports. still needs work"
     reports {
-        xml{
+        xml {
             enabled = false
         }
         csv.enabled false
-        html{
+        html {
             enabled true
             destination "${buildDir}/reports/jacoco"
         }
@@ -129,8 +129,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "createDebugCoverageReport"
         // multiple coverage.ec files
         def coverageFilesArray = coverageFiles.split(',')
         executionData = files(coverageFilesArray)
-    }
-    else {
+    } else {
         executionData = files('build/outputs/code-coverage/connected/coverage.ec')
     }
 }
@@ -138,7 +137,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "createDebugCoverageReport"
 
 apply plugin: 'checkstyle'
 
-task checkstyleMain (type: Checkstyle) {
+task checkstyleMain(type: Checkstyle) {
     ignoreFailures = false
     showViolations = false
     source 'src/main', 'src/release'
@@ -153,7 +152,7 @@ task checkstyleMain (type: Checkstyle) {
     configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
 }
 
-task checkstyleTest (type: Checkstyle){
+task checkstyleTest(type: Checkstyle) {
     ignoreFailures = false
     showViolations = false
     source 'src/androidTest'
@@ -173,19 +172,19 @@ task checkstyleReport << {
     checkType = project.ext.get("checkType")
     if (file("$buildDir/reports/checkstyle/${checkType}.xml").exists()) {
         ant.xslt(in: "$project.buildDir/reports/checkstyle/${checkType}.xml",
-                style:"${rootProject.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
-                out:"$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
+                style: "${rootProject.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl",
+                out: "$project.buildDir/reports/checkstyle/checkstyle_${checkType}.html"
         )
     }
 }
 
-task checkstyle(dependsOn:['checkstyleMain', 'checkstyleTest']){
+task checkstyle(dependsOn: ['checkstyleMain', 'checkstyleTest']) {
     description 'Runs Checkstyle inspection against Android sourcesets.'
     group = 'Code Quality'
 }
 
-gradle.taskGraph.afterTask {Task task, TaskState state ->
-    if(state.failure) {
+gradle.taskGraph.afterTask { Task task, TaskState state ->
+    if (state.failure) {
         if (task.name in ['checkstyleMain', 'checkstyleTest']) {
             checkstyleReport {
                 def matcher = task.name =~ /^checkstyle(.*)$/

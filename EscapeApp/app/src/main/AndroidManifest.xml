@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.context.kroket.escapeapp">
+    package="com.context.kroket.escapeapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,8 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".mainscreens.MainActivity">
+        android:theme="@style/AppTheme" >
+        <activity android:name=".mainscreens.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +34,13 @@
         <activity android:name=".minigames.C_ColorSequence" />
         <activity android:name=".minigames.D_Gyroscope" />
         <activity android:name=".minigames.E_Squasher" />
-        <activity android:name=".minigames.F_Lock"></activity>
+        <activity android:name=".minigames.F_Lock" />
+        <activity
+            android:name=".mainscreens.RegisteredActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_registered"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>
