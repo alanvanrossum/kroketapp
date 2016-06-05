@@ -20,6 +20,8 @@ import com.context.kroket.escapeapp.minigames.E_Squasher;
 import com.context.kroket.escapeapp.minigames.F_Lock;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
+import android.util.Log;
+
 /**
  * Responsible for making sure the player can connect to and start the game.
  *

@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.RegisteredActivity;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
@@ -14,6 +16,7 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This service is responsible for registering players by sending information
@@ -46,8 +49,7 @@ public class ConnectionService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String playername = "REGISTER[" + intent.getStringExtra("string_name") + "]";
-        String type = "TYPE[MOBILE]";
+        String playername = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
 
         list = new ArrayList<String>();
         new connectTask().execute("");
@@ -61,7 +63,6 @@ public class ConnectionService extends Service {
 
         //Send the name and type of the player to the server.
         tcpClient.sendMessage(playername);
-        tcpClient.sendMessage(type);
 
         return START_STICKY;
     }
@@ -120,6 +121,14 @@ public class ConnectionService extends Service {
         }
     }
 
+    public void launchRegisteredAcitvity() {
+        if (!inWaitingActivity()) {
+            Intent dialogIntent = new Intent(this, RegisteredActivity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+        }
+    }
+
     /**
      * Ends any minigame. Returns to the waiting screen.
      */
@@ -135,14 +144,14 @@ public class ConnectionService extends Service {
      * Sends a message to the server that minigame B is solved.
      */
     public void endB() {
-        tcpClient.sendMessage("INITVR[doneB]");
+        tcpClient.sendMessage("DONE[B]");
     }
 
     /**
      * Sends a message to the server that minigame A is solved.
      */
     public void endA() {
-        tcpClient.sendMessage("INITVR[doneA]");
+        tcpClient.sendMessage("DONE[A]");
     }
 
     /**
@@ -169,6 +178,8 @@ public class ConnectionService extends Service {
      * Helper class for connection.
      */
     private class connectTask extends AsyncTask<String, String, GameClient> {
+
+        private static final String TAG = "connectTask";
 
         /**
          * Method to run the GameClient dataInputStream a background thread.
@@ -211,61 +222,71 @@ public class ConnectionService extends Service {
             super.onProgressUpdate(values);
             list.add(values[0]);
             String input = values[0];
-
+            Log.d(TAG, "Message received: " + input);
             HashMap<String, String> command = CommandParser.parseInput(input);
             parseInput(command, input);
         }
 
         /**
          * Parses the input received from the server.
-         *
-         * @param command the hashmap which contains the parsed input.
          */
-        public void parseInput(HashMap<String, String> command, String input) {
-            String action = command.get("param_0");
+        public void parseInput(HashMap<String, String> parsed, String input) {
+            String command = parsed.get("command");
 
+            if (command.equals("SUCCESS")) {
+                launchRegisteredAcitvity();
+            }
             // Start the game
-            if (command.get("command").equals("START")) {
+            else if (command.equals("START")) {
                 // Go to waiting screen
                 goToWaitingScreen();
             }
-
-            // Messages received from VR player
-            if (command.get("command").equals("INITM")) {
-
-                //Only start a minigame if dataInputStream WaitingActivity.
+            else if (command.equals("DONE")) {
+                // minigame is complete
+                goToWaitingScreen();
+            }
+            else if (command.equals("BEGIN")) {
                 if (inWaitingActivity()) {
-                    Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
+                    Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
                     startMinigame(minigameclass);
-                } else if (action.contentEquals("doneC")) {
-                    goToWaitingScreen();
-                }
-            // Messages received which were sent by the player itself or the other mobile player.
-            } else if (command.get("command").equals("INITVR")) {
-                if (action.contentEquals("doneA") || action.contentEquals("doneB")) {
-                    System.out.println("action: " + action);
-                    System.out.println("end minigame");
-                    goToWaitingScreen();
                 }
             }
+
         }
 
         /**
          * Returns the class of the minigame that should be started corresponding to the action.
-         * @param action the received action.
          * @return the class corresponding to the action.
          */
-        public Class getMinigameClassFromInput(String action, ArrayList<String> params) {
+        public Class getMinigameClassFromInput(List<String> params) {
+
+            Log.i(TAG, "getMinigameClassFromInput");
+
             Class minigameclass = null;
-            if (action.contentEquals("startA")) {
+
+            String game = params.get(0);
+
+            if (game.equals("A")) {
                 minigameclass = A_CodeCrackerCodeview.class;
-            } else if (action.contentEquals("startB")) {
-                minigameclass = B_TapGame.class;
-            } else if (action.contentEquals("startC")) {
-                minigameclass = C_ColorSequence.class;
-                //Set the command for the colorSequence, to be broadcasted later on.
-                colorParams = params;
             }
+            else if (game.equals("B")) {
+                minigameclass = B_TapGame.class;
+            }
+            else if (game.equals("C")) {
+                minigameclass = C_ColorSequence.class;
+
+                colorParams = new ArrayList<String>();
+
+                Log.i(TAG, "params.size = " +  params.size());
+
+                for (String param : params.subList(1, params.size())) {
+                    Log.i(TAG, "param : " + param);
+                    colorParams.add(param);
+                }
+
+                // BEGIN[C][RED][BLUE][GREEN] etc
+            }
+
             return minigameclass;
         }
     }
