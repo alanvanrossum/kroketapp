@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.07"
-        android:hint="In the mean time... \nWhy don't you play this minigame, and earn some extra time to escape the room!"
+        android:hint="In the meantime... \nWhy don't you play this minigame, and earn some extra time to escape the room!"
         android:textStyle="bold"
         android:textSize="20dp"
         android:textAlignment="center"
