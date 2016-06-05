@@ -1,12 +1,15 @@
 package com.context.kroket.escapeapp.network;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.MainActivity;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
@@ -17,6 +20,7 @@ import java.util.HashMap;
 
 import java.util.List;
 import android.util.Log;
+import android.widget.TextView;
 
 /**
  * This service is responsible for registering players by sending information
@@ -61,8 +65,15 @@ public class ConnectionService extends Service {
             e.printStackTrace();
         }
 
-        //Send the name and type of the player to the server.
-        tcpClient.sendMessage(registerString);
+        if (tcpClient == null)
+        {
+            setLabelText("Connection failed, yo.");
+        }
+        else {
+            tcpClient.sendMessage(registerString);
+        }
+
+        updateMain();
 
         return START_STICKY;
     }
@@ -132,6 +143,26 @@ public class ConnectionService extends Service {
         }
     }
 
+    public void setLabelText(String message) {
+        Activity current = ((ActivityManager)this.getApplicationContext())
+                .getCurrentActivity();
+
+        if (current instanceof MainActivity) {
+            TextView connectMessage = (TextView) current.findViewById(R.id.connectionMessage);
+            connectMessage.setText(message);
+            ((MainActivity) current).update();
+        }
+    }
+
+    public void updateMain() {
+        Activity current = ((ActivityManager)this.getApplicationContext())
+                .getCurrentActivity();
+
+        if (current instanceof MainActivity) {
+            ((MainActivity) current).update();
+        }
+    }
+
     /**
      * Sends a message to the server that minigame B is solved.
      */
@@ -196,6 +227,8 @@ public class ConnectionService extends Service {
 
                 tcpClient.run();
 
+
+
             } catch (Exception e) {
                 this.cancel(true);
             }
@@ -219,6 +252,14 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
+            updateMain();
+
+            if (GameClient.isConnected())
+                setLabelText("Connected.");
+            else
+                setLabelText("Connection failed...");
+
+            updateMain();
 
 
             HashMap<String, String> command = CommandParser.parseInput(input);

@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         EditText name = (EditText) findViewById(R.id.player_name);
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
+        Button connectButton = (Button) findViewById(R.id.connectButton);
+
+
         boolean connected = GameClient.isConnected();
 
 
@@ -60,35 +63,37 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        connectMessage.setText("Trying to connect...");
+        connectButton.setEnabled(false);
+        name.setEnabled(false);
+
         //Connect to server, if this succeeds set connected boolean to true.
         Intent intent = new Intent(this, ConnectionService.class);
         intent.putExtra("string_name", name.getText().toString());
 
         startService(intent);
+    }
 
+    public void update() {
+        EditText name = (EditText) findViewById(R.id.player_name);
+        TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
+        Button start = (Button) findViewById(R.id.startButton);
+        Button connectButton = (Button) findViewById(R.id.connectButton);
 
-        connectMessage.setText("Trying to connect...");
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
+        boolean connected = GameClient.isConnected();
 
-        }
-
-        connected = GameClient.isConnected();
-
-        //Change connected message and enable start button.
         if (connected) {
-            connectMessage.setText("Connection established. Press start to begin!");
-            view.setEnabled(false);
-            if (start != null) {
-                start.setEnabled(true);
-            }
+            connectMessage.setText("Connection established, tap START to begin!");
+            connectButton.setEnabled(false);
+            name.setEnabled(false);
+            start.setEnabled(true);
+
         } else {
-            connectMessage.setText("Connection failed.");
+            connectMessage.setText("Connection failed. :(");
             start.setEnabled(false);
-
+            name.setEnabled(true);
+            connectButton.setEnabled(true);
         }
-
     }
 
     /**
@@ -113,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     /**
