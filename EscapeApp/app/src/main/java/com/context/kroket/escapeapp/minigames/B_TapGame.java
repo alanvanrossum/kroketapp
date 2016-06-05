@@ -33,7 +33,6 @@ public class B_TapGame extends AppCompatActivity {
     int goal = 125;             //The amount of times that should be clicked.
     int amount = -1;            //Amount = -1 when the timer has not started yet.
     int seconds;
-    boolean done = false;
 
     TextView timer;
     Button restartButton;
@@ -88,8 +87,6 @@ public class B_TapGame extends AppCompatActivity {
         clickButton.setText("TIME'S UP!");
         //The goal is reached: send message to the server.
         if (amount >= goal) {
-            connectionService.endB();
-            done = true;
             Intent intent = new Intent(this, WaitingActivity.class);
             startActivity(intent);
         } else {

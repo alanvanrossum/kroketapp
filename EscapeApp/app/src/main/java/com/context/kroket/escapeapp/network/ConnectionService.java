@@ -147,6 +147,21 @@ public class ConnectionService extends Service {
         startActivity(dialogIntent);
     }
 
+
+    /**
+     * Sends a message to the server that minigame B is solved.
+     */
+    public void startB() {
+        tcpClient.sendMessage("INITVR[startB]");
+    }
+
+    /**
+     * Sends a message to the server that minigame B is solved.
+     */
+    public void endBMobile() {
+        tcpClient.sendMessage("INITVR[doneBMobile]");
+    }
+
     /**
      * Sends a message to the server that minigame B is solved.
      */
@@ -252,6 +267,14 @@ public class ConnectionService extends Service {
 //                    endMinigame();
                 } else if (action.contentEquals("doneC")) {
                     endMinigame();
+                } else if (action.contentEquals("doneB")) {
+                    B_TapGame.done = true;
+                    endMinigame();
+                }
+                //Minigame B can be restarted. so it can be activated outside of the waiting activity.
+                else if (action.contentEquals("startB")) {
+                    buttonParams = CommandParser.parseParams(input);
+                    startMinigame(B_TapGame.class);
                 }
             }
         }
