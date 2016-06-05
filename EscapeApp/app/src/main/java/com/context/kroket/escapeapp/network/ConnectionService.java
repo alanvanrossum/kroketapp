@@ -132,6 +132,14 @@ public class ConnectionService extends Service {
     }
 
     /**
+     * Sends a message to the server if bonus time should be added.
+     */
+    public void bonusD() {
+        System.out.println("bonus message sent");
+        tcpClient.sendMessage("INITVR[bonusD]");
+    }
+
+    /**
      * Sends a message to the server that minigame B is solved.
      */
     public void endB() {

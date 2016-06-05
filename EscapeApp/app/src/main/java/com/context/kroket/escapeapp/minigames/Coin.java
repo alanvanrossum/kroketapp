@@ -70,7 +70,7 @@ public abstract class Coin {
      */
     public boolean collideWithGyro(float gyroX, float gyroY){
         if (this instanceof DeadCoin) {
-            if(Math.abs(iv.getX() - gyroX) < 105 && Math.abs(iv.getY() - gyroY) < 105){
+            if(Math.abs(iv.getX() - gyroX) < 100 && Math.abs(iv.getY() - gyroY) < 100){
                 return true;
             }
         }

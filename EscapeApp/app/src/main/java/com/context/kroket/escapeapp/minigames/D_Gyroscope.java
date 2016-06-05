@@ -1,6 +1,9 @@
 package com.context.kroket.escapeapp.minigames;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -9,6 +12,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.network.ConnectionService;
 
 import java.util.Random;
 
@@ -75,12 +80,30 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
             placeCoinsRandomly();
             amountView.setText("Score: " + Integer.toString(gold.getCount() + silver.getCount() + bronze.getCount()));
         } else if (dead.collideWithGyro(gyro.getX(), gyro.getY())) {
-            gold.setCount(0);
-            silver.setCount(0);
-            bronze.setCount(0);
+            resetCounts();
             amountView.setText("Score: " + Integer.toString(gold.getCount() + silver.getCount() + bronze.getCount()));
             placeCoinsRandomly();
         }
+
+        // Check if the bonus time should be received.
+        if (gold.getCount() + silver.getCount() + bronze.getCount() >= 50) {
+            resetCounts();
+            amountView.setText("BONUS TIME RECEIVED!");
+            if (serviceIsBound) {
+                connectionService.bonusD();
+            } else {
+                System.out.println("ConnectionService not bound in D_Gyroscope");
+            }
+        }
+    }
+
+    /**
+     * Resets the counts of the gold, silver and bronze coins.
+     */
+    public void resetCounts() {
+        gold.setCount(0);
+        silver.setCount(0);
+        bronze.setCount(0);
     }
 
     /**
@@ -167,7 +190,47 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
 
         placeCoinsRandomly(screenWidth / 2 - gyroWidth / 2, screenHeight / 2 - gyroHeight / 2);
 
+        //Bind this service.
+        Intent i = new Intent(this, ConnectionService.class);
+        bindService(i, mConnection, Context.BIND_AUTO_CREATE);
+
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
+
+
+    /* Methods for the connection. */
+
+    ConnectionService connectionService;
+    boolean serviceIsBound = false;
+
+    //Defines callbacks for service binding, used in bindService().
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        /**
+         * Called when a connection to the Service has been established.
+         *
+         * @param className The concrete component name of the service that has
+         * been connected.
+         * @param service The IBinder of the Service's communication channel,
+         * which you can now make calls on.
+         */
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            ConnectionService.myBinder binder = (ConnectionService.myBinder) service;
+            connectionService = binder.getService();
+            serviceIsBound = true;
+        }
+
+        /**
+         * Called when a connection to the Service has been lost.
+         *
+         * @param arg0 The concrete component name of the service whose
+         * connection has been lost.
+         */
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            serviceIsBound = false;
+        }
+    };
 }
