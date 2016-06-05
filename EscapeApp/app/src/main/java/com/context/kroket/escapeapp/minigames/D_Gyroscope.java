@@ -89,11 +89,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
         if (gold.getCount() + silver.getCount() + bronze.getCount() >= 50) {
             resetCounts();
             amountView.setText("BONUS TIME RECEIVED!");
-            if (serviceIsBound) {
-                connectionService.bonusD();
-            } else {
-                System.out.println("ConnectionService not bound in D_Gyroscope");
-            }
+            connectionService.bonusD();
         }
     }
 
