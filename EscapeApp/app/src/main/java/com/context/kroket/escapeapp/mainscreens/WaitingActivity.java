@@ -34,4 +34,8 @@ public class WaitingActivity extends AppCompatActivity {
         //Change the current activity.
         ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
