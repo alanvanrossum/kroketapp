@@ -47,4 +47,8 @@ public class WaitingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, D_Gyroscope.class);
         startActivity(intent);
     }
+        
+    @Override
+    public void onBackPressed() {
+    }
 }
