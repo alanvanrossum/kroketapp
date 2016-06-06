@@ -18,7 +18,7 @@ import android.util.Log;
 public class GameClient {
 
     /** The remote host we will be connecting to. */
-    //public static final String SERVERIP = "192.168.1.50";
+    public static final String SERVERIP = "192.168.1.50";
 
     private String remoteHost;
 
@@ -47,7 +47,9 @@ public class GameClient {
     public GameClient(String remoteHost, OnMessageReceived listener) {
         messageListener = listener;
         connected = false;
-        this.remoteHost = remoteHost;
+
+
+        this.remoteHost = (remoteHost.isEmpty() ? SERVERIP : remoteHost);
     }
 
     /**
