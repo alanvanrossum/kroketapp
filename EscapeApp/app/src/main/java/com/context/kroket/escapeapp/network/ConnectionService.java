@@ -56,8 +56,10 @@ public class ConnectionService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
 
+
+
         list = new ArrayList<String>();
-        new connectTask().execute("");
+        new connectTask().execute(intent.getStringExtra("remote_address"));
 
         //Wait for the tcpClient to be instantiated
         try {
@@ -68,7 +70,7 @@ public class ConnectionService extends Service {
 
         if (tcpClient == null)
         {
-            setLabelText("Connection failed, yo.");
+//            setLabelText("Connection failed, yo.");
         }
         else {
             tcpClient.sendMessage(registerString);
@@ -226,7 +228,7 @@ public class ConnectionService extends Service {
 
                 Log.i(TAG, "Creating GameClient...");
 
-                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
+                tcpClient = new GameClient(message[0], new GameClient.OnMessageReceived() {
 
                     @Override
                     public void messageReceived(String mes) {
