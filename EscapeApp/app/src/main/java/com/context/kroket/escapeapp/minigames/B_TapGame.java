@@ -36,7 +36,6 @@ public class B_TapGame extends AppCompatActivity {
     public static boolean done = false;
 
     TextView timer;
-    Button restartButton;
     TextView clickButton;
     TextView amountView;
     TextView buttonView;
@@ -89,19 +88,14 @@ public class B_TapGame extends AppCompatActivity {
         //The goal is reached: send message to the server.
         if (amount >= goal) {
             connectionService.verifyB();
-            //done = true;
-//            Intent intent = new Intent(this, WaitingActivity.class);
-//            startActivity(intent);
-        } else {
-            //Goal not reached. Able to start game again.
-            amountView.setText("Too bad! \nClick restart to try again.");
 
+        } else {
+
+            amountView.setText("Too bad!");
 
             //Goal not reached restart minigame B.
             connectionService.startB();
 
-            //restartButton.setVisibility(View.VISIBLE);
-            //restartButton.setEnabled(true);
         }
     }
 
@@ -180,13 +174,10 @@ public class B_TapGame extends AppCompatActivity {
         setContentView(R.layout.b_tap_game);
 
         timer = (TextView) findViewById(R.id.timer);
-        restartButton = ((Button) findViewById(R.id.restartButton));
         clickButton = ((TextView) findViewById(R.id.clickButton));
         amountView = ((TextView) findViewById(R.id.amount));
         buttonView = ((TextView) findViewById(R.id.buttonSequence));
 
-        restartButton.setVisibility(View.INVISIBLE);
-        restartButton.setEnabled(false);
     }
 
     /**
@@ -221,10 +212,12 @@ public class B_TapGame extends AppCompatActivity {
     }
 
 
+    /**
+     * updates the buttonView text view every 25 clicks.
+     */
     public void showButtons() {
         if(amount == 25) {
             buttonView.setText("First sequence: " + sequences.get(0));
-
         }
         if(amount == 50) {
             buttonView.setText("Second sequence: " + sequences.get(1));
