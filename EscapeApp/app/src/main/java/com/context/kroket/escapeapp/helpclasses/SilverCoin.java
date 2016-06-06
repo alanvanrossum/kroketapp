@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp.minigames;
+package com.context.kroket.escapeapp.helpclasses;
 
 import android.widget.ImageView;
 
@@ -12,10 +12,10 @@ public class SilverCoin extends Coin{
      * The ImageView corresponds to the viewID of the coin, and contains information such as location and rotation.
      * count contains the amount of coins of this type collected in total by the player.
      *
-     * @param newiv
+     * @param newImageView
      */
-    public SilverCoin(ImageView newiv) {
-        super(newiv);
+    public SilverCoin(ImageView newImageView) {
+        super(newImageView);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp.minigames;
+package com.context.kroket.escapeapp.helpclasses;
 
 import android.widget.ImageView;
 
@@ -9,16 +9,16 @@ import java.util.Random;
  */
 public abstract class Coin {
     int count;
-    ImageView iv;
+    ImageView imageView;
 
     /**
      * This method created a new Coin Object, which contains a count and an imageView.
      * The ImageView corresponds to the viewID of the coin, and contains information such as location and rotation.
      * count contains the amount of coins of this type collected in total by the player.
-     * @param newiv
+     * @param newImageView
      */
-    public Coin(ImageView newiv){
-        iv = newiv;
+    public Coin(ImageView newImageView){
+        imageView = newImageView;
         count = 0;
     }
 
@@ -50,7 +50,7 @@ public abstract class Coin {
      * @param newX The new Xvalue of the view.
      */
     public void setX(float newX){
-        iv.setX(newX);
+        imageView.setX(newX);
     }
 
     /**
@@ -58,7 +58,7 @@ public abstract class Coin {
      * @param newY The new Yvalue of the view
      */
     public void setY(float newY){
-        iv.setY(newY);
+        imageView.setY(newY);
     }
 
     /**
@@ -70,12 +70,12 @@ public abstract class Coin {
      */
     public boolean collideWithGyro(float gyroX, float gyroY){
         if (this instanceof DeadCoin) {
-            if(Math.abs(iv.getX() - gyroX) < 100 && Math.abs(iv.getY() - gyroY) < 100){
+            if(Math.abs(imageView.getX() - gyroX) < 100 && Math.abs(imageView.getY() - gyroY) < 100){
                 return true;
             }
         }
 
-        if(Math.abs(iv.getX() - gyroX) < 70 && Math.abs(iv.getY() - gyroY) < 70){
+        if(Math.abs(imageView.getX() - gyroX) < 70 && Math.abs(imageView.getY() - gyroY) < 70){
             this.score();
             return true;
         }
@@ -105,7 +105,7 @@ public abstract class Coin {
      * @return The new x or y location for the coin.
      */
     private float clamp(int value, float gyroLoc, int size) {
-        if(value>gyroLoc-size)
+        if(value > gyroLoc - size)
             return value + 3 * size;
         return value;
     }
