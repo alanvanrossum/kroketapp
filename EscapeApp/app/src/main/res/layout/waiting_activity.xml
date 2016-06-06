@@ -22,4 +22,28 @@
         android:layout_centerHorizontal="true"
         android:textAlignment="center" />
 
+    <TextView android:id="@+id/waiting2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.07"
+        android:hint="In the meantime... \nWhy don't you play this minigame, and earn some extra time to escape the room!"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/waiting"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="127dp" />
+
+    <Button android:id="@+id/startButtonWaiting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/startButton"
+        android:onClick="startButtonWaiting"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/waiting2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp" />
+
 </RelativeLayout>

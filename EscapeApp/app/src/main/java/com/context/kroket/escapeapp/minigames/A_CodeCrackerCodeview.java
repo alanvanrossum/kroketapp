@@ -130,7 +130,6 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     //*********** ONLY USED FOR TESTING PURPOSES ***********//
     //******************************************************//
 
-
     public static boolean testing = false;
     public static void enableTesting(boolean b) {testing = b;}
     public static int numberOfAttempts = 0;
