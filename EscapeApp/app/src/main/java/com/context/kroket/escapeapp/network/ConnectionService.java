@@ -147,6 +147,14 @@ public class ConnectionService extends Service {
         startActivity(dialogIntent);
     }
 
+    public void goToWaitingScreen() {
+       // if (!inWaitingActivity()) {
+            Intent dialogIntent = new Intent(this, WaitingActivity.class);
+            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(dialogIntent);
+       // }
+    }
+
 
     /**
      * Sends a message to the server that minigame B is solved.
@@ -269,7 +277,8 @@ public class ConnectionService extends Service {
                     endMinigame();
                 } else if (action.contentEquals("doneB")) {
                     B_TapGame.done = true;
-                    endMinigame();
+                    //endMinigame();
+                    goToWaitingScreen();
                 }
                 //Minigame B can be restarted. so it can be activated outside of the waiting activity.
                 else if (action.contentEquals("startB")) {
