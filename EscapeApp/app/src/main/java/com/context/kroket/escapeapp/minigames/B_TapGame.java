@@ -88,7 +88,7 @@ public class B_TapGame extends AppCompatActivity {
         clickButton.setText("TIME'S UP!");
         //The goal is reached: send message to the server.
         if (amount >= goal) {
-            connectionService.endBMobile();
+            connectionService.verifyB();
             //done = true;
 //            Intent intent = new Intent(this, WaitingActivity.class);
 //            startActivity(intent);
