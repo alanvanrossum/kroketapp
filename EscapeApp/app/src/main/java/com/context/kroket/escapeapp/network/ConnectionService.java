@@ -283,7 +283,7 @@ public class ConnectionService extends Service {
         /**
          * Runs on the UI thread after {@link #publishProgress} is invoked.
          * The specified values are the values passed to {@link #publishProgress}.
-         * <p>
+         * <p/>
          * This method listens for messages from the server, and acts accordingly
          * upon them.
          *
@@ -329,6 +329,7 @@ public class ConnectionService extends Service {
                 }
             } else if (command.equals("BEGIN")) {
 
+
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
                     startMinigame(minigameclass);
@@ -355,30 +356,25 @@ public class ConnectionService extends Service {
             } else if (game.equals("B")) {
 
 
-
                 minigameclass = B_TapGame.class;
 
-                buttonParams = new ArrayList<String>();
+                buttonParams = (ArrayList<String>) params;
 
-                Log.i(TAG, "params.size = " + params.size());
-
-                for (String param : params.subList(1, params.size())) {
-                    Log.i(TAG, "param : " + param);
-                    buttonParams.add(param);
-                }
 
             } else if (game.equals("C")) {
 
                 minigameclass = C_ColorSequence.class;
 
-                colorParams = new ArrayList<String>();
+                colorParams = (ArrayList<String>) params;
 
-                Log.i(TAG, "params.size = " + params.size());
+//                Log.i(TAG, "params.size = " + params.size());
+//
+//                for (String param : params.subList(1, params.size())) {
+//                    Log.i(TAG, "param : " + param);
+//                    colorParams.add(param);
+//                }
 
-                for (String param : params.subList(1, params.size())) {
-                    Log.i(TAG, "param : " + param);
-                    colorParams.add(param);
-                }
+
             }
 
             return minigameclass;
