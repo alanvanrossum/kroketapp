@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
         Button connectButton = (Button) findViewById(R.id.connectButton);
+        TextView remoteHost = (TextView) findViewById(R.id.remoteHost);
 
 
         boolean connected = GameClient.isConnected();
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
         if (connected) {
             connectMessage.setText("Already connected.");
             view.setEnabled(false);
+            remoteHost.setEnabled(false);
             start.setEnabled(true);
+
             return;
         }
 
@@ -65,11 +68,13 @@ public class MainActivity extends AppCompatActivity {
 
         connectMessage.setText("Trying to connect...");
         connectButton.setEnabled(false);
+        remoteHost.setEnabled(false);
         name.setEnabled(false);
 
         //Connect to server, if this succeeds set connected boolean to true.
         Intent intent = new Intent(this, ConnectionService.class);
         intent.putExtra("string_name", name.getText().toString());
+        intent.putExtra("remote_address", remoteHost.getText().toString());
 
         startService(intent);
     }
@@ -79,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
         Button connectButton = (Button) findViewById(R.id.connectButton);
+        TextView remoteHost = (TextView) findViewById(R.id.remoteHost);
 
         boolean connected = GameClient.isConnected();
 
@@ -86,12 +92,16 @@ public class MainActivity extends AppCompatActivity {
             connectMessage.setText("Connection established, tap START to begin!");
             connectButton.setEnabled(false);
             name.setEnabled(false);
+            remoteHost.setEnabled(false);
             start.setEnabled(true);
 
         } else {
             connectMessage.setText("Connection failed. :(");
             start.setEnabled(false);
+
             name.setEnabled(true);
+            remoteHost.setEnabled(true);
+
             connectButton.setEnabled(true);
         }
     }

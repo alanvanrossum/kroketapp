@@ -20,6 +20,8 @@ public class GameClient {
     /** The remote host we will be connecting to. */
     public static final String SERVERIP = "192.168.1.50";
 
+    private String remoteHost;
+
     /** The remote port we will be connecting to. */
     public static final int SERVERPORT = 1234;
 
@@ -42,10 +44,12 @@ public class GameClient {
      *
      * @param listener the listerener we want to use.
      */
-    public GameClient(OnMessageReceived listener) {
+    public GameClient(String remoteHost, OnMessageReceived listener) {
         messageListener = listener;
         connected = false;
 
+
+        this.remoteHost = (remoteHost.isEmpty() ? SERVERIP : remoteHost);
     }
 
     /**
@@ -102,7 +106,7 @@ public class GameClient {
             connecting = true;
             connected = false;
 
-            InetAddress serverAddress = InetAddress.getByName(SERVERIP);
+            InetAddress serverAddress = InetAddress.getByName(this.remoteHost);
             SocketAddress socketAddress = new InetSocketAddress(serverAddress, SERVERPORT);
             serverSocket = new Socket();
             serverSocket.setReuseAddress(true);
@@ -116,9 +120,9 @@ public class GameClient {
         } catch (UnknownHostException e) {
             Log.e(TAG, "Unknown host: " + e);
         } catch (SocketTimeoutException e) {
-            Log.e(TAG, "Timeout occured during connect to " + SERVERIP + ":" + SERVERPORT);
+            Log.e(TAG, "Timeout occured during connect to " + remoteHost + ":" + SERVERPORT);
         } catch (ConnectException e) {
-            Log.e(TAG, "Failed to connect to " + SERVERIP + ":" + SERVERPORT);
+            Log.e(TAG, "Failed to connect to " + remoteHost + ":" + SERVERPORT);
         } catch (SocketException e) {
             Log.e(TAG, "SocketException");
         } catch (IOException e) {
