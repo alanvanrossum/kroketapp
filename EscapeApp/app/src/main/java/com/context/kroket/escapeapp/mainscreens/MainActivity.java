@@ -23,6 +23,8 @@ import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.network.GameClient;
 
 
+import android.util.Log;
+
 /**
  * Responsible for making sure the player can connect to and start the game.
  */

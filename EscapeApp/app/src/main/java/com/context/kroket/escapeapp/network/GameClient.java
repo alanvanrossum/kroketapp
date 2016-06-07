@@ -17,13 +17,10 @@ import android.util.Log;
  */
 public class GameClient {
 
-    /** The remote host we will be connecting to. */
-    public static final String SERVERIP = "80.112.155.241";
+    public static final String SERVERIP = "192.168.1.50"; //"145.94.177.139"; //"192.168.178.19"; //the ip adress of the server  Alan: "145.94.178.99."
+    public static final int SERVERPORT = 1234; //The port we will be listening.
 
     private String remoteHost;
-
-    /** The remote port we will be connecting to. */
-    public static final int SERVERPORT = 1234;
 
     private String serverMessage;
     private OnMessageReceived messageListener = null;

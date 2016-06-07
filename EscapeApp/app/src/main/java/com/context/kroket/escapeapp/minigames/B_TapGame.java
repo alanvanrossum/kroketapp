@@ -20,7 +20,7 @@ import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 
-
+import android.util.Log;
 import java.util.ArrayList;
 
 /**
@@ -49,6 +49,8 @@ public class B_TapGame extends AppCompatActivity {
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
+
+    private static final String TAG = "TapGame";
 
     Handler timerHandler = new Handler();
 
@@ -94,7 +96,7 @@ public class B_TapGame extends AppCompatActivity {
             amountView.setText("Too bad!");
 
             //Goal not reached restart minigame B.
-            connectionService.startB();
+            connectionService.restartB();
 
         }
     }
@@ -216,16 +218,16 @@ public class B_TapGame extends AppCompatActivity {
      * updates the buttonView text view every 25 clicks.
      */
     public void showButtons() {
-        if(amount == 25) {
+        if (amount == 25) {
             buttonView.setText("First sequence: " + sequences.get(0));
         }
-        if(amount == 50) {
+        if (amount == 50) {
             buttonView.setText("Second sequence: " + sequences.get(1));
         }
-        if(amount == 75) {
+        if (amount == 75) {
             buttonView.setText("Third sequence: " + sequences.get(2));
         }
-        if(amount == 100) {
+        if (amount == 100) {
             buttonView.setText("Fourth sequence: " + sequences.get(3));
         }
 
@@ -241,23 +243,31 @@ public class B_TapGame extends AppCompatActivity {
          * Defines what should happen when a message is received.
          *
          * @param context The Context in which the receiver is running.
-         * @param intent The Intent being received.
+         * @param intent  The Intent being received.
          */
         @Override
         public void onReceive(Context context, Intent intent) {
+
+
             buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
+
+            if (buttons.size() == 0) {
+                Log.e(TAG, "buttons.size() == 0");
+            }
 
             String addString = "";
 
-            for(int x = 0; x < 4; x++){
+            for (int x = 0; x < 4; x++) {
                 sequences.add(addString);
+
+                Log.i(TAG, "sequence:" + addString);
             }
 
-            for(int k = 0; k <= 3; k++) {
+            for (int k = 0; k <= 3; k++) {
 
-                for (int i = 4*k + 1; i <= 4*k + 4; i++) {
+                for (int i = 4 * k + 1; i <= 4 * k + 4; i++) {
                     String temp = sequences.get(k);
-                    if (i == 4*k + 1) {
+                    if (i == 4 * k + 1) {
                         temp = buttons.get(i);
                     } else {
                         temp = temp + " + " + buttons.get(i);

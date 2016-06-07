@@ -3,10 +3,10 @@ package com.context.kroket.escapeapp.network;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import java.util.List;
+
 import android.util.Log;
+
 import android.widget.TextView;
+
 
 /**
  * This service is responsible for registering players by sending information
@@ -41,44 +43,43 @@ public class ConnectionService extends Service {
     //Binder given to clients.
     public final IBinder binder = new myBinder();
     private static final String TAG = "ConnectionService";
+
     /**
      * Called by the system every time a client explicitly starts the service.
      * This method registers the player by sending the player's name and the
      * type to the server.
      *
-     * @param intent The Intent supplied to {@link android.content.Context#startService},
-     * as given.  This may be null if the service is being restarted after
-     * its process has gone away, and it had previously returned anything
-     * except {@link #START_STICKY_COMPATIBILITY}.
-     * @param flags Additional data about this start request. Currently either
-     * 0, {@link #START_FLAG_REDELIVERY}, or {@link #START_FLAG_RETRY}.
+     * @param intent  The Intent supplied to {@link android.content.Context#startService},
+     *                as given.  This may be null if the service is being restarted after
+     *                its process has gone away, and it had previously returned anything
+     *                except {@link #START_STICKY_COMPATIBILITY}.
+     * @param flags   Additional data about this start request. Currently either
+     *                0, {@link #START_FLAG_REDELIVERY}, or {@link #START_FLAG_RETRY}.
      * @param startId A unique integer representing this specific request to
-     * start.
+     *                start.
      * @return The return value indicates what semantics the system should
      * use for the service's current started state.  It may be one of the
      * constants associated with the {@link #START_CONTINUATION_MASK} bits.
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
-
-
 
         list = new ArrayList<String>();
         new connectTask().execute(intent.getStringExtra("remote_address"));
 
         //Wait for the tcpClient to be instantiated
         try {
-            Thread.sleep(1000,0);
+            Thread.sleep(1000, 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        if (tcpClient == null)
-        {
+
+        if (tcpClient == null) {
 //            setLabelText("Connection failed, yo.");
-        }
-        else {
+        } else {
             tcpClient.sendMessage(registerString);
         }
 
@@ -91,7 +92,7 @@ public class ConnectionService extends Service {
      * Check if current activity is waiting activity.
      */
     private boolean inWaitingActivity() {
-        String current_activity = ((ActivityManager)this.getApplicationContext())
+        String current_activity = ((ActivityManager) this.getApplicationContext())
                 .getCurrentActivity().getComponentName().getClassName();
         String waiting_activity = WaitingActivity.class.getName();
         String game_waiting_activity = D_Gyroscope.class.getName();
@@ -105,19 +106,21 @@ public class ConnectionService extends Service {
      */
     private void startMinigame(Class minigameclass) {
         //Broadcast the colorsequence if necessary.
-        if (minigameclass.equals(C_ColorSequence.class)) {
-            BTActionString = "colorBroadcast";
-            BTExtraString = "colorSequence";
-            BTExtraArray = colorParams;
-            BroadcastThread myThreadC = new BroadcastThread();
-            myThreadC.start();
-        }
+
         if (minigameclass.equals(B_TapGame.class)) {
             BTActionString = "buttonBroadcast";
             BTExtraString = "buttonSequence";
             BTExtraArray = buttonParams;
             BroadcastThread myThreadB = new BroadcastThread();
             myThreadB.start();
+        }
+
+        if (minigameclass.equals(C_ColorSequence.class)) {
+            BTActionString = "colorBroadcast";
+            BTExtraString = "colorSequence";
+            BTExtraArray = colorParams;
+            BroadcastThread myThreadC = new BroadcastThread();
+            myThreadC.start();
         }
 
         //start the activity belonging to the minigame
@@ -131,7 +134,7 @@ public class ConnectionService extends Service {
     /**
      * Thread for sending information to activities.
      */
-    public class BroadcastThread extends Thread{
+    public class BroadcastThread extends Thread {
 
         /**
          * Run the thread: broadcast information.
@@ -164,16 +167,19 @@ public class ConnectionService extends Service {
     }
 
 
-
     /**
      * Sends a message to the server that minigame B is solved.
      */
+    public void endB() {
+        tcpClient.sendMessage("DONE[B]");
+    }
+
     public void startB() {
-        tcpClient.sendMessage("INITVR[startB]");
+        tcpClient.sendMessage("BEGIN[B]");
     }
 
     public void setLabelText(String message) {
-        Activity current = ((ActivityManager)this.getApplicationContext())
+        Activity current = ((ActivityManager) this.getApplicationContext())
                 .getCurrentActivity();
 
         if (current instanceof MainActivity) {
@@ -184,7 +190,7 @@ public class ConnectionService extends Service {
     }
 
     public void updateMain() {
-        Activity current = ((ActivityManager)this.getApplicationContext())
+        Activity current = ((ActivityManager) this.getApplicationContext())
                 .getCurrentActivity();
 
         if (current instanceof MainActivity) {
@@ -204,14 +210,18 @@ public class ConnectionService extends Service {
      * Sends a message to the server that minigame B is solved and needs a verification.
      */
     public void verifyB() {
-        tcpClient.sendMessage("INITVR[verifyB]");
+        tcpClient.sendMessage("VERIFY[B]");
+    }
+
+    public void restartB() {
+        tcpClient.sendMessage("RESTART[B]");
     }
 
     /**
      * Sends a message to the server that minigame A is solved.
      */
     public void endA() {
-        tcpClient.sendMessage("INITVR[doneA]");
+        tcpClient.sendMessage("DONE[A]");
     }
 
     /**
@@ -239,6 +249,7 @@ public class ConnectionService extends Service {
      */
     private class connectTask extends AsyncTask<String, String, GameClient> {
 
+        private static final String TAG = "connectTask";
 
 
         /**
@@ -265,7 +276,6 @@ public class ConnectionService extends Service {
                 tcpClient.run();
 
 
-
             } catch (Exception e) {
                 this.cancel(true);
             }
@@ -289,15 +299,9 @@ public class ConnectionService extends Service {
             list.add(values[0]);
             String input = values[0];
 
-            updateMain();
-
-            if (GameClient.isConnected())
-                setLabelText("Connected.");
-            else
-                setLabelText("Connection failed...");
+            Log.d(TAG, "Message received: " + input);
 
             updateMain();
-
 
             HashMap<String, String> command = CommandParser.parseInput(input);
             parseInput(command, input);
@@ -305,53 +309,78 @@ public class ConnectionService extends Service {
 
         /**
          * Parses the input received from the server.
-         *
-         * @param command the hashmap which contains the parsed input.
          */
-        public void parseInput(HashMap<String, String> command, String input) {
 
-            //Command is for the mobile client
-            if (command.get("command").equals("INITM")) {
+        public void parseInput(HashMap<String, String> parsed, String input) {
+            String command = parsed.get("command");
 
-                String action = command.get("param_0");
+            // Start the game
+            if (command.equals("START")) {
+                // Go to waiting screen
+                endMinigame();
+            } else if (command.equals("DONE")) {
 
-                //Only start a minigame if dataInputStream WaitingActivity.
-                if (inWaitingActivity()) {
-                    Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
+
+                // minigame is complete
+                endMinigame();
+
+                if (parsed.containsKey("param_0")) {
+                    String gameName = parsed.get("param_0");
+
+                    if (gameName.equals("B")) {
+                        B_TapGame.done = true;
+                    }
+                }
+            } else if (command.equals("BEGIN")) {
+
+
+           //     if (inWaitingActivity()) {
+                    Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
                     startMinigame(minigameclass);
-//                } else if (action.contentEquals("minigameDone")) {
-//                    endMinigame();
-                } else if (action.contentEquals("doneC")) {
-                    endMinigame();
-                } else if (action.contentEquals("doneB")) {
-                    B_TapGame.done = true;
-                    endMinigame();
-                }
-                //Minigame B can be restarted. so it can be activated outside of the waiting activity.
-                else if (action.contentEquals("startB")) {
-                    buttonParams = CommandParser.parseParams(input);
-                    startMinigame(B_TapGame.class);
-                }
+            //    }
             }
+
         }
 
         /**
          * Returns the class of the minigame that should be started corresponding to the action.
-         * @param action the received action.
+         *
          * @return the class corresponding to the action.
          */
-        public Class getMinigameClassFromInput(String action, ArrayList<String> params) {
+        public Class getMinigameClassFromInput(List<String> params) {
+
+            Log.i(TAG, "getMinigameClassFromInput");
+
             Class minigameclass = null;
-            if (action.contentEquals("startA")) {
+
+            String game = params.get(0);
+
+            if (game.equals("A")) {
                 minigameclass = A_CodeCrackerCodeview.class;
-            } else if (action.contentEquals("startB")) {
+            } else if (game.equals("B")) {
+
+
                 minigameclass = B_TapGame.class;
-                buttonParams = params;
-            } else if (action.contentEquals("startC")) {
+
+                buttonParams = (ArrayList<String>) params;
+
+
+            } else if (game.equals("C")) {
+
                 minigameclass = C_ColorSequence.class;
-                //Set the command for the colorSequence, to be broadcasted later on.
-                colorParams = params;
+
+                colorParams = (ArrayList<String>) params;
+
+//                Log.i(TAG, "params.size = " + params.size());
+//
+//                for (String param : params.subList(1, params.size())) {
+//                    Log.i(TAG, "param : " + param);
+//                    colorParams.add(param);
+//                }
+
+
             }
+
             return minigameclass;
         }
     }
