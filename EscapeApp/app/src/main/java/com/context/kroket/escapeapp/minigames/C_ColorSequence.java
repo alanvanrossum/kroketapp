@@ -21,6 +21,8 @@ import java.util.HashMap;
 
 public class C_ColorSequence extends AppCompatActivity {
 
+
+
     //The color sequence.
     public static ArrayList<Integer> colorSequence;
 

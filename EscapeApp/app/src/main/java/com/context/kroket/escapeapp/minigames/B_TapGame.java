@@ -20,7 +20,7 @@ import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 
-
+import android.util.Log;
 import java.util.ArrayList;
 
 /**
@@ -49,6 +49,8 @@ public class B_TapGame extends AppCompatActivity {
 
     ConnectionService connectionService;
     boolean serviceIsBound = false;
+
+    private static final String TAG = "TapGame";
 
     Handler timerHandler = new Handler();
 
@@ -245,12 +247,20 @@ public class B_TapGame extends AppCompatActivity {
          */
         @Override
         public void onReceive(Context context, Intent intent) {
+
+
             buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
+
+            if (buttons.size() == 0) {
+                Log.e(TAG, "buttons.size() == 0");
+            }
 
             String addString = "";
 
             for (int x = 0; x < 4; x++) {
                 sequences.add(addString);
+
+                Log.i(TAG, "sequence:" + addString);
             }
 
             for (int k = 0; k <= 3; k++) {

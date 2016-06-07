@@ -106,19 +106,21 @@ public class ConnectionService extends Service {
      */
     private void startMinigame(Class minigameclass) {
         //Broadcast the colorsequence if necessary.
-        if (minigameclass.equals(C_ColorSequence.class)) {
-            BTActionString = "colorBroadcast";
-            BTExtraString = "colorSequence";
-            BTExtraArray = colorParams;
-            BroadcastThread myThreadC = new BroadcastThread();
-            myThreadC.start();
-        }
+
         if (minigameclass.equals(B_TapGame.class)) {
             BTActionString = "buttonBroadcast";
             BTExtraString = "buttonSequence";
             BTExtraArray = buttonParams;
             BroadcastThread myThreadB = new BroadcastThread();
             myThreadB.start();
+        }
+
+        if (minigameclass.equals(C_ColorSequence.class)) {
+            BTActionString = "colorBroadcast";
+            BTExtraString = "colorSequence";
+            BTExtraArray = colorParams;
+            BroadcastThread myThreadC = new BroadcastThread();
+            myThreadC.start();
         }
 
         //start the activity belonging to the minigame
@@ -351,6 +353,9 @@ public class ConnectionService extends Service {
             if (game.equals("A")) {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (game.equals("B")) {
+
+
+
                 minigameclass = B_TapGame.class;
 
                 buttonParams = new ArrayList<String>();
