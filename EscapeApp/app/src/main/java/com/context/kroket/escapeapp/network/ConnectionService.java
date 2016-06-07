@@ -213,6 +213,10 @@ public class ConnectionService extends Service {
         tcpClient.sendMessage("VERIFY[B]");
     }
 
+    public void restartB() {
+        tcpClient.sendMessage("RESTART[B]");
+    }
+
     /**
      * Sends a message to the server that minigame A is solved.
      */
@@ -330,10 +334,10 @@ public class ConnectionService extends Service {
             } else if (command.equals("BEGIN")) {
 
 
-                if (inWaitingActivity()) {
+           //     if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
                     startMinigame(minigameclass);
-                }
+            //    }
             }
 
         }

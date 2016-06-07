@@ -96,7 +96,7 @@ public class B_TapGame extends AppCompatActivity {
             amountView.setText("Too bad!");
 
             //Goal not reached restart minigame B.
-            connectionService.startB();
+            connectionService.restartB();
 
         }
     }
