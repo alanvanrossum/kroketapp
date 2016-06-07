@@ -18,7 +18,7 @@ import android.util.Log;
 public class GameClient {
 
     /** The remote host we will be connecting to. */
-    public static final String SERVERIP = "192.168.1.50";
+    public static final String SERVERIP = "80.112.155.241";
 
     private String remoteHost;
 

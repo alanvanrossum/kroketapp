@@ -3,6 +3,7 @@ package com.context.kroket.escapeapp.network;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -18,6 +19,7 @@ import com.context.kroket.escapeapp.minigames.D_Gyroscope;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import java.util.List;
 import android.util.Log;
@@ -32,6 +34,10 @@ public class ConnectionService extends Service {
     private static GameClient tcpClient;
     private static ArrayList<String> list;
     public ArrayList<String> colorParams;
+    public ArrayList<String> buttonParams;
+    public String BTActionString;
+    public String BTExtraString;
+    public ArrayList<String> BTExtraArray;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
     private static final String TAG = "ConnectionService";
@@ -100,8 +106,18 @@ public class ConnectionService extends Service {
     private void startMinigame(Class minigameclass) {
         //Broadcast the colorsequence if necessary.
         if (minigameclass.equals(C_ColorSequence.class)) {
-            BroadcastThread myThread = new BroadcastThread();
-            myThread.start();
+            BTActionString = "colorBroadcast";
+            BTExtraString = "colorSequence";
+            BTExtraArray = colorParams;
+            BroadcastThread myThreadC = new BroadcastThread();
+            myThreadC.start();
+        }
+        if (minigameclass.equals(B_TapGame.class)) {
+            BTActionString = "buttonBroadcast";
+            BTExtraString = "buttonSequence";
+            BTExtraArray = buttonParams;
+            BroadcastThread myThreadB = new BroadcastThread();
+            myThreadB.start();
         }
 
         //start the activity belonging to the minigame
@@ -125,8 +141,10 @@ public class ConnectionService extends Service {
             try {
                 Thread.sleep(1000);
                 Intent in = new Intent();
-                in.setAction("colorBroadcast");
-                in.putExtra("colorSequence", colorParams);
+//                in.setAction("colorBroadcast");
+//                in.putExtra("colorSequence", colorParams);
+                in.setAction(BTActionString);
+                in.putExtra(BTExtraString, BTExtraArray);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -139,12 +157,19 @@ public class ConnectionService extends Service {
     /**
      * Ends any minigame. Returns to the waiting screen.
      */
-    public void goToWaitingScreen() {
-        if (!inWaitingActivity()) {
-            Intent dialogIntent = new Intent(this, WaitingActivity.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-        }
+    public void endMinigame() {
+        Intent dialogIntent = new Intent(this, WaitingActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
+
+
+
+    /**
+     * Sends a message to the server that minigame B is solved.
+     */
+    public void startB() {
+        tcpClient.sendMessage("INITVR[startB]");
     }
 
     public void setLabelText(String message) {
@@ -176,10 +201,10 @@ public class ConnectionService extends Service {
     }
 
     /**
-     * Sends a message to the server that minigame B is solved.
+     * Sends a message to the server that minigame B is solved and needs a verification.
      */
-    public void endB() {
-        tcpClient.sendMessage("INITVR[doneB]");
+    public void verifyB() {
+        tcpClient.sendMessage("INITVR[verifyB]");
     }
 
     /**
@@ -284,30 +309,28 @@ public class ConnectionService extends Service {
          * @param command the hashmap which contains the parsed input.
          */
         public void parseInput(HashMap<String, String> command, String input) {
-            String action = command.get("param_0");
 
-            // Start the game
-            if (command.get("command").equals("START")) {
-                // Go to waiting screen
-                goToWaitingScreen();
-            }
-
-            // Messages received from VR player
+            //Command is for the mobile client
             if (command.get("command").equals("INITM")) {
+
+                String action = command.get("param_0");
 
                 //Only start a minigame if dataInputStream WaitingActivity.
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(action, CommandParser.parseParams(input));
                     startMinigame(minigameclass);
+//                } else if (action.contentEquals("minigameDone")) {
+//                    endMinigame();
                 } else if (action.contentEquals("doneC")) {
-                    goToWaitingScreen();
+                    endMinigame();
+                } else if (action.contentEquals("doneB")) {
+                    B_TapGame.done = true;
+                    endMinigame();
                 }
-            // Messages received which were sent by the player itself or the other mobile player.
-            } else if (command.get("command").equals("INITVR")) {
-                if (action.contentEquals("doneA") || action.contentEquals("doneB")) {
-                    System.out.println("action: " + action);
-                    System.out.println("end minigame");
-                    goToWaitingScreen();
+                //Minigame B can be restarted. so it can be activated outside of the waiting activity.
+                else if (action.contentEquals("startB")) {
+                    buttonParams = CommandParser.parseParams(input);
+                    startMinigame(B_TapGame.class);
                 }
             }
         }
@@ -323,6 +346,7 @@ public class ConnectionService extends Service {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (action.contentEquals("startB")) {
                 minigameclass = B_TapGame.class;
+                buttonParams = params;
             } else if (action.contentEquals("startC")) {
                 minigameclass = C_ColorSequence.class;
                 //Set the command for the colorSequence, to be broadcasted later on.
