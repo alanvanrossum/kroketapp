@@ -18,31 +18,48 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.minigames.E_Squasher;
 
 import com.context.kroket.escapeapp.minigames.F_Lock;
+
 import com.context.kroket.escapeapp.network.ConnectionService;
+import com.context.kroket.escapeapp.network.GameClient;
+
 
 import android.util.Log;
 
 /**
  * Responsible for making sure the player can connect to and start the game.
- *
  */
 public class MainActivity extends AppCompatActivity {
 
-
+    private final String TAG = this.getClass().getSimpleName();
 
     /**
      * Method that makes the calls necessary to connect the players to the server.
+     *
      * @param view is the view that was clicked.
      */
     public void connectButton(View view) {
         EditText name = (EditText) findViewById(R.id.player_name);
         TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
         Button start = (Button) findViewById(R.id.startButton);
-        boolean connect = false;
+        Button connectButton = (Button) findViewById(R.id.connectButton);
+        TextView remoteHost = (TextView) findViewById(R.id.remoteHost);
+
+
+        boolean connected = GameClient.isConnected();
+
 
         //Only used in testing, to quickly forward to another view.
-        if(TestActivity != ActivitySwitch.notest){
+        if (TestActivity != ActivitySwitch.notest) {
             checkConditions();
+        }
+
+        if (connected) {
+            connectMessage.setText("Already connected.");
+            view.setEnabled(false);
+            remoteHost.setEnabled(false);
+            start.setEnabled(true);
+
+            return;
         }
 
         //First check if the player has entered his/her name.
@@ -51,19 +68,43 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        //Connect to server, if this succeeds set connect boolean to true.
+        connectMessage.setText("Trying to connect...");
+        connectButton.setEnabled(false);
+        remoteHost.setEnabled(false);
+        name.setEnabled(false);
+
+        //Connect to server, if this succeeds set connected boolean to true.
         Intent intent = new Intent(this, ConnectionService.class);
         intent.putExtra("string_name", name.getText().toString());
+        intent.putExtra("remote_address", remoteHost.getText().toString());
+
         startService(intent);
+    }
 
-        connect = true;
+    public void update() {
+        EditText name = (EditText) findViewById(R.id.player_name);
+        TextView connectMessage = (TextView) findViewById(R.id.connectionMessage);
+        Button start = (Button) findViewById(R.id.startButton);
+        Button connectButton = (Button) findViewById(R.id.connectButton);
+        TextView remoteHost = (TextView) findViewById(R.id.remoteHost);
 
-        //Change connect message and enable start button.
-        if (connect) {
-            connectMessage.setText("connected");
-            if (start != null) {
-                start.setEnabled(true);
-            }
+        boolean connected = GameClient.isConnected();
+
+        if (connected) {
+            connectMessage.setText("Connection established, tap START to begin!");
+            connectButton.setEnabled(false);
+            name.setEnabled(false);
+            remoteHost.setEnabled(false);
+            start.setEnabled(true);
+
+        } else {
+            connectMessage.setText("Connection failed. :(");
+            start.setEnabled(false);
+
+            name.setEnabled(true);
+            remoteHost.setEnabled(true);
+
+            connectButton.setEnabled(true);
         }
     }
 
@@ -81,14 +122,18 @@ public class MainActivity extends AppCompatActivity {
      * Initializes the layout.
      *
      * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied.
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     /**
@@ -104,9 +149,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Change the current activity to this
-        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
-
 
 
     //******************************************************//
@@ -127,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
         private Class ClassAC;
 
-        ActivitySwitch(Class aCLass){
+        ActivitySwitch(Class aCLass) {
             this.ClassAC = aCLass;
         }
 
@@ -146,11 +190,10 @@ public class MainActivity extends AppCompatActivity {
      * switch to the activity specified in ActivitySwitch.
      */
     private void checkConditions() {
-        if(TestActivity == ActivitySwitch.startEn){
+        if (TestActivity == ActivitySwitch.startEn) {
             Button start = (Button) findViewById(R.id.startButton);
             start.setEnabled(true);
-        }
-        else {
+        } else {
             Intent dialogIntent = new Intent(this, TestActivity.returnClass());
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);

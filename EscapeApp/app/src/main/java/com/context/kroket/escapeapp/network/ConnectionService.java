@@ -1,5 +1,6 @@
 package com.context.kroket.escapeapp.network;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,15 +8,24 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.MainActivity;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
+import com.context.kroket.escapeapp.minigames.D_Gyroscope;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+
+import android.util.Log;
+
+import android.widget.TextView;
+
 
 /**
  * This service is responsible for registering players by sending information
@@ -26,42 +36,54 @@ public class ConnectionService extends Service {
     private static GameClient tcpClient;
     private static ArrayList<String> list;
     public ArrayList<String> colorParams;
+    public ArrayList<String> buttonParams;
+    public String BTActionString;
+    public String BTExtraString;
+    public ArrayList<String> BTExtraArray;
     //Binder given to clients.
     public final IBinder binder = new myBinder();
+    private static final String TAG = "ConnectionService";
 
     /**
      * Called by the system every time a client explicitly starts the service.
      * This method registers the player by sending the player's name and the
      * type to the server.
      *
-     * @param intent The Intent supplied to {@link android.content.Context#startService},
-     * as given.  This may be null if the service is being restarted after
-     * its process has gone away, and it had previously returned anything
-     * except {@link #START_STICKY_COMPATIBILITY}.
-     * @param flags Additional data about this start request. Currently either
-     * 0, {@link #START_FLAG_REDELIVERY}, or {@link #START_FLAG_RETRY}.
+     * @param intent  The Intent supplied to {@link android.content.Context#startService},
+     *                as given.  This may be null if the service is being restarted after
+     *                its process has gone away, and it had previously returned anything
+     *                except {@link #START_STICKY_COMPATIBILITY}.
+     * @param flags   Additional data about this start request. Currently either
+     *                0, {@link #START_FLAG_REDELIVERY}, or {@link #START_FLAG_RETRY}.
      * @param startId A unique integer representing this specific request to
-     * start.
+     *                start.
      * @return The return value indicates what semantics the system should
      * use for the service's current started state.  It may be one of the
      * constants associated with the {@link #START_CONTINUATION_MASK} bits.
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String playername = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
+
+        String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
 
         list = new ArrayList<String>();
-        new connectTask().execute("");
+        new connectTask().execute(intent.getStringExtra("remote_address"));
 
         //Wait for the tcpClient to be instantiated
         try {
-            Thread.sleep(1000,0);
+            Thread.sleep(1000, 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        //Send the name and type of the player to the server.
-        tcpClient.sendMessage(playername);
+
+        if (tcpClient == null) {
+//            setLabelText("Connection failed, yo.");
+        } else {
+            tcpClient.sendMessage(registerString);
+        }
+
+        updateMain();
 
         return START_STICKY;
     }
@@ -70,10 +92,11 @@ public class ConnectionService extends Service {
      * Check if current activity is waiting activity.
      */
     private boolean inWaitingActivity() {
-        String current_activity = ((ActivityManager)this.getApplicationContext())
+        String current_activity = ((ActivityManager) this.getApplicationContext())
                 .getCurrentActivity().getComponentName().getClassName();
         String waiting_activity = WaitingActivity.class.getName();
-        return (current_activity.equals(waiting_activity));
+        String game_waiting_activity = D_Gyroscope.class.getName();
+        return (current_activity.equals(waiting_activity) || current_activity.equals(game_waiting_activity));
     }
 
     /**
@@ -84,8 +107,18 @@ public class ConnectionService extends Service {
     private void startMinigame(Class minigameclass) {
         //Broadcast the colorsequence if necessary.
         if (minigameclass.equals(C_ColorSequence.class)) {
-            BroadcastThread myThread = new BroadcastThread();
-            myThread.start();
+            BTActionString = "colorBroadcast";
+            BTExtraString = "colorSequence";
+            BTExtraArray = colorParams;
+            BroadcastThread myThreadC = new BroadcastThread();
+            myThreadC.start();
+        }
+        if (minigameclass.equals(B_TapGame.class)) {
+            BTActionString = "buttonBroadcast";
+            BTExtraString = "buttonSequence";
+            BTExtraArray = buttonParams;
+            BroadcastThread myThreadB = new BroadcastThread();
+            myThreadB.start();
         }
 
         //start the activity belonging to the minigame
@@ -99,7 +132,7 @@ public class ConnectionService extends Service {
     /**
      * Thread for sending information to activities.
      */
-    public class BroadcastThread extends Thread{
+    public class BroadcastThread extends Thread {
 
         /**
          * Run the thread: broadcast information.
@@ -109,8 +142,10 @@ public class ConnectionService extends Service {
             try {
                 Thread.sleep(1000);
                 Intent in = new Intent();
-                in.setAction("colorBroadcast");
-                in.putExtra("colorSequence", colorParams);
+//                in.setAction("colorBroadcast");
+//                in.putExtra("colorSequence", colorParams);
+                in.setAction(BTActionString);
+                in.putExtra(BTExtraString, BTExtraArray);
                 sendBroadcast(in);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -123,19 +158,57 @@ public class ConnectionService extends Service {
     /**
      * Ends any minigame. Returns to the waiting screen.
      */
-    public void goToWaitingScreen() {
-        if (!inWaitingActivity()) {
-            Intent dialogIntent = new Intent(this, WaitingActivity.class);
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(dialogIntent);
-        }
+    public void endMinigame() {
+        Intent dialogIntent = new Intent(this, WaitingActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
     }
+
 
     /**
      * Sends a message to the server that minigame B is solved.
      */
     public void endB() {
         tcpClient.sendMessage("DONE[B]");
+    }
+
+    public void startB() {
+        tcpClient.sendMessage("BEGIN[B]");
+    }
+
+    public void setLabelText(String message) {
+        Activity current = ((ActivityManager) this.getApplicationContext())
+                .getCurrentActivity();
+
+        if (current instanceof MainActivity) {
+            TextView connectMessage = (TextView) current.findViewById(R.id.connectionMessage);
+            connectMessage.setText(message);
+            ((MainActivity) current).update();
+        }
+    }
+
+    public void updateMain() {
+        Activity current = ((ActivityManager) this.getApplicationContext())
+                .getCurrentActivity();
+
+        if (current instanceof MainActivity) {
+            ((MainActivity) current).update();
+        }
+    }
+
+    /**
+     * Sends a message to the server if bonus time should be added.
+     */
+    public void bonusD() {
+        //System.out.println("bonus message sent");
+        tcpClient.sendMessage("DONE[D]");
+    }
+
+    /**
+     * Sends a message to the server that minigame B is solved and needs a verification.
+     */
+    public void verifyB() {
+        tcpClient.sendMessage("VERIFY[B]");
     }
 
     /**
@@ -172,6 +245,7 @@ public class ConnectionService extends Service {
 
         private static final String TAG = "connectTask";
 
+
         /**
          * Method to run the GameClient dataInputStream a background thread.
          *
@@ -181,28 +255,33 @@ public class ConnectionService extends Service {
         @Override
         protected GameClient doInBackground(String... message) {
             try {
-                tcpClient = new GameClient(new GameClient.OnMessageReceived() {
+
+                Log.i(TAG, "Creating GameClient...");
+
+                tcpClient = new GameClient(message[0], new GameClient.OnMessageReceived() {
 
                     @Override
                     public void messageReceived(String mes) {
                         publishProgress(mes);
                     }
-                });
+                }
+                );
 
                 tcpClient.run();
 
+
             } catch (Exception e) {
-                System.out.println("no connection");
                 this.cancel(true);
             }
 
-            return null;
+            return tcpClient;
         }
+
 
         /**
          * Runs on the UI thread after {@link #publishProgress} is invoked.
          * The specified values are the values passed to {@link #publishProgress}.
-         * <p/>
+         * <p>
          * This method listens for messages from the server, and acts accordingly
          * upon them.
          *
@@ -213,7 +292,11 @@ public class ConnectionService extends Service {
             super.onProgressUpdate(values);
             list.add(values[0]);
             String input = values[0];
+
             Log.d(TAG, "Message received: " + input);
+
+            updateMain();
+
             HashMap<String, String> command = CommandParser.parseInput(input);
             parseInput(command, input);
         }
@@ -221,19 +304,29 @@ public class ConnectionService extends Service {
         /**
          * Parses the input received from the server.
          */
+
         public void parseInput(HashMap<String, String> parsed, String input) {
             String command = parsed.get("command");
 
             // Start the game
             if (command.equals("START")) {
                 // Go to waiting screen
-                goToWaitingScreen();
-            }
-            else if (command.equals("DONE")) {
+                endMinigame();
+            } else if (command.equals("DONE")) {
+
+
                 // minigame is complete
-                goToWaitingScreen();
-            }
-            else if (command.equals("BEGIN")) {
+                endMinigame();
+
+                if (parsed.containsKey("param_0")) {
+                    String gameName = parsed.get("param_0");
+
+                    if (gameName.equals("B")) {
+                        B_TapGame.done = true;
+                    }
+                }
+            } else if (command.equals("BEGIN")) {
+
                 if (inWaitingActivity()) {
                     Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
                     startMinigame(minigameclass);
@@ -244,6 +337,7 @@ public class ConnectionService extends Service {
 
         /**
          * Returns the class of the minigame that should be started corresponding to the action.
+         *
          * @return the class corresponding to the action.
          */
         public Class getMinigameClassFromInput(List<String> params) {
@@ -256,23 +350,30 @@ public class ConnectionService extends Service {
 
             if (game.equals("A")) {
                 minigameclass = A_CodeCrackerCodeview.class;
-            }
-            else if (game.equals("B")) {
+            } else if (game.equals("B")) {
                 minigameclass = B_TapGame.class;
-            }
-            else if (game.equals("C")) {
+
+                buttonParams = new ArrayList<String>();
+
+                Log.i(TAG, "params.size = " + params.size());
+
+                for (String param : params.subList(1, params.size())) {
+                    Log.i(TAG, "param : " + param);
+                    buttonParams.add(param);
+                }
+
+            } else if (game.equals("C")) {
+
                 minigameclass = C_ColorSequence.class;
 
                 colorParams = new ArrayList<String>();
 
-                Log.i(TAG, "params.size = " +  params.size());
+                Log.i(TAG, "params.size = " + params.size());
 
                 for (String param : params.subList(1, params.size())) {
                     Log.i(TAG, "param : " + param);
                     colorParams.add(param);
                 }
-
-                // BEGIN[C][RED][BLUE][GREEN] etc
             }
 
             return minigameclass;

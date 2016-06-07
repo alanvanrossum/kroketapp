@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp.minigames;
+package com.context.kroket.escapeapp.helpclasses;
 
 import android.widget.ImageView;
 
@@ -7,19 +7,42 @@ import java.util.Random;
 /**
  *
  */
-public class Coin {
+public abstract class Coin {
     int count;
-    ImageView iv;
+    ImageView imageView;
 
     /**
      * This method created a new Coin Object, which contains a count and an imageView.
      * The ImageView corresponds to the viewID of the coin, and contains information such as location and rotation.
      * count contains the amount of coins of this type collected in total by the player.
-     * @param newiv
+     * @param newImageView
      */
-    public Coin(ImageView newiv){
-        iv=newiv;
-        count=0;
+    public Coin(ImageView newImageView){
+        imageView = newImageView;
+        count = 0;
+    }
+
+    /**
+     * Adds the amount to the score belonging to the type of coin.
+     */
+    public abstract void score();
+
+    /**
+     * Set the count for the coin.
+     *
+     * @param count the number to be set.
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
+     * Get the count for this coin.
+     *
+     * @return the count
+     */
+    public int getCount() {
+        return count;
     }
 
     /**
@@ -27,7 +50,7 @@ public class Coin {
      * @param newX The new Xvalue of the view.
      */
     public void setX(float newX){
-        iv.setX(newX);
+        imageView.setX(newX);
     }
 
     /**
@@ -35,7 +58,7 @@ public class Coin {
      * @param newY The new Yvalue of the view
      */
     public void setY(float newY){
-        iv.setY(newY);
+        imageView.setY(newY);
     }
 
     /**
@@ -45,9 +68,15 @@ public class Coin {
      * @return  True if the skullball overlaps with the coin
      *          False if it doesn't.
      */
-    public boolean collideWithGyro(float gyroX,float gyroY){
-        if(Math.abs(iv.getX()-gyroX)<50 &&Math.abs(iv.getY()-gyroY)<50){
-            count++;
+    public boolean collideWithGyro(float gyroX, float gyroY){
+        if (this instanceof DeadCoin) {
+            if(Math.abs(imageView.getX() - gyroX) < 100 && Math.abs(imageView.getY() - gyroY) < 100){
+                return true;
+            }
+        }
+
+        if(Math.abs(imageView.getX() - gyroX) < 70 && Math.abs(imageView.getY() - gyroY) < 70){
+            this.score();
             return true;
         }
         return false;
@@ -64,8 +93,8 @@ public class Coin {
      * @param gyroY The location of the skullball on the y-axis
      */
     public void placeRandomly(Random rand, int xRange, int yRange, float gyroX, float gyroY) {
-        setX(clamp(rand.nextInt(xRange),gyroX,50));
-        setY(clamp(rand.nextInt(yRange),gyroY,50));
+        setX(clamp(rand.nextInt(xRange), gyroX, 70));
+        setY(clamp(rand.nextInt(yRange), gyroY, 70));
     }
 
     /**
@@ -76,8 +105,8 @@ public class Coin {
      * @return The new x or y location for the coin.
      */
     private float clamp(int value, float gyroLoc, int size) {
-        if(value>gyroLoc-size)
-            return value+3*size;
+        if(value > gyroLoc - size)
+            return value + 3 * size;
         return value;
     }
 }
