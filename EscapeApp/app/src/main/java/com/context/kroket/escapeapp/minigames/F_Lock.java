@@ -47,41 +47,37 @@ public class F_Lock extends AppCompatActivity {
         addListenersToArrows();
         turnlock = (ImageView) findViewById(R.id.turnlock);
         enteredSequence = new ArrayList<Integer>();
-        establishConnection();
-        updateReceiver = new Receiver();
-        registerReceiver(updateReceiver, new IntentFilter("lockBroadcast"));
+
     }
 
-    private void establishConnection() {
-        ServiceConnection mConnection = new ServiceConnection() {
+    private ServiceConnection mConnection = new ServiceConnection() {
 
-            /**
-             * Called when a connection to the Service has been established.
-             *
-             * @param className The concrete component name of the service that has
-             * been connected.
-             * @param service The IBinder of the Service's communication channel,
-             * which you can now make calls on.
-             */
-            @Override
-            public void onServiceConnected(ComponentName className, IBinder service) {
-                ConnectionService.myBinder binder = (ConnectionService.myBinder) service;
-                connectionService = binder.getService();
-                serviceIsBound = true;
-            }
+        /**
+         * Called when a connection to the Service has been established.
+         *
+         * @param className The concrete component name of the service that has
+         * been connected.
+         * @param service The IBinder of the Service's communication channel,
+         * which you can now make calls on.
+         */
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            ConnectionService.myBinder binder = (ConnectionService.myBinder) service;
+            connectionService = binder.getService();
+            serviceIsBound = true;
+        }
 
-            /**
-             * Called when a connection to the Service has been lost.
-             *
-             * @param arg0 The concrete component name of the service whose
-             * connection has been lost.
-             */
-            @Override
-            public void onServiceDisconnected(ComponentName arg0) {
-                serviceIsBound = false;
-            }
-        };
-    }
+        /**
+         * Called when a connection to the Service has been lost.
+         *
+         * @param arg0 The concrete component name of the service whose
+         * connection has been lost.
+         */
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            serviceIsBound = false;
+        }
+    };
 
     /**
      * This is an initializing method that is called once during the creation of the activity.
@@ -173,9 +169,16 @@ public class F_Lock extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        updateReceiver = new Receiver();
+        registerReceiver(updateReceiver, new IntentFilter("lockBroadcast"));
+
+
         super.onStart();
 
-        //Change the current activity.
+        Intent i = new Intent(this, ConnectionService.class);
+        bindService(i, mConnection, Context.BIND_AUTO_CREATE);
+
+        //Change the current activity to this
         ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
     private static class Receiver extends BroadcastReceiver {
