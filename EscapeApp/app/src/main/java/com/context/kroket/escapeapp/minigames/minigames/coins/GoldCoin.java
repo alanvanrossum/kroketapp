@@ -25,7 +25,7 @@ public class GoldCoin extends Coin {
    * Increase the score.
    */
   public void score() {
-    count = count + 3;
+    setCount(getCount() + 3);
   }
 
 }

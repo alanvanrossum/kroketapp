@@ -25,6 +25,6 @@ public class SilverCoin extends Coin {
    * Increase the score.
    */
   public void score() {
-    count = count + 2;
+    setCount(getCount() + 2);
   }
 }

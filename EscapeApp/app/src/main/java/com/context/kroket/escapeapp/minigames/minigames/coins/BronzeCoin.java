@@ -25,6 +25,6 @@ public class BronzeCoin extends Coin {
    * Increase the score.
    */
   public void score() {
-    count = count + 1;
+    setCount(getCount() + 1);
   }
 }
