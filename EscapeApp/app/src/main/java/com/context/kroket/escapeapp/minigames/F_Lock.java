@@ -28,8 +28,7 @@ public class F_Lock extends AppCompatActivity {
     ArrayList<Integer> enteredSequence;
     ConnectionService connectionService;
     boolean serviceIsBound = false;
-    Receiver updateReceiver;
-    static ArrayList<Integer> correctSequence;
+    ArrayList<Integer> correctSequence;
 
     /**
      * This method adds listeners to the arrow pictures by calling addListenersToArrows()
@@ -47,7 +46,10 @@ public class F_Lock extends AppCompatActivity {
         addListenersToArrows();
         turnlock = (ImageView) findViewById(R.id.turnlock);
         enteredSequence = new ArrayList<Integer>();
-
+        correctSequence = new ArrayList<Integer>();
+        correctSequence.add(13);
+        correctSequence.add(37);
+        correctSequence.add(21);
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -142,13 +144,14 @@ public class F_Lock extends AppCompatActivity {
         checkGameComplete();
     }
 
-    private ArrayList<Integer> toArrayList(List<Integer> list) {
-        ArrayList<Integer> result = new ArrayList<Integer>();
-        for(int i=0;i<list.size();i++){
-            result.add(list.get(i));
+    private ArrayList<Integer> toArrayList(List<Integer> integers) {
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        for(int i=0;i<integers.size();i++){
+            res.add(integers.get(i));
         }
-        return result;
+        return res;
     }
+//
 
     private void checkGameComplete() {
         System.out.println("enterdsequence" + enteredSequence.toString());
@@ -169,8 +172,8 @@ public class F_Lock extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        updateReceiver = new Receiver();
-        registerReceiver(updateReceiver, new IntentFilter("lockBroadcast"));
+//        updateReceiver = new Receiver();
+//        registerReceiver(updateReceiver, new IntentFilter("lockBroadcast"));
 
 
         super.onStart();
@@ -181,26 +184,28 @@ public class F_Lock extends AppCompatActivity {
         //Change the current activity to this
         ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
-    private static class Receiver extends BroadcastReceiver {
-
-        /**
-         * Defines what should happen when a message is received.
-         *
-         * @param context The Context in which the receiver is running.
-         * @param intent  The Intent being received.
-         */
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ArrayList<String> params = (ArrayList<String>) intent.getExtras().get("lockSequence");
-            parseSequence(params);
-        }
-
-        private void parseSequence(ArrayList<String> params) {
-            correctSequence = new ArrayList<Integer>();
-            for(int i=0;i<params.size();i++){
-                correctSequence.add(Integer.parseInt(params.get(i)));
-            }
-        }
-    }
+//    private static class Receiver extends BroadcastReceiver {
+//
+//        /**
+//         * Defines what should happen when a message is received.
+//         *
+//         * @param context The Context in which the receiver is running.
+//         * @param intent  The Intent being received.
+//         */
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            ArrayList<String> params = (ArrayList<String>) intent.getExtras().get("lockSequence");
+////           correctSequence.add(Integer.parseInt(params.get(1)));
+////           correctSequence.add(Integer.parseInt(params.get(2)));
+////           correctSequence.add(Integer.parseInt(params.get(3)));
+//        }
+//
+//        private void parseSequence(ArrayList<String> params) {
+//            correctSequence = new ArrayList<Integer>();
+//            for(int i=0;i<params.size();i++){
+//                correctSequence.add(Integer.parseInt(params.get(i)));
+//            }
+//        }
+//    }
 }
 
