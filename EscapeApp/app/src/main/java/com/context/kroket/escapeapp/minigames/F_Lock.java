@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class F_Lock extends AppCompatActivity {
     ArrayList<Integer> enteredSequence;
     ConnectionService connectionService;
     boolean serviceIsBound = false;
+    Receiver updateReceiver;
     static ArrayList<Integer> correctSequence;
 
     /**
@@ -46,6 +48,8 @@ public class F_Lock extends AppCompatActivity {
         turnlock = (ImageView) findViewById(R.id.turnlock);
         enteredSequence = new ArrayList<Integer>();
         establishConnection();
+        updateReceiver = new Receiver();
+        registerReceiver(updateReceiver, new IntentFilter("lockBroadcast"));
     }
 
     private void establishConnection() {
@@ -122,7 +126,6 @@ public class F_Lock extends AppCompatActivity {
         if (rotatingRight) {
             rotatingRight = false;
             addToSequence();
-
         }
         rotate(-9);
     }
