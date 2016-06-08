@@ -16,6 +16,7 @@ import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.minigames.D_Gyroscope;
+import com.context.kroket.escapeapp.minigames.F_Lock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class ConnectionService extends Service {
     private static ArrayList<String> list;
     public ArrayList<String> colorParams;
     public ArrayList<String> buttonParams;
+    public ArrayList<String> lockParams;
     public String BTActionString;
     public String BTExtraString;
     public ArrayList<String> BTExtraArray;
@@ -122,6 +124,13 @@ public class ConnectionService extends Service {
             BroadcastThread myThreadC = new BroadcastThread();
             myThreadC.start();
         }
+        if (minigameclass.equals(F_Lock.class)) {
+            BTActionString = "lockBroadcast";
+            BTExtraString = "lockSequence";
+            BTExtraArray = lockParams;
+            BroadcastThread myThreadF = new BroadcastThread();
+            myThreadF.start();
+        }
 
         //start the activity belonging to the minigame
         if (minigameclass != null) {
@@ -129,6 +138,10 @@ public class ConnectionService extends Service {
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
         }
+    }
+
+    public void doneF() {
+        tcpClient.sendMessage("DONE[F]");
     }
 
     /**
@@ -379,6 +392,9 @@ public class ConnectionService extends Service {
 //                }
 
 
+            } else if(game.equals("F")){
+                minigameclass = F_Lock.class;
+                lockParams = (ArrayList<String>) params;
             }
 
             return minigameclass;
