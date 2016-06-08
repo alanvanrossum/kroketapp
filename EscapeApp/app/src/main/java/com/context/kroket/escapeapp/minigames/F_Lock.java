@@ -16,6 +16,7 @@ public class F_Lock extends AppCompatActivity {
     ImageView turnlock;
     boolean rotatingRight;
     ArrayList<Integer> enteredSequence;
+    ArrayList<Integer> correctSequence;
 
     /**
      * This method adds listeners to the arrow pictures by calling addListenersToArrows()
