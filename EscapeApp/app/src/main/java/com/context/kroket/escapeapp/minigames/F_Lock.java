@@ -110,7 +110,6 @@ public class F_Lock extends AppCompatActivity {
         if (!rotatingRight) {
             rotatingRight = true;
             addToSequence();
-            System.out.println(enteredSequence.toString());
         }
         rotate(9);
     }
@@ -123,7 +122,6 @@ public class F_Lock extends AppCompatActivity {
         if (rotatingRight) {
             rotatingRight = false;
             addToSequence();
-            System.out.println(enteredSequence.toString());
 
         }
         rotate(-9);
@@ -154,6 +152,8 @@ public class F_Lock extends AppCompatActivity {
     }
 
     private void checkGameComplete() {
+        System.out.println("enterdsequence" + enteredSequence.toString());
+        System.out.println("correctSequence" + correctSequence.toString());
       if(enteredSequence.equals(correctSequence)){
         connectionService.doneF();
       }
