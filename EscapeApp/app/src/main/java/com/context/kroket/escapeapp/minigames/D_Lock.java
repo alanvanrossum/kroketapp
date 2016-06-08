@@ -1,10 +1,8 @@
 package com.context.kroket.escapeapp.minigames;
 
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -21,7 +18,10 @@ import com.context.kroket.escapeapp.network.ConnectionService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class F_Lock extends AppCompatActivity {
+/**
+ * Minigame where a code for a lock has to be entered.
+ */
+public class D_Lock extends AppCompatActivity {
     ImageButton left, right;
     ImageView turnlock;
     boolean rotatingRight;
@@ -42,7 +42,7 @@ public class F_Lock extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.f__lock);
+        setContentView(R.layout.d_lock);
         addListenersToArrows();
         turnlock = (ImageView) findViewById(R.id.turnlock);
         enteredSequence = new ArrayList<Integer>();
@@ -159,7 +159,7 @@ public class F_Lock extends AppCompatActivity {
         System.out.println("enterdsequence" + enteredSequence.toString());
         System.out.println("correctSequence" + correctSequence.toString());
       if(enteredSequence.equals(correctSequence)){
-        connectionService.endF();
+        connectionService.endD();
       }
     }
 
@@ -174,10 +174,6 @@ public class F_Lock extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-//        updateReceiver = new Receiver();
-//        registerReceiver(updateReceiver, new IntentFilter("lockBroadcast"));
-
-
         super.onStart();
 
         Intent i = new Intent(this, ConnectionService.class);
@@ -186,28 +182,5 @@ public class F_Lock extends AppCompatActivity {
         //Change the current activity to this
         ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
-//    private static class Receiver extends BroadcastReceiver {
-//
-//        /**
-//         * Defines what should happen when a message is received.
-//         *
-//         * @param context The Context in which the receiver is running.
-//         * @param intent  The Intent being received.
-//         */
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            ArrayList<String> params = (ArrayList<String>) intent.getExtras().get("lockSequence");
-////           correctSequence.add(Integer.parseInt(params.get(1)));
-////           correctSequence.add(Integer.parseInt(params.get(2)));
-////           correctSequence.add(Integer.parseInt(params.get(3)));
-//        }
-//
-//        private void parseSequence(ArrayList<String> params) {
-//            correctSequence = new ArrayList<Integer>();
-//            for(int i=0;i<params.size();i++){
-//                correctSequence.add(Integer.parseInt(params.get(i)));
-//            }
-//        }
-//    }
 }
 

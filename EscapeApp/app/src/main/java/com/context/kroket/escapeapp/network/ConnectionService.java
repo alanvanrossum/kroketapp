@@ -15,15 +15,13 @@ import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
-import com.context.kroket.escapeapp.minigames.D_Gyroscope;
-import com.context.kroket.escapeapp.minigames.F_Lock;
+import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
+import com.context.kroket.escapeapp.minigames.D_Lock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-import android.util.Log;
 
 import android.widget.TextView;
 
@@ -96,7 +94,7 @@ public class ConnectionService extends Service {
         String current_activity = ((ActivityManager) this.getApplicationContext())
                 .getCurrentActivity().getComponentName().getClassName();
         String waiting_activity = WaitingActivity.class.getName();
-        String game_waiting_activity = D_Gyroscope.class.getName();
+        String game_waiting_activity = Waiting_Gyroscope.class.getName();
         return (current_activity.equals(waiting_activity) || current_activity.equals(game_waiting_activity));
     }
 
@@ -225,15 +223,15 @@ public class ConnectionService extends Service {
     /**
      * Sends a message to the server that minigame F is solved.
      */
-    public void endF() {
-        tcpClient.sendMessage("DONE[F]");
+    public void endD() {
+        tcpClient.sendMessage("DONE[D]");
     }
 
     /**
      * Sends a message to the server if bonus time should be added.
      */
-    public void bonusD() {
-        tcpClient.sendMessage("DONE[D]");
+    public void bonusTime() {
+        tcpClient.sendMessage("DONE[WAITING]");
     }
 
     /**
@@ -382,8 +380,8 @@ public class ConnectionService extends Service {
 //                    colorParams.add(param);
 //                }
 
-            } else if(game.equals("F")){
-                minigameclass = F_Lock.class;
+            } else if(game.equals("D")){
+                minigameclass = D_Lock.class;
             }
             return minigameclass;
         }
