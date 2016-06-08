@@ -18,8 +18,8 @@ public class A_Code_Cracker_Pictureview extends AppCompatActivity {
      * Initializes the layout.
      *
      * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied.
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class A_Code_Cracker_Pictureview extends AppCompatActivity {
         super.onStart();
 
         //Change the current activity.
-        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
 
 }

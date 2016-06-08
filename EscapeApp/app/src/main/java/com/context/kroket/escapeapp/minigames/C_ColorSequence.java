@@ -22,7 +22,6 @@ import java.util.HashMap;
 public class C_ColorSequence extends AppCompatActivity {
 
 
-
     //The color sequence.
     public static ArrayList<Integer> colorSequence;
 
@@ -50,8 +49,8 @@ public class C_ColorSequence extends AppCompatActivity {
      * Initializes the layout.
      *
      * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied.
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +71,7 @@ public class C_ColorSequence extends AppCompatActivity {
         super.onStart();
 
         //Change the current activity to this.
-        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
@@ -101,13 +100,17 @@ public class C_ColorSequence extends AppCompatActivity {
             String colorString = params.get(pointer);
             int color;
             switch (colorString) {
-                case "RED": colorSequence.add(Color.RED);
+                case "RED":
+                    colorSequence.add(Color.RED);
                     break;
-                case "GREEN": colorSequence.add(Color.GREEN);
+                case "GREEN":
+                    colorSequence.add(Color.GREEN);
                     break;
-                case "BLUE": colorSequence.add(Color.BLUE);
+                case "BLUE":
+                    colorSequence.add(Color.BLUE);
                     break;
-                case "YELLOW":  colorSequence.add(Color.YELLOW);
+                case "YELLOW":
+                    colorSequence.add(Color.YELLOW);
                     break;
             }
             pointer++;
@@ -122,11 +125,10 @@ public class C_ColorSequence extends AppCompatActivity {
      * Runnable to update the background color after a certain amout of time.
      */
     private Runnable updateColorThread = new Runnable() {
-        public void run()
-        {
+        public void run() {
             View v = findViewById(R.id.layout_rec);
-            LayerDrawable bgDrawable = (LayerDrawable)v.getBackground();
-            final GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.shape_rec);
+            LayerDrawable bgDrawable = (LayerDrawable) v.getBackground();
+            final GradientDrawable shape = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_rec);
             shape.setColor(colorSequence.get(counter));
 
             counter++;
@@ -152,7 +154,7 @@ public class C_ColorSequence extends AppCompatActivity {
          * Defines what should happen when a message is received.
          *
          * @param context The Context in which the receiver is running.
-         * @param intent The Intent being received.
+         * @param intent  The Intent being received.
          */
         @Override
         public void onReceive(Context context, Intent intent) {

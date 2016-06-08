@@ -334,10 +334,10 @@ public class ConnectionService extends Service {
             } else if (command.equals("BEGIN")) {
 
 
-           //     if (inWaitingActivity()) {
-                    Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
-                    startMinigame(minigameclass);
-            //    }
+                //     if (inWaitingActivity()) {
+                Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
+                startMinigame(minigameclass);
+                //    }
             }
 
         }

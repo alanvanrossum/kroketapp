@@ -5,7 +5,7 @@ import android.widget.ImageView;
 /**
  * Created by Team Kroket on 5-6-2016.
  */
-public class GoldCoin extends Coin{
+public class GoldCoin extends Coin {
 
     /**
      * This method created a new Coin Object, which contains a count and an imageView.

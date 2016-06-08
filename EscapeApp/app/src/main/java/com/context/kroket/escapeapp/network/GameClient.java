@@ -124,8 +124,7 @@ public class GameClient {
             Log.e(TAG, "SocketException");
         } catch (IOException e) {
             Log.e(TAG, "IOException");
-        }
-        finally {
+        } finally {
             connected = false;
             connecting = false;
         }

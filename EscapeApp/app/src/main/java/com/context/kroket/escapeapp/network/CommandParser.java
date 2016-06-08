@@ -8,14 +8,15 @@ import java.util.regex.Pattern;
 
 public class CommandParser {
 
-    /** Regular expression pattern to recognise parameters in commands. */
+    /**
+     * Regular expression pattern to recognise parameters in commands.
+     */
     private static Pattern paramPattern = Pattern.compile("\\[(.*?)\\]");
 
     /**
      * Parse a client's raw input command and parameters into a HashMap.
      *
-     * @param input
-     *          the raw input
+     * @param input the raw input
      * @return the HashMap of the command and parameters
      */
     public static HashMap<String, String> parseInput(String input) {
@@ -41,8 +42,7 @@ public class CommandParser {
     /**
      * Parse a client's command.
      *
-     * @param input
-     *          the raw input
+     * @param input the raw input
      * @return the command
      */
     public static String parseCommand(String input) {
@@ -64,8 +64,7 @@ public class CommandParser {
     /**
      * Parse a client command's parameters.
      *
-     * @param input
-     *          the raw input
+     * @param input the raw input
      * @return list of all parameters
      */
     public static ArrayList<String> parseParams(String input) {

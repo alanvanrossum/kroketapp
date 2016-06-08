@@ -21,6 +21,7 @@ import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 
 import android.util.Log;
+
 import java.util.ArrayList;
 
 /**

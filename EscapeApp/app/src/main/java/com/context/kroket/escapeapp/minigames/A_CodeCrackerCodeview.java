@@ -62,8 +62,8 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
      * Initializes the layout.
      *
      * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied.
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         bindService(i, mConnection, Context.BIND_AUTO_CREATE);
 
         //Change the current activity to this
-        ((ActivityManager)this.getApplicationContext()).setCurrentActivity(this);
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
@@ -108,12 +108,13 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
         //Check if the code is correct.
         if (answer.getText().toString().matches(correctCode)) {
             //Send message to server that minigame A is finished.
-            if(testing == false){
-            if (serviceIsBound) {
-               connectionService.endA();
-            } else {
-                System.out.println("ConnectionService not bound in CodeCrackerCodeView");
-            }}
+            if (testing == false) {
+                if (serviceIsBound) {
+                    connectionService.endA();
+                } else {
+                    System.out.println("ConnectionService not bound in CodeCrackerCodeView");
+                }
+            }
 
             //Go to the waiting screen.
             Intent intent = new Intent(this, WaitingActivity.class);
@@ -131,8 +132,13 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     //******************************************************//
 
     public static boolean testing = false;
-    public static void enableTesting(boolean b) {testing = b;}
+
+    public static void enableTesting(boolean b) {
+        testing = b;
+    }
+
     public static int numberOfAttempts = 0;
+
     public static int getNumberOfAttempts() {
         return numberOfAttempts;
     }
