@@ -38,7 +38,6 @@ public class ConnectionService extends Service {
     private static ArrayList<String> list;
     public ArrayList<String> colorParams;
     public ArrayList<String> buttonParams;
-    public ArrayList<String> lockParams;
     public String BTActionString;
     public String BTExtraString;
     public ArrayList<String> BTExtraArray;
@@ -124,13 +123,6 @@ public class ConnectionService extends Service {
             BroadcastThread myThreadC = new BroadcastThread();
             myThreadC.start();
         }
-        if (minigameclass.equals(F_Lock.class)) {
-            BTActionString = "lockBroadcast";
-            BTExtraString = "lockSequence";
-            BTExtraArray = lockParams;
-            BroadcastThread myThreadF = new BroadcastThread();
-            myThreadF.start();
-        }
 
         //start the activity belonging to the minigame
         if (minigameclass != null) {
@@ -138,10 +130,6 @@ public class ConnectionService extends Service {
             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(dialogIntent);
         }
-    }
-
-    public void doneF() {
-        tcpClient.sendMessage("DONE[F]");
     }
 
     /**
@@ -170,27 +158,6 @@ public class ConnectionService extends Service {
         }
     }
 
-    /**
-     * Ends any minigame. Returns to the waiting screen.
-     */
-    public void endMinigame() {
-        Intent dialogIntent = new Intent(this, WaitingActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(dialogIntent);
-    }
-
-
-    /**
-     * Sends a message to the server that minigame B is solved.
-     */
-    public void endB() {
-        tcpClient.sendMessage("DONE[B]");
-    }
-
-    public void startB() {
-        tcpClient.sendMessage("BEGIN[B]");
-    }
-
     public void setLabelText(String message) {
         Activity current = ((ActivityManager) this.getApplicationContext())
                 .getCurrentActivity();
@@ -212,11 +179,33 @@ public class ConnectionService extends Service {
     }
 
     /**
-     * Sends a message to the server if bonus time should be added.
+     * Ends any minigame. Returns to the waiting screen.
      */
-    public void bonusD() {
-        //System.out.println("bonus message sent");
-        tcpClient.sendMessage("DONE[D]");
+    public void endMinigame() {
+        Intent dialogIntent = new Intent(this, WaitingActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
+    }
+
+    /**
+     * Sends a message to the server that minigame A is solved.
+     */
+    public void endA() {
+        tcpClient.sendMessage("DONE[A]");
+    }
+
+    /**
+     * Sends a message to the server that minigame B is solved.
+     */
+    public void endB() {
+        tcpClient.sendMessage("DONE[B]");
+    }
+
+    /**
+     * Sends a message to the server the minigame B should be started.
+     */
+    public void startB() {
+        tcpClient.sendMessage("BEGIN[B]");
     }
 
     /**
@@ -226,15 +215,25 @@ public class ConnectionService extends Service {
         tcpClient.sendMessage("VERIFY[B]");
     }
 
+    /**
+     * Send a message to the server that minigame B should be restarted.
+     */
     public void restartB() {
         tcpClient.sendMessage("RESTART[B]");
     }
 
     /**
-     * Sends a message to the server that minigame A is solved.
+     * Sends a message to the server that minigame F is solved.
      */
-    public void endA() {
-        tcpClient.sendMessage("DONE[A]");
+    public void endF() {
+        tcpClient.sendMessage("DONE[F]");
+    }
+
+    /**
+     * Sends a message to the server if bonus time should be added.
+     */
+    public void bonusD() {
+        tcpClient.sendMessage("DONE[D]");
     }
 
     /**
@@ -346,11 +345,10 @@ public class ConnectionService extends Service {
                 }
             } else if (command.equals("BEGIN")) {
 
-
-                //     if (inWaitingActivity()) {
-                Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
-                startMinigame(minigameclass);
-                //    }
+                if (inWaitingActivity()) {
+                    Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
+                    startMinigame(minigameclass);
+                }
             }
 
         }
@@ -371,17 +369,10 @@ public class ConnectionService extends Service {
             if (game.equals("A")) {
                 minigameclass = A_CodeCrackerCodeview.class;
             } else if (game.equals("B")) {
-
-
                 minigameclass = B_TapGame.class;
-
                 buttonParams = (ArrayList<String>) params;
-
-
             } else if (game.equals("C")) {
-
                 minigameclass = C_ColorSequence.class;
-
                 colorParams = (ArrayList<String>) params;
 
 //                Log.i(TAG, "params.size = " + params.size());
@@ -391,12 +382,9 @@ public class ConnectionService extends Service {
 //                    colorParams.add(param);
 //                }
 
-
             } else if(game.equals("F")){
                 minigameclass = F_Lock.class;
-                lockParams = (ArrayList<String>) params;
             }
-
             return minigameclass;
         }
     }

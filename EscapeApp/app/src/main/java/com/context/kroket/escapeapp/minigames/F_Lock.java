@@ -136,7 +136,7 @@ public class F_Lock extends AppCompatActivity {
         if (turnlock.getRotation() > 0) {
             enteredSequence.add(Math.round(40 - (turnlock.getRotation() / 9)));
         } else {
-            enteredSequence.add(Math.round(turnlock.getRotation() / -9));
+            enteredSequence.add(Math.round(turnlock.getRotation() / - 9));
         }
         if (enteredSequence.size() > 3) {
             enteredSequence = toArrayList(enteredSequence.subList(1, enteredSequence.size()));
@@ -146,18 +146,20 @@ public class F_Lock extends AppCompatActivity {
 
     private ArrayList<Integer> toArrayList(List<Integer> integers) {
         ArrayList<Integer> res = new ArrayList<Integer>();
-        for(int i=0;i<integers.size();i++){
+        for(int i = 0; i < integers.size(); i++){
             res.add(integers.get(i));
         }
         return res;
     }
-//
 
+    /**
+     * Checks whether the entered sequence is correct.
+     */
     private void checkGameComplete() {
         System.out.println("enterdsequence" + enteredSequence.toString());
         System.out.println("correctSequence" + correctSequence.toString());
       if(enteredSequence.equals(correctSequence)){
-        connectionService.doneF();
+        connectionService.endF();
       }
     }
 
