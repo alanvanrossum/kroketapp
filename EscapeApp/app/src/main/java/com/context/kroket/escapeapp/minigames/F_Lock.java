@@ -18,6 +18,7 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class F_Lock extends AppCompatActivity {
     ImageButton left, right;
@@ -139,9 +140,17 @@ public class F_Lock extends AppCompatActivity {
             enteredSequence.add(Math.round(turnlock.getRotation() / -9));
         }
         if (enteredSequence.size() > 3) {
-            enteredSequence = (ArrayList)enteredSequence.subList(1, enteredSequence.size());
+            enteredSequence = toArrayList(enteredSequence.subList(1, enteredSequence.size()));
         }
         checkGameComplete();
+    }
+
+    private ArrayList<Integer> toArrayList(List<Integer> list) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for(int i=0;i<list.size();i++){
+            result.add(list.get(i));
+        }
+        return result;
     }
 
     private void checkGameComplete() {
