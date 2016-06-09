@@ -46,21 +46,4 @@ public class MainActivityTest {
     onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));
   }
 
-  /**
-   * Method to see if the start button works correctly.
-   */
-  @Test
-  public void clickStartButtonTest() {
-    // Enable the start button.
-    MainActivity.TestActivity = MainActivity.ActivitySwitch.startEn;
-
-    onView(withId(R.id.connectButton)).perform(click());
-    onView(withId(R.id.startButton)).perform(click());
-
-    // Check if we started a waiting activity.
-    onView(withId(R.id.waiting)).check(matches(isDisplayed()));
-
-    // MainActivity.TestActivity = MainActivity.ActivitySwitch.notest;
-  }
-
 }

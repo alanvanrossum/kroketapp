@@ -44,7 +44,7 @@ public class B_TapGameTest {
   public void setUp() {
     // Switch from MainActivity to B_TapGame class.
     MainActivity.TestActivity = MainActivity.ActivitySwitch.btap;
-    onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+    MainActivity.TestActivity.switchToActivity();
   }
 
   /**
