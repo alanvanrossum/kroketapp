@@ -341,6 +341,13 @@ public class ConnectionService extends Service {
           Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
           startMinigame(minigameclass);
         }
+        else if (parsed.containsKey("param_0")) {
+            String gameName = parsed.get("param_0");
+            if (gameName.equals("B")) {
+                Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
+                startMinigame(minigameclass);
+            }
+        }
       }
 
     }
