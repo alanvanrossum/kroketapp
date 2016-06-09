@@ -12,14 +12,12 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-
-
 /**
  * Client class responsible for incoming and outgoing messages to the server.
  */
 public class GameClient {
 
-  public static final String SERVERIP = "192.168.1.50"; 
+  public static final String SERVERIP = "192.168.1.50";
   public static final int SERVERPORT = 1234; // The port we will be listening.
 
   private String remoteHost;
@@ -157,8 +155,8 @@ public class GameClient {
    */
   private void createStreams() {
     try {
-      dataOutputStream = new PrintWriter(new BufferedWriter(
-          new OutputStreamWriter(serverSocket.getOutputStream())));
+      dataOutputStream = new PrintWriter(
+          new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())));
       dataInputStream = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
       // While loop that lasts until 'stopclient is called'.
