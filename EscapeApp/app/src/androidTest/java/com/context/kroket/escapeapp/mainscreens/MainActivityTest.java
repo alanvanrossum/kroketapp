@@ -2,6 +2,7 @@ package com.context.kroket.escapeapp.mainscreens;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
@@ -44,6 +45,18 @@ public class MainActivityTest {
 
     // Check if the connection message has been updated.
     onView(withId(R.id.connectionMessage)).check(matches(withText("Enter your name first!")));
+  }
+
+  /**
+   * Tests if the connection fails if we aren't able to connect.
+   */
+  @Test
+  public void clickWithoutConnection() {
+    onView(withId(R.id.player_name)).perform(click()).perform(typeText("Name"));
+
+    onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+
+    onView(withId(R.id.connectionMessage)).check(matches(withText("Connection failed. :(")));
   }
 
 }

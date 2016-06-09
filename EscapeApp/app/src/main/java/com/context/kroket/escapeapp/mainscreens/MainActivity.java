@@ -162,9 +162,10 @@ public class MainActivity extends AppCompatActivity {
    * between all the views.
    */
   public enum ActivitySwitch {
-    acode(A_CodeCrackerCodeview.class),
+    acode(A_CodeCrackerCodeview.class), gameover(GameOver.class),
     apic(A_Code_Cracker_Pictureview.class), btap(B_TapGame.class),
-    csequence(C_ColorSequence.class), notest(MainActivity.class);
+    csequence(C_ColorSequence.class), gamewon(GameWon.class),
+    waiting(WaitingActivity.class), notest(MainActivity.class);
 
     private Class ClassAC;
 
