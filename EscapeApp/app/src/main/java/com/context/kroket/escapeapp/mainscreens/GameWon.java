@@ -13,6 +13,9 @@ public class GameWon extends AppCompatActivity {
         setContentView(R.layout.activity_game_won);
     }
 
+    /**
+     * Disables going back to the previous activity.
+     */
     @Override
     public void onBackPressed() {
     }

@@ -203,4 +203,11 @@ public class D_Lock extends AppCompatActivity {
         // Change the current activity to this
         ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
+
+    /**
+     * Disables going back to the previous activity.
+     */
+    @Override
+    public void onBackPressed() {
+    }
 }
