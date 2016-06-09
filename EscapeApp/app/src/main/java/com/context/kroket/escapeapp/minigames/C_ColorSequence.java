@@ -176,4 +176,11 @@ public class C_ColorSequence extends AppCompatActivity {
   public static int getRunthroughs() {
     return runtroughs;
   }
+
+  /**
+   * Disables going back to the previous activity.
+   */
+  @Override
+  public void onBackPressed() {
+  }
 }

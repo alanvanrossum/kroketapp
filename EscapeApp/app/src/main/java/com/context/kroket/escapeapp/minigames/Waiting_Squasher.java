@@ -167,4 +167,16 @@ public class Waiting_Squasher extends AppCompatActivity {
       serviceIsBound = false;
     }
   };
+
+
+  /**
+   * Unbind the service and go back.
+   */
+  @Override
+  public void onBackPressed() {
+    unbindService(mConnection);
+
+    super.onBackPressed();
+  }
+
 }

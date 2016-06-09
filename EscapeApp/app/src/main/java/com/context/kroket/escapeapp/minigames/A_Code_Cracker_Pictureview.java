@@ -49,4 +49,11 @@ public class A_Code_Cracker_Pictureview extends AppCompatActivity {
     ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
   }
 
+  /**
+   * Disables going back to the previous activity.
+   */
+  @Override
+  public void onBackPressed() {
+  }
+
 }
