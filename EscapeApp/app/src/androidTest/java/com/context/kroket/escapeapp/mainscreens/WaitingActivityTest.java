@@ -4,8 +4,10 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.context.kroket.escapeapp.R;
+import com.robotium.solo.Solo;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,25 +25,39 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
  * Created by Harvey van Veltom on 10/06/2016.
  */
-@RunWith(AndroidJUnit4.class)
-@LargeTest
-public class WaitingActivityTest {
+public class WaitingActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    @Rule
-    public IntentsTestRule<MainActivity> myActivityRule
-            = new IntentsTestRule<MainActivity>(MainActivity.class);
 
-    @Before
-    public void setUp() {
-        MainActivity.TestActivity = MainActivity.ActivitySwitch.waiting;
-        MainActivity.TestActivity.switchToActivity();
+    /**
+     * Solo is used by robotium to interact with the game's ui elements.
+     */
+    private Solo solo;
+
+    /**
+     * Constructor for the test class. Requirement of robotium.
+     */
+    public WaitingActivityTest() {
+        super(MainActivity.class);
+    }
+
+    /**
+     * Set's up solo object that is used by robotium to interact with ui elements.
+     *
+     * @throws Exception Exception
+     */
+    public void setUp() throws Exception {
+        solo = new Solo(getInstrumentation(), getActivity());
     }
 
     /**
      * Check if we can activate the coin game.
      */
     @Test
-    public void clickCoinGame() {
+    public void testclickCoinGame() {
+
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.waiting;
+        MainActivity.TestActivity.switchToActivity();
+        solo.hideSoftKeyboard();
         // Click the coin button.
         onView(ViewMatchers.withId(R.id.buttonCoin)).perform(click());
 
@@ -53,12 +69,26 @@ public class WaitingActivityTest {
      * Check if we can activate the squash game.
      */
     @Test
-    public void clickSquashGame() {
+    public void testclickSquashGame() {
+
+        MainActivity.TestActivity = MainActivity.ActivitySwitch.waiting;
+        MainActivity.TestActivity.switchToActivity();
+        solo.hideSoftKeyboard();
         // Click the coin button.
         onView(ViewMatchers.withId(R.id.buttonSquash)).perform(click());
 
         // Check if the connection message has been updated.
         onView(withId(R.id.squashtext)).check(matches(isDisplayed()));
 
+    }
+
+    /**
+     * Close all activities of solo at the end of a test.
+     *
+     * @throws Exception Exception
+     */
+    @Override
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
     }
 }
