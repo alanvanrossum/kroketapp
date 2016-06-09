@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Waiting_Squasher extends AppCompatActivity {
@@ -27,7 +29,16 @@ public class Waiting_Squasher extends AppCompatActivity {
   float screenHeight;
   float screenWidth;
   int squashCount;
+  Random rand;
+  Drawable spider;
+  Drawable bug;
+  Drawable beetle;
+  Drawable mosquito;
+  Drawable sowbug;
 
+  ArrayList<Drawable> bugs = new ArrayList<>();
+
+  @TargetApi(21)
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -42,6 +53,28 @@ public class Waiting_Squasher extends AppCompatActivity {
     squashCount = 0;
     squashText = (TextView) findViewById(R.id.squashtext);
     squashText.setText("Squash the Bugs!");
+
+    rand = new Random();
+    spider = getResources().getDrawable(
+            R.drawable.spider, getApplicationContext().getTheme());
+
+    bug = getResources().getDrawable(
+            R.drawable.bug, getApplicationContext().getTheme());
+
+    beetle = getResources().getDrawable(
+            R.drawable.beetle, getApplicationContext().getTheme());
+
+    mosquito = getResources().getDrawable(
+            R.drawable.mosquito, getApplicationContext().getTheme());
+
+    sowbug = getResources().getDrawable(
+            R.drawable.sowbug, getApplicationContext().getTheme());
+
+    bugs.add(spider);
+    bugs.add(bug);
+    bugs.add(beetle);
+    bugs.add(mosquito);
+    bugs.add(sowbug);
 
     // Bind this service.
     Intent intent = new Intent(this, ConnectionService.class);
@@ -93,31 +126,33 @@ public class Waiting_Squasher extends AppCompatActivity {
    */
   @TargetApi(21)
   private void setRandomImageSource() {
-    Random rand = new Random();
-    switch (rand.nextInt(5)) {
-      case 0:
-        bugButton.setImageDrawable(getResources().getDrawable(
-            R.drawable.spider, getApplicationContext().getTheme()));
-        break;
-      case 1:
-        bugButton.setImageDrawable(getResources().getDrawable(
-            R.drawable.bug, getApplicationContext().getTheme()));
-        break;
-      case 2:
-        bugButton.setImageDrawable(getResources().getDrawable(
-            R.drawable.beetle, getApplicationContext().getTheme()));
-        break;
-      case 3:
-        bugButton.setImageDrawable(getResources().getDrawable(
-            R.drawable.mosquito, getApplicationContext().getTheme()));
-        break;
-      case 4:
-        bugButton.setImageDrawable(getResources().getDrawable(
-            R.drawable.sowbug, getApplicationContext().getTheme()));
-        break;
-      default:
-        break;
-    }
+   int randInt = rand.nextInt(bugs.size());
+    bugButton.setImageDrawable(bugs.get(randInt));
+
+//    switch (rand.nextInt(5)) {
+//      case 0:
+//        bugButton.setImageDrawable(getResources().getDrawable(
+//            R.drawable.spider, getApplicationContext().getTheme()));
+//        break;
+//      case 1:
+//        bugButton.setImageDrawable(getResources().getDrawable(
+//            R.drawable.bug, getApplicationContext().getTheme()));
+//        break;
+//      case 2:
+//        bugButton.setImageDrawable(getResources().getDrawable(
+//            R.drawable.beetle, getApplicationContext().getTheme()));
+//        break;
+//      case 3:
+//        bugButton.setImageDrawable(getResources().getDrawable(
+//            R.drawable.mosquito, getApplicationContext().getTheme()));
+//        break;
+//      case 4:
+//        bugButton.setImageDrawable(getResources().getDrawable(
+//            R.drawable.sowbug, getApplicationContext().getTheme()));
+//        break;
+//      default:
+//        break;
+//    }
 
   }
 
