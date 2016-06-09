@@ -1,6 +1,8 @@
-package com.context.kroket.escapeapp.helpclasses;
+package com.context.kroket.escapeapp.minigames.minigames.coins;
 
 import android.widget.ImageView;
+
+import com.context.kroket.escapeapp.minigames.minigames.coin.Coin;
 
 /**
  * Created by Team Kroket on 5-6-2016.
@@ -23,6 +25,6 @@ public class BronzeCoin extends Coin {
    * Increase the score.
    */
   public void score() {
-    count = count + 1;
+    setCount(getCount() + 1);
   }
 }

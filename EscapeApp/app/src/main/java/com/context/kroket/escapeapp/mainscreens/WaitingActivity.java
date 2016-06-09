@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
-import com.context.kroket.escapeapp.minigames.D_Gyroscope;
+import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
 
 
 /**
@@ -47,7 +47,7 @@ public class WaitingActivity extends AppCompatActivity {
    *          the view that was clicked.
    */
   public void startButtonWaiting(View view) {
-    Intent intent = new Intent(this, D_Gyroscope.class);
+    Intent intent = new Intent(this, Waiting_Gyroscope.class);
     startActivity(intent);
   }
 

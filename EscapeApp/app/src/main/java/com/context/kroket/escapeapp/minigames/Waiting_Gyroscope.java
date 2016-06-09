@@ -17,16 +17,19 @@ import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
-import com.context.kroket.escapeapp.helpclasses.BronzeCoin;
-import com.context.kroket.escapeapp.helpclasses.Coin;
-import com.context.kroket.escapeapp.helpclasses.DeadCoin;
-import com.context.kroket.escapeapp.helpclasses.GoldCoin;
-import com.context.kroket.escapeapp.helpclasses.SilverCoin;
+import com.context.kroket.escapeapp.minigames.minigames.coins.BronzeCoin;
+import com.context.kroket.escapeapp.minigames.minigames.coin.Coin;
+import com.context.kroket.escapeapp.minigames.minigames.coins.DeadCoin;
+import com.context.kroket.escapeapp.minigames.minigames.coins.GoldCoin;
+import com.context.kroket.escapeapp.minigames.minigames.coins.SilverCoin;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 import java.util.Random;
 
-public class D_Gyroscope extends AppCompatActivity implements SensorEventListener {
+/**
+ * Minigame that can be played in the waitingscreen.
+ */
+public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventListener {
   private SensorManager motionSensorManager;
   private Sensor motionSensor;
 
@@ -111,7 +114,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
     if (gold.getCount() + silver.getCount() + bronze.getCount() >= 50) {
       resetCounts();
       amountView.setText("BONUS TIME RECEIVED!");
-      connectionService.bonusD();
+      connectionService.bonusTime();
     }
   }
 
@@ -180,7 +183,7 @@ public class D_Gyroscope extends AppCompatActivity implements SensorEventListene
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.d__gyroscope);
+    setContentView(R.layout.waiting_gyroscope);
     motionSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     motionSensor = motionSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
     motionSensorManager.registerListener(this, motionSensor, SensorManager.SENSOR_DELAY_FASTEST);

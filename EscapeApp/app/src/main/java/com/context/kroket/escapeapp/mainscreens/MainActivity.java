@@ -13,16 +13,10 @@ import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
 import com.context.kroket.escapeapp.minigames.A_Code_Cracker_Pictureview;
 import com.context.kroket.escapeapp.minigames.B_TapGame;
-import com.context.kroket.escapeapp.minigames.D_Gyroscope;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
-import com.context.kroket.escapeapp.minigames.E_Squasher;
-
-import com.context.kroket.escapeapp.minigames.F_Lock;
 
 import com.context.kroket.escapeapp.network.ConnectionService;
 import com.context.kroket.escapeapp.network.GameClient;
-
-import android.util.Log;
 
 /**
  * Responsible for making sure the player can connect to and start the game.
