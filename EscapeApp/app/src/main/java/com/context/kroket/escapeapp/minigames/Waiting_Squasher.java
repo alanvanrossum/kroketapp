@@ -50,6 +50,9 @@ public class Waiting_Squasher extends AppCompatActivity {
     ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
   }
 
+  /**
+   * Adds a listerner to the bug button.
+   */
   private void addListenerToBugButton() {
     bugButton = (ImageButton) findViewById(R.id.bugbutton);
     bugButton.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +75,9 @@ public class Waiting_Squasher extends AppCompatActivity {
     });
   }
 
+  /**
+   * Picks a random location and sets the bug at this location.
+   */
   private void setRandomBugLocation() {
     Random rand = new Random();
     int newX = rand.nextInt((int) screenWidth);
@@ -82,6 +88,9 @@ public class Waiting_Squasher extends AppCompatActivity {
     setRandomBugRotation();
   }
 
+  /**
+   * Chooses a random bug picture and sets it.
+   */
   @TargetApi(21)
   private void setRandomImageSource() {
     Random rand = new Random();
@@ -112,13 +121,14 @@ public class Waiting_Squasher extends AppCompatActivity {
 
   }
 
+  /**
+   * Sets a random rotation for the bug.
+   */
   private void setRandomBugRotation() {
     Random rand = new Random();
     int rotation = rand.nextInt(359);
     bugButton.setRotation(bugButton.getRotation() + (rotation));
   }
-
-
 
   /* Methods for the connection. */
 
