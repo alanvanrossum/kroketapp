@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.GameOver;
+import com.context.kroket.escapeapp.mainscreens.GameWon;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
@@ -232,6 +234,24 @@ public class ConnectionService extends Service {
   }
 
   /**
+   * The game is lost; a new screen is started.
+   */
+  public void gameLost() {
+    Intent intent = new Intent(this, GameOver.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+  }
+
+  /**
+   * The game is won. A new screen is started.
+   */
+  public void gameWon() {
+    Intent intent = new Intent(this, GameWon.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+  }
+
+  /**
    * Class used for the client Binder.
    */
   public class myBinder extends Binder {
@@ -323,8 +343,11 @@ public class ConnectionService extends Service {
       if (command.equals("START")) {
         // Go to waiting screen
         endMinigame();
+      } else if (command.equals("GAMEOVER")) {
+        gameLost();
+      } else if (command.equals("GAMEWON")) {
+        gameWon();
       } else if (command.equals("DONE")) {
-
         // minigame is complete
         endMinigame();
 
