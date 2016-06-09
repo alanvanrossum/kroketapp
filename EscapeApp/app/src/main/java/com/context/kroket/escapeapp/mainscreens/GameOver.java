@@ -13,6 +13,9 @@ public class GameOver extends AppCompatActivity {
         setContentView(R.layout.activity_game_over);
     }
 
+    /**
+     * Disables going back to the previous activity.
+     */
     @Override
     public void onBackPressed() {
     }

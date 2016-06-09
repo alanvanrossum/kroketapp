@@ -57,6 +57,9 @@ public class WaitingActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
+  /**
+   * Disables going back to the previous activity.
+   */
   @Override
   public void onBackPressed() {
   }
