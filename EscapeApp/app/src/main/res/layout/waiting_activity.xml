@@ -34,16 +34,28 @@
         android:layout_below="@+id/waiting"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="127dp" />
+        android:layout_marginTop="127dp"
+        android:text="In the meantime why don&apos;t you play one of these two minigames and try to win some extra time." />
 
-    <Button android:id="@+id/startButtonWaiting"
+    <Button android:id="@+id/buttonCoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/startButton"
-        android:onClick="startButtonWaiting"
+        android:text="Coin"
+        android:onClick="buttonCoin"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="36dp"
         android:layout_below="@+id/waiting2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp" />
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="squasher"
+        android:onClick="buttonSquash"
+        android:id="@+id/buttonSquash"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/buttonCoin"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

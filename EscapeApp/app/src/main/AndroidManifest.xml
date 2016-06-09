@@ -33,7 +33,7 @@
         <activity android:name=".mainscreens.WaitingActivity" />
         <activity android:name=".minigames.C_ColorSequence" />
         <activity android:name=".minigames.Waiting_Gyroscope" />
-        <activity android:name=".minigames.E_Squasher" />
+        <activity android:name=".minigames.Waiting_Squasher" />
         <activity android:name=".minigames.D_Lock"></activity>
     </application>
 
