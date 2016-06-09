@@ -58,7 +58,7 @@ public class Waiting_Squasher extends AppCompatActivity {
         squashCount++;
         tv = (TextView) findViewById(R.id.squashtext);
 
-        if(squashCount >= 100) {
+        if(squashCount >= 50) {
           squashCount = 0;
           tv.setText("BONUS TIME RECEIVED!");
           connectionService.bonusTime();
