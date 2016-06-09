@@ -23,7 +23,7 @@ import java.util.Random;
 public class Waiting_Squasher extends AppCompatActivity {
 
   ImageButton bugButton;
-  TextView tv;
+  TextView squashText;
   float screenHeight;
   float screenWidth;
   int squashCount;
@@ -40,8 +40,8 @@ public class Waiting_Squasher extends AppCompatActivity {
     screenWidth = metrics.widthPixels;
     screenWidth *= 0.7;
     squashCount = 0;
-    tv = (TextView) findViewById(R.id.squashtext);
-    tv.setText("Squash the Bugs!");
+    squashText = (TextView) findViewById(R.id.squashtext);
+    squashText.setText("Squash the Bugs!");
 
     // Bind this service.
     Intent intent = new Intent(this, ConnectionService.class);
@@ -56,14 +56,14 @@ public class Waiting_Squasher extends AppCompatActivity {
       @Override
       public void onClick(View arg0) {
         squashCount++;
-        tv = (TextView) findViewById(R.id.squashtext);
+        squashText = (TextView) findViewById(R.id.squashtext);
 
         if(squashCount >= 50) {
           squashCount = 0;
-          tv.setText("BONUS TIME RECEIVED!");
+          squashText.setText("BONUS TIME RECEIVED!");
           connectionService.bonusTime();
         } else {
-          tv.setText("Bugs squashed: " + squashCount);
+          squashText.setText("Bugs squashed: " + squashCount);
         }
         setRandomBugLocation();
 
