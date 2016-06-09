@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -29,6 +30,7 @@ public class D_Lock extends AppCompatActivity {
   ConnectionService connectionService;
   boolean serviceIsBound = false;
   ArrayList<Integer> correctSequence;
+  private TextView tv;
 
   /**
    * This method adds listeners to the arrow pictures by calling addListenersToArrows() This method
@@ -129,6 +131,20 @@ public class D_Lock extends AppCompatActivity {
     }
     rotate(-9);
   }
+  private void updateText(){
+    tv.setText(toStringCode(enteredSequence));
+  }
+
+  private String toStringCode(ArrayList<Integer> enteredSequence) {
+    String res = "";
+    for(int i=0;i<enteredSequence.size();i++){
+      res+=enteredSequence.get(i);
+      if(i!=enteredSequence.size()-1){
+        res+="-";
+      }
+    }
+    return res;
+  }
 
   /**
    * This method is called when the user switches from turning Left to turning Right or vice versa.
@@ -143,6 +159,7 @@ public class D_Lock extends AppCompatActivity {
     if (enteredSequence.size() > 3) {
       enteredSequence = toArrayList(enteredSequence.subList(1, enteredSequence.size()));
     }
+    updateText();
     checkGameComplete();
   }
 
@@ -180,7 +197,7 @@ public class D_Lock extends AppCompatActivity {
   @Override
   protected void onStart() {
     super.onStart();
-
+    tv = (TextView) findViewById(R.id.locktext);
     Intent i = new Intent(this, ConnectionService.class);
     bindService(i, mConnection, Context.BIND_AUTO_CREATE);
 

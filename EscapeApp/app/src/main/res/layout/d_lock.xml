@@ -9,6 +9,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".minigames.D_Lock">
 
+
+    <TextView android:id="@+id/locktext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint=""
+        android:layout_weight="0.07"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:gravity="center" />
     <ImageView
         android:id="@+id/totallock"
         android:layout_width="300dp"
