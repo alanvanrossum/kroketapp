@@ -135,13 +135,6 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
     }
   }
 
-  /**
-   * Disables going back to the previous activity.
-   */
-  @Override
-  public void onBackPressed() {
-  }
-
   // ******************************************************//
   // *********** ONLY USED FOR TESTING PURPOSES ***********//
   // ******************************************************//

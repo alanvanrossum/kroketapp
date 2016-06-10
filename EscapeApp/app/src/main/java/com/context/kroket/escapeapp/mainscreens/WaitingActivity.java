@@ -8,7 +8,6 @@ import android.view.View;
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
-import com.context.kroket.escapeapp.minigames.Waiting_Squasher;
 
 
 /**
@@ -42,24 +41,16 @@ public class WaitingActivity extends AppCompatActivity {
   }
 
   /**
-   * Method that starts minigame Waiting_Gyroscope.
+   * Method that starts minigame D.
    *
    * @param view
    *          the view that was clicked.
    */
-  public void buttonCoin(View view) {
+  public void startButtonWaiting(View view) {
     Intent intent = new Intent(this, Waiting_Gyroscope.class);
     startActivity(intent);
   }
 
-  public void buttonSquash(View view) {
-    Intent intent = new Intent(this, Waiting_Squasher.class);
-    startActivity(intent);
-  }
-
-  /**
-   * Disables going back to the previous activity.
-   */
   @Override
   public void onBackPressed() {
   }

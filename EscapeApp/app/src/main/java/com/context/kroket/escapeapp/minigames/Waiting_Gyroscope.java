@@ -270,14 +270,4 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
       serviceIsBound = false;
     }
   };
-
-  /**
-   * Unbind the service and go back.
-   */
-  @Override
-  public void onBackPressed() {
-    unbindService(mConnection);
-
-    super.onBackPressed();
-  }
 }

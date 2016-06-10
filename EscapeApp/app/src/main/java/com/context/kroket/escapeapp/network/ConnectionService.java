@@ -19,7 +19,6 @@ import com.context.kroket.escapeapp.minigames.B_TapGame;
 import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
 import com.context.kroket.escapeapp.minigames.D_Lock;
-import com.context.kroket.escapeapp.minigames.Waiting_Squasher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,11 +93,9 @@ public class ConnectionService extends Service {
     String current_activity = ((ActivityManager) this.getApplicationContext()).getCurrentActivity()
         .getComponentName().getClassName();
     String waiting_activity = WaitingActivity.class.getName();
-    String waiting_gyroscope = Waiting_Gyroscope.class.getName();
-    String waiting_squasher = Waiting_Squasher.class.getName();
+    String game_waiting_activity = Waiting_Gyroscope.class.getName();
     return (current_activity.equals(waiting_activity)
-        || current_activity.equals(waiting_gyroscope))
-        || current_activity.equals(waiting_squasher);
+        || current_activity.equals(game_waiting_activity));
   }
 
   /**
