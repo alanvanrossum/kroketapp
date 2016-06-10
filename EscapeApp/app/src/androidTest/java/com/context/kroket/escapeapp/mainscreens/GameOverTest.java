@@ -17,13 +17,21 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+/**
+ * Tests the GameOver activity.
+ */
 public class GameOverTest {
 
+    /**
+     * ruleset used by espresso.
+     */
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule
             = new IntentsTestRule<MainActivity>(MainActivity.class);
 
-    //Test if the game over xml is displayed correctly
+    /**
+     * Test if the game over xml is displayed correctly
+     */
     @Test
     public void testGameOverText() {
         MainActivity.TestActivity = MainActivity.ActivitySwitch.gameover;

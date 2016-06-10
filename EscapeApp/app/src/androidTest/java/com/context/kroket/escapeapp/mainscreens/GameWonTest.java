@@ -15,18 +15,23 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by Harvey van Veltom on 09/06/2016.
- */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+/**
+ * Tests the GameWon activity.
+ */
 public class GameWonTest {
 
+    /**
+     * ruleset used by espresso.
+     */
     @Rule
     public IntentsTestRule<MainActivity> myActivityRule
             = new IntentsTestRule<MainActivity>(MainActivity.class);
 
-    //Test if the game won xml is displayed correctly
+    /**
+     *Test if the game won xml is displayed correctly
+     */
     @Test
     public void testGameWonText() {
         MainActivity.TestActivity = MainActivity.ActivitySwitch.gamewon;
