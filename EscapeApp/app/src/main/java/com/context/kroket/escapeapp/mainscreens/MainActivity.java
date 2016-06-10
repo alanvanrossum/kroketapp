@@ -128,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.main_activity);
   }
 
-  /**
-   * Disables going back to the previous activity.
-   */
   @Override
   public void onBackPressed() {
   }

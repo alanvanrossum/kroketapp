@@ -281,11 +281,4 @@ public class B_TapGame extends AppCompatActivity {
 
     }
   }
-
-  /**
-   * Disables going back to the previous activity.
-   */
-  @Override
-  public void onBackPressed() {
-  }
 }
