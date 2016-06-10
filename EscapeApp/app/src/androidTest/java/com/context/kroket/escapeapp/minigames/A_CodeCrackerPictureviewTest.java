@@ -43,7 +43,7 @@ public class A_CodeCrackerPictureviewTest {
   public void setUp() {
     // Switch from MainActivity to A_Code_Cracker_PictureView.
     MainActivity.TestActivity = MainActivity.ActivitySwitch.apic;
-    onView(ViewMatchers.withId(R.id.connectButton)).perform(click());
+    MainActivity.TestActivity.switchToActivity();
   }
 
   /**

@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
+/**
+ * CommandParserTest tests the functionalities of the commandParser.
+ */
 public class CommandParserTest extends CommandParser {
 
   /**

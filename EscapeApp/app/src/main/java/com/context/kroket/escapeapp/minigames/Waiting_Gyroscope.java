@@ -24,6 +24,7 @@ import com.context.kroket.escapeapp.minigames.minigames.coins.GoldCoin;
 import com.context.kroket.escapeapp.minigames.minigames.coins.SilverCoin;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -46,6 +47,7 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
   private Coin silver;
   private Coin bronze;
   private Coin dead;
+  private ArrayList<Coin> coins = new ArrayList<>();;
   TextView amountView;
 
   /**
@@ -97,18 +99,22 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
    * places the coins randomly again by calling placeCoinsRandomly()
    */
   private void collide() {
-    if (gold.collideWithGyro(gyro.getX(), gyro.getY()) 
-        || silver.collideWithGyro(gyro.getX(), gyro.getY())
-        || bronze.collideWithGyro(gyro.getX(), gyro.getY())) {
-      placeCoinsRandomly();
-      amountView.setText("Score: " + Integer.toString(gold.getCount() 
-          + silver.getCount() + bronze.getCount()));
-    } else if (dead.collideWithGyro(gyro.getX(), gyro.getY())) {
-      resetCounts();
-      amountView.setText("Score: " + Integer.toString(gold.getCount() 
-          + silver.getCount() + bronze.getCount()));
-      placeCoinsRandomly();
-    }
+   //Check if the skullball collided with a coin.
+    for (int x = 0; x < coins.size(); x++) {
+     Coin tempCoin = coins.get(x);
+     if(tempCoin.collideWithGyro(gyro.getX(),gyro.getY())){
+       if(tempCoin.equals(dead)){
+         resetCounts();
+         amountView.setText("Score: " + Integer.toString(gold.getCount()
+                 + silver.getCount() + bronze.getCount()));
+         placeCoinsRandomly();
+       } else {
+         placeCoinsRandomly();
+         amountView.setText("Score: " + Integer.toString(gold.getCount()
+                 + silver.getCount() + bronze.getCount()));
+       }
+     }
+   }
 
     // Check if the bonus time should be received.
     if (gold.getCount() + silver.getCount() + bronze.getCount() >= 50) {
@@ -213,6 +219,11 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
     silver = new SilverCoin((ImageView) findViewById(R.id.silvercoin));
     bronze = new BronzeCoin((ImageView) findViewById(R.id.bronzecoin));
     dead = new DeadCoin((ImageView) findViewById(R.id.deadcoin));
+
+    coins.add(gold);
+    coins.add(silver);
+    coins.add(bronze);
+    coins.add(dead);
 
     gyro = (ImageView) findViewById(R.id.gyroimage);
     gyroWidth = 50;

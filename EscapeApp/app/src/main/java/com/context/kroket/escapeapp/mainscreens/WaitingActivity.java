@@ -52,6 +52,12 @@ public class WaitingActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
+  /**
+   * Method that starts minigame Waiting_Squasher.
+   *
+   * @param view
+   *          the view that was clicked.
+   */
   public void buttonSquash(View view) {
     Intent intent = new Intent(this, Waiting_Squasher.class);
     startActivity(intent);

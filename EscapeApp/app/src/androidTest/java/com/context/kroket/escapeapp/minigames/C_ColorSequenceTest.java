@@ -53,7 +53,7 @@ public class C_ColorSequenceTest {
     C_ColorSequence.parseColors(parsedArrayList);
 
     MainActivity.TestActivity = MainActivity.ActivitySwitch.csequence;
-    onView(withId(R.id.connectButton)).perform(click());
+    MainActivity.TestActivity.switchToActivity();
 
   }
 

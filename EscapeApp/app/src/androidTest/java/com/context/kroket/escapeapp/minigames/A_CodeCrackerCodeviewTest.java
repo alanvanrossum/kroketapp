@@ -50,8 +50,7 @@ public class A_CodeCrackerCodeviewTest extends ActivityInstrumentationTestCase2<
   public void testclickPicButton() {
     // enable and switch to the A_CodeCrackerCodeview class.
     MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
-    Button buttonConnect = (Button) solo.getView(R.id.connectButton);
-    solo.clickOnView(buttonConnect);
+    MainActivity.TestActivity.switchToActivity();
 
     // click the pic button
     Button picButton = (Button) solo.getView(R.id.picButton);
@@ -71,8 +70,7 @@ public class A_CodeCrackerCodeviewTest extends ActivityInstrumentationTestCase2<
 
     // enable and switch to the A_CodeCrackerCodeview class.
     MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
-    Button buttonConnect = (Button) solo.getView(R.id.connectButton);
-    solo.clickOnView(buttonConnect);
+    MainActivity.TestActivity.switchToActivity();
 
     // Hide the android keyboard.
     solo.hideSoftKeyboard();
@@ -90,37 +88,6 @@ public class A_CodeCrackerCodeviewTest extends ActivityInstrumentationTestCase2<
 
     // assert that the number of attempts is now 1.
     assertEquals(A_CodeCrackerCodeview.getNumberOfAttempts(), 1);
-  }
-
-  /**
-   * The method checks to see what happens when we enter the right answer in
-   * A_CodeCrackerCodeView.
-   */
-  @Test
-  public void testRightAnswer() {
-    // Switch from MainActivity to A_CodeCrackerCodeView.
-    MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
-    A_CodeCrackerCodeview.enableTesting(true);
-    Button buttonConnect = (Button) solo.getView(R.id.connectButton);
-    solo.clickOnView(buttonConnect);
-
-    // Fill in the correct answer in the answerA view.
-    EditText answer = (EditText) solo.getView(R.id.answerA);
-    solo.clearEditText(answer);
-    solo.typeText(answer, "2719173");
-
-    // Hide the android keyboard.
-    solo.hideSoftKeyboard();
-
-    // Click the verify button of A_CodeCrackerCodeView when
-    // we have the right answer filled in.
-    Button buttonVerify = (Button) solo.getView(R.id.verifyButton);
-    solo.clickOnView(buttonVerify);
-
-    // Assert we are now in the WaitingActivity class.
-    solo.assertCurrentActivity("should be waiting", WaitingActivity.class);
-
-    A_CodeCrackerCodeview.enableTesting(false);
   }
 
   /**

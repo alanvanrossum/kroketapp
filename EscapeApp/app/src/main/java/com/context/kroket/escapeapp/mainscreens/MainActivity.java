@@ -1,5 +1,6 @@
 package com.context.kroket.escapeapp.mainscreens;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
   private final String TAG = this.getClass().getSimpleName();
 
+  public static Context mContext;
+
+  public static Button startButton;
   /**
    * Method that makes the calls necessary to connect the players to the server.
    *
@@ -38,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
     TextView remoteHost = (TextView) findViewById(R.id.remoteHost);
 
     boolean connected = GameClient.isConnected();
-    
-    // Only used in testing, to quickly forward to another view.
-    if (TestActivity != ActivitySwitch.notest) {
-      checkConditions();
-    }
     
     if (connected) {
       connectMessage.setText("Already connected.");
@@ -126,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.main_activity);
+    mContext = this;
+    startButton = (Button) findViewById(R.id.startButton);
+
   }
 
   /**
@@ -160,9 +162,10 @@ public class MainActivity extends AppCompatActivity {
    * between all the views.
    */
   public enum ActivitySwitch {
-    startEn(MainActivity.class), acode(A_CodeCrackerCodeview.class), 
-        apic(A_Code_Cracker_Pictureview.class), btap(B_TapGame.class), 
-        csequence(C_ColorSequence.class), notest(MainActivity.class);
+    acode(A_CodeCrackerCodeview.class), gameover(GameOver.class),
+    apic(A_Code_Cracker_Pictureview.class), btap(B_TapGame.class),
+    csequence(C_ColorSequence.class), gamewon(GameWon.class),
+    waiting(WaitingActivity.class), notest(MainActivity.class);
 
     private Class ClassAC;
 
@@ -173,24 +176,14 @@ public class MainActivity extends AppCompatActivity {
     public Class returnClass() {
       return ClassAC;
     }
+
+    public void switchToActivity() {
+      Intent dialogIntent = new Intent(mContext, TestActivity.returnClass());
+      dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      mContext.startActivity(dialogIntent);
+    }
   }
 
   // The ActivitySwitch used by the testclasses.
   public static ActivitySwitch TestActivity = ActivitySwitch.notest;
-
-  /**
-   * checkConditions checks if the ActivitySwitch is startEn. if so it enables
-   * the startButton. if that isn't the case we switch to the activity specified
-   * in ActivitySwitch.
-   */
-  private void checkConditions() {
-    if (TestActivity == ActivitySwitch.startEn) {
-      Button start = (Button) findViewById(R.id.startButton);
-      start.setEnabled(true);
-    } else {
-      Intent dialogIntent = new Intent(this, TestActivity.returnClass());
-      dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      startActivity(dialogIntent);
-    }
-  }
 }
