@@ -64,25 +64,32 @@ public class ConnectionService extends Service {
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
 
-    String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
-
-    list = new ArrayList<String>();
-    new connectTask().execute(intent.getStringExtra("remote_address"));
-
-    // Wait for the tcpClient to be instantiated
-    try {
-      Thread.sleep(1000, 0);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    if (intent == null || intent.getExtras() == null) {
+      return START_STICKY;
     }
 
-    if (tcpClient == null) {
-      // setLabelText("Connection failed, yo.");
-    } else {
-      tcpClient.sendMessage(registerString);
-    }
+    if (intent.getExtras().containsKey("string_name") && intent.getExtras().containsKey("remote_address")) {
 
-    updateMain();
+      String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
+
+      list = new ArrayList<String>();
+      new connectTask().execute(intent.getStringExtra("remote_address"));
+
+      // Wait for the tcpClient to be instantiated
+      try {
+        Thread.sleep(1000, 0);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+
+      if (tcpClient == null) {
+        // setLabelText("Connection failed, yo.");
+      } else {
+        tcpClient.sendMessage(registerString);
+      }
+
+      updateMain();
+    }
 
     return START_STICKY;
   }

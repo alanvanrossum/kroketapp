@@ -24,194 +24,188 @@ import java.util.Random;
 
 public class Waiting_Squasher extends AppCompatActivity {
 
-  ImageButton bugButton;
-  TextView squashText;
-  float screenHeight;
-  float screenWidth;
-  int squashCount;
-  Random rand;
-  Drawable spider;
-  Drawable bug;
-  Drawable beetle;
-  Drawable mosquito;
-  Drawable sowbug;
+    ImageButton bugButton;
+    TextView squashText;
+    float screenHeight;
+    float screenWidth;
+    int squashCount;
+    Random rand;
+    Drawable spider;
+    Drawable bug;
+    Drawable beetle;
+    Drawable mosquito;
+    Drawable sowbug;
 
-  ArrayList<Drawable> bugs = new ArrayList<>();
+    ArrayList<Drawable> bugs = new ArrayList<>();
 
-  @TargetApi(21)
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.waiting__squasher);
-    addListenerToBugButton();
-    DisplayMetrics metrics = new DisplayMetrics();
-    getWindowManager().getDefaultDisplay().getMetrics(metrics);
-    screenHeight = metrics.heightPixels;
-    screenHeight *= 0.7;
-    screenWidth = metrics.widthPixels;
-    screenWidth *= 0.7;
-    squashCount = 0;
-    squashText = (TextView) findViewById(R.id.squashtext);
-    squashText.setText("Squash the Bugs!");
+    @TargetApi(21)
+    private Drawable getDrawableObject(int id) {
+        return (android.os.Build.VERSION.SDK_INT >= 21 ? getResources().getDrawable(id,
+                getApplicationContext().getTheme()) : getResources().getDrawable(id));
+    }
 
-    rand = new Random();
-    spider = getResources().getDrawable(
-            R.drawable.spider, getApplicationContext().getTheme());
-
-    bug = getResources().getDrawable(
-            R.drawable.bug, getApplicationContext().getTheme());
-
-    beetle = getResources().getDrawable(
-            R.drawable.beetle, getApplicationContext().getTheme());
-
-    mosquito = getResources().getDrawable(
-            R.drawable.mosquito, getApplicationContext().getTheme());
-
-    sowbug = getResources().getDrawable(
-            R.drawable.sowbug, getApplicationContext().getTheme());
-
-    bugs.add(spider);
-    bugs.add(bug);
-    bugs.add(beetle);
-    bugs.add(mosquito);
-    bugs.add(sowbug);
-
-    // Bind this service.
-    Intent intent = new Intent(this, ConnectionService.class);
-    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
-    ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
-  }
-
-  /**
-   * Adds a listerner to the bug button.
-   */
-  private void addListenerToBugButton() {
-    bugButton = (ImageButton) findViewById(R.id.bugbutton);
-    bugButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View arg0) {
-        squashCount++;
+    @TargetApi(21)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.waiting__squasher);
+        addListenerToBugButton();
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenHeight = metrics.heightPixels;
+        screenHeight *= 0.7;
+        screenWidth = metrics.widthPixels;
+        screenWidth *= 0.7;
+        squashCount = 0;
         squashText = (TextView) findViewById(R.id.squashtext);
+        squashText.setText("Squash the Bugs!");
 
-        if(squashCount >= 50) {
-          squashCount = 0;
-          squashText.setText("BONUS TIME RECEIVED!");
-          connectionService.bonusTime();
-        } else {
-          squashText.setText("Bugs squashed: " + squashCount);
-        }
-        setRandomBugLocation();
+        rand = new Random();
 
-      }
+        spider = getDrawableObject(R.drawable.spider);
+        bug = getDrawableObject(R.drawable.bug);
+        beetle = getDrawableObject(R.drawable.beetle);
+        mosquito = getDrawableObject(R.drawable.mosquito);
+        sowbug = getDrawableObject(R.drawable.sowbug);
 
-    });
-  }
+        bugs.add(spider);
+        bugs.add(bug);
+        bugs.add(beetle);
+        bugs.add(mosquito);
+        bugs.add(sowbug);
 
-  /**
-   * Picks a random location and sets the bug at this location.
-   */
-  private void setRandomBugLocation() {
-    Random rand = new Random();
-    int newX = rand.nextInt((int) screenWidth);
-    int newY = rand.nextInt((int) screenHeight);
-    bugButton.setX(newX);
-    bugButton.setY(newY);
-    setRandomImageSource();
-    setRandomBugRotation();
-  }
+        // Bind this service.
+        Intent intent = new Intent(this, ConnectionService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
-  /**
-   * Chooses a random bug picture and sets it.
-   */
-  @TargetApi(21)
-  private void setRandomImageSource() {
-   int randInt = rand.nextInt(bugs.size());
-    bugButton.setImageDrawable(bugs.get(randInt));
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
+    }
 
-//    switch (rand.nextInt(5)) {
-//      case 0:
-//        bugButton.setImageDrawable(getResources().getDrawable(
-//            R.drawable.spider, getApplicationContext().getTheme()));
-//        break;
-//      case 1:
-//        bugButton.setImageDrawable(getResources().getDrawable(
-//            R.drawable.bug, getApplicationContext().getTheme()));
-//        break;
-//      case 2:
-//        bugButton.setImageDrawable(getResources().getDrawable(
-//            R.drawable.beetle, getApplicationContext().getTheme()));
-//        break;
-//      case 3:
-//        bugButton.setImageDrawable(getResources().getDrawable(
-//            R.drawable.mosquito, getApplicationContext().getTheme()));
-//        break;
-//      case 4:
-//        bugButton.setImageDrawable(getResources().getDrawable(
-//            R.drawable.sowbug, getApplicationContext().getTheme()));
-//        break;
-//      default:
-//        break;
-//    }
+    /**
+     * Adds a listerner to the bug button.
+     */
+    private void addListenerToBugButton() {
+        bugButton = (ImageButton) findViewById(R.id.bugbutton);
+        bugButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                squashCount++;
+                squashText = (TextView) findViewById(R.id.squashtext);
 
-  }
+                if (squashCount >= 50) {
+                    squashCount = 0;
+                    squashText.setText("BONUS TIME RECEIVED!");
+                    connectionService.bonusTime();
+                } else {
+                    squashText.setText("Bugs squashed: " + squashCount);
+                }
+                setRandomBugLocation();
 
-  /**
-   * Sets a random rotation for the bug.
-   */
-  private void setRandomBugRotation() {
-    Random rand = new Random();
-    int rotation = rand.nextInt(359);
-    bugButton.setRotation(bugButton.getRotation() + (rotation));
-  }
+            }
+
+        });
+    }
+
+    /**
+     * Picks a random location and sets the bug at this location.
+     */
+    private void setRandomBugLocation() {
+        Random rand = new Random();
+        int newX = rand.nextInt((int) screenWidth);
+        int newY = rand.nextInt((int) screenHeight);
+        bugButton.setX(newX);
+        bugButton.setY(newY);
+        setRandomImageSource();
+        setRandomBugRotation();
+    }
+
+    /**
+     * Chooses a random bug picture and sets it.
+     */
+    @TargetApi(21)
+    private void setRandomImageSource() {
+        int randInt = rand.nextInt(bugs.size());
+        bugButton.setImageDrawable(bugs.get(randInt));
+
+        // switch (rand.nextInt(5)) {
+        // case 0:
+        // bugButton.setImageDrawable(getResources().getDrawable(
+        // R.drawable.spider, getApplicationContext().getTheme()));
+        // break;
+        // case 1:
+        // bugButton.setImageDrawable(getResources().getDrawable(
+        // R.drawable.bug, getApplicationContext().getTheme()));
+        // break;
+        // case 2:
+        // bugButton.setImageDrawable(getResources().getDrawable(
+        // R.drawable.beetle, getApplicationContext().getTheme()));
+        // break;
+        // case 3:
+        // bugButton.setImageDrawable(getResources().getDrawable(
+        // R.drawable.mosquito, getApplicationContext().getTheme()));
+        // break;
+        // case 4:
+        // bugButton.setImageDrawable(getResources().getDrawable(
+        // R.drawable.sowbug, getApplicationContext().getTheme()));
+        // break;
+        // default:
+        // break;
+        // }
+
+    }
+
+    /**
+     * Sets a random rotation for the bug.
+     */
+    private void setRandomBugRotation() {
+        Random rand = new Random();
+        int rotation = rand.nextInt(359);
+        bugButton.setRotation(bugButton.getRotation() + (rotation));
+    }
 
   /* Methods for the connection. */
 
-  ConnectionService connectionService;
-  boolean serviceIsBound = false;
+    ConnectionService connectionService;
+    boolean serviceIsBound = false;
 
-  // Defines callbacks for service binding, used in bindService().
-  private ServiceConnection mConnection = new ServiceConnection() {
+    // Defines callbacks for service binding, used in bindService().
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        /**
+         * Called when a connection to the Service has been established.
+         *
+         * @param className
+         *          The concrete component name of the service that has been connected.
+         * @param service
+         *          The IBinder of the Service's communication channel, which you can now make calls on.
+         */
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            ConnectionService.myBinder binder = (ConnectionService.myBinder) service;
+            connectionService = binder.getService();
+            serviceIsBound = true;
+        }
+
+        /**
+         * Called when a connection to the Service has been lost.
+         *
+         * @param arg0
+         *          The concrete component name of the service whose connection has been lost.
+         */
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            serviceIsBound = false;
+        }
+    };
 
     /**
-     * Called when a connection to the Service has been established.
-     *
-     * @param className
-     *          The concrete component name of the service that has been
-     *          connected.
-     * @param service
-     *          The IBinder of the Service's communication channel, which you
-     *          can now make calls on.
+     * Unbind the service and go back.
      */
-    @Override
-    public void onServiceConnected(ComponentName className, IBinder service) {
-      ConnectionService.myBinder binder = (ConnectionService.myBinder) service;
-      connectionService = binder.getService();
-      serviceIsBound = true;
+    @Override 
+    public void onBackPressed() {
+        unbindService(mConnection);
+
+        super.onBackPressed();
     }
-
-    /**
-     * Called when a connection to the Service has been lost.
-     *
-     * @param arg0
-     *          The concrete component name of the service whose connection has
-     *          been lost.
-     */
-    @Override
-    public void onServiceDisconnected(ComponentName arg0) {
-      serviceIsBound = false;
-    }
-  };
-
-
-  /**
-   * Unbind the service and go back.
-   */
-  @Override
-  public void onBackPressed() {
-    unbindService(mConnection);
-
-    super.onBackPressed();
-  }
 
 }
