@@ -3,13 +3,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.context.kroket.escapeapp"
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
