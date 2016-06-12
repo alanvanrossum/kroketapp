@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
@@ -16,6 +17,7 @@ import com.context.kroket.escapeapp.minigames.Waiting_Squasher;
  */
 public class WaitingActivity extends AppCompatActivity {
 
+  public static boolean errorMessage = false;
   /**
    * Initializes the layout.
    *
@@ -39,6 +41,11 @@ public class WaitingActivity extends AppCompatActivity {
 
     // Change the current activity.
     ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
+
+    if(errorMessage) {
+      TextView waiting2 = (TextView) findViewById(R.id.waiting2);
+      waiting2.setText("Sorry an error occured during the squasher minigame");
+    }
   }
 
   /**

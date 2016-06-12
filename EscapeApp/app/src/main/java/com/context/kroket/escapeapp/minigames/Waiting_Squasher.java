@@ -1,6 +1,5 @@
 package com.context.kroket.escapeapp.minigames;
 
-import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
+import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 import java.util.ArrayList;
@@ -136,6 +136,7 @@ public class Waiting_Squasher extends AppCompatActivity {
     if(drawable == null) {
       System.out.println("the drawable was null the corresponding int was:" + randInt);
       squashText.setText("Sorry but an error occurred during this minigame");
+      WaitingActivity.errorMessage = true;
       onBackPressed();
     }
     bugButton.setImageDrawable(bugs.get(randInt));
