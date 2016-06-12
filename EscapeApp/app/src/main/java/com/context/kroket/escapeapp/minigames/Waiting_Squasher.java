@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -38,7 +39,7 @@ public class Waiting_Squasher extends AppCompatActivity {
 
   ArrayList<Drawable> bugs = new ArrayList<>();
 
-  @TargetApi(21)
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -55,20 +56,25 @@ public class Waiting_Squasher extends AppCompatActivity {
     squashText.setText("Squash the Bugs!");
 
     rand = new Random();
-    spider = getResources().getDrawable(
-            R.drawable.spider, getApplicationContext().getTheme());
-
-    bug = getResources().getDrawable(
-            R.drawable.bug, getApplicationContext().getTheme());
-
-    beetle = getResources().getDrawable(
-            R.drawable.beetle, getApplicationContext().getTheme());
-
-    mosquito = getResources().getDrawable(
-            R.drawable.mosquito, getApplicationContext().getTheme());
-
-    sowbug = getResources().getDrawable(
-            R.drawable.sowbug, getApplicationContext().getTheme());
+    spider = ContextCompat.getDrawable(this, R.drawable.spider);
+    bug = ContextCompat.getDrawable(this, R.drawable.bug);
+    beetle = ContextCompat.getDrawable(this, R.drawable.beetle);
+    sowbug = ContextCompat.getDrawable(this, R.drawable.sowbug);
+    mosquito = ContextCompat.getDrawable(this, R.drawable.mosquito);
+//    spider = getResources().getDrawable(
+//            R.drawable.spider, getApplicationContext().getTheme());
+//
+//    bug = getResources().getDrawable(
+//            R.drawable.bug, getApplicationContext().getTheme());
+//
+//    beetle = getResources().getDrawable(
+//            R.drawable.beetle, getApplicationContext().getTheme());
+//
+//    mosquito = getResources().getDrawable(
+//            R.drawable.mosquito, getApplicationContext().getTheme());
+//
+//    sowbug = getResources().getDrawable(
+//            R.drawable.sowbug, getApplicationContext().getTheme());
 
     bugs.add(spider);
     bugs.add(bug);
@@ -124,9 +130,14 @@ public class Waiting_Squasher extends AppCompatActivity {
   /**
    * Chooses a random bug picture and sets it.
    */
-  @TargetApi(21)
   private void setRandomImageSource() {
    int randInt = rand.nextInt(bugs.size());
+    Drawable drawable = bugs.get(randInt);
+    if(drawable == null) {
+      System.out.println("the drawable was null the corresponding int was:" + randInt);
+      squashText.setText("Sorry but an error occurred during this minigame");
+      onBackPressed();
+    }
     bugButton.setImageDrawable(bugs.get(randInt));
 
 //    switch (rand.nextInt(5)) {
