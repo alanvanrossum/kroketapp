@@ -49,6 +49,23 @@ public class Waiting_Squasher extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.waiting__squasher);
+
+        initScreen();
+        initBugs();
+
+        rand = new Random();
+
+        // Bind this service.
+        Intent intent = new Intent(this, ConnectionService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
+    }
+
+    /**
+     * Initializes the screen properties.
+     */
+    private void initScreen() {
         addListenerToBugButton();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -59,9 +76,12 @@ public class Waiting_Squasher extends AppCompatActivity {
         squashCount = 0;
         squashText = (TextView) findViewById(R.id.squashtext);
         squashText.setText("Squash the Bugs!");
+    }
 
-        rand = new Random();
-
+    /**
+     * Initializes the bugs by getting the images of the bugs.
+     */
+    private void initBugs() {
         spider = getDrawableObject(R.drawable.spider);
         bug = getDrawableObject(R.drawable.bug);
         beetle = getDrawableObject(R.drawable.beetle);
@@ -73,12 +93,6 @@ public class Waiting_Squasher extends AppCompatActivity {
         bugs.add(beetle);
         bugs.add(mosquito);
         bugs.add(sowbug);
-
-        // Bind this service.
-        Intent intent = new Intent(this, ConnectionService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
-        ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
     }
 
     /**
@@ -126,32 +140,6 @@ public class Waiting_Squasher extends AppCompatActivity {
     private void setRandomImageSource() {
         int randInt = rand.nextInt(bugs.size());
         bugButton.setImageDrawable(bugs.get(randInt));
-
-        // switch (rand.nextInt(5)) {
-        // case 0:
-        // bugButton.setImageDrawable(getResources().getDrawable(
-        // R.drawable.spider, getApplicationContext().getTheme()));
-        // break;
-        // case 1:
-        // bugButton.setImageDrawable(getResources().getDrawable(
-        // R.drawable.bug, getApplicationContext().getTheme()));
-        // break;
-        // case 2:
-        // bugButton.setImageDrawable(getResources().getDrawable(
-        // R.drawable.beetle, getApplicationContext().getTheme()));
-        // break;
-        // case 3:
-        // bugButton.setImageDrawable(getResources().getDrawable(
-        // R.drawable.mosquito, getApplicationContext().getTheme()));
-        // break;
-        // case 4:
-        // bugButton.setImageDrawable(getResources().getDrawable(
-        // R.drawable.sowbug, getApplicationContext().getTheme()));
-        // break;
-        // default:
-        // break;
-        // }
-
     }
 
     /**

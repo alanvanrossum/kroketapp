@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
-import com.context.kroket.escapeapp.minigames.minigames.coins.BronzeCoin;
-import com.context.kroket.escapeapp.minigames.minigames.coin.Coin;
-import com.context.kroket.escapeapp.minigames.minigames.coins.DeadCoin;
-import com.context.kroket.escapeapp.minigames.minigames.coins.GoldCoin;
-import com.context.kroket.escapeapp.minigames.minigames.coins.SilverCoin;
+import com.context.kroket.escapeapp.minigames.coin.coins.BronzeCoin;
+import com.context.kroket.escapeapp.minigames.coin.Coin;
+import com.context.kroket.escapeapp.minigames.coin.coins.DeadCoin;
+import com.context.kroket.escapeapp.minigames.coin.coins.GoldCoin;
+import com.context.kroket.escapeapp.minigames.coin.coins.SilverCoin;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
 import java.util.ArrayList;
@@ -207,6 +207,31 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
   protected void onStart() {
     super.onStart();
 
+    initCoins();
+    initGyro();
+    initScreen();
+
+    // Bind this service.
+    Intent intent = new Intent(this, ConnectionService.class);
+    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+    // Change the current activity.
+    ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
+  }
+
+  /**
+   * Initialize the gyro image and properties.
+   */
+  private void initGyro() {
+    gyro = (ImageView) findViewById(R.id.gyroimage);
+    gyroWidth = 50;
+    gyroHeight = 50;
+  }
+
+  /**
+   * Initialize the screen properties and places the coins randomly.
+   */
+  private void initScreen() {
     DisplayMetrics metrics = new DisplayMetrics();
     getWindowManager().getDefaultDisplay().getMetrics(metrics);
     screenHeight = metrics.heightPixels;
@@ -214,7 +239,18 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
     screenWidth = metrics.widthPixels;
     screenWidth *= 0.8;
 
-    // set the coins
+    minX = 0;
+    maxX = screenWidth - gyroWidth;
+    minY = 0;
+    maxY = screenHeight - gyroHeight;
+
+    placeCoinsRandomly(screenWidth / 2 - gyroWidth / 2, screenHeight / 2 - gyroHeight / 2);
+  }
+
+  /**
+   * Initialize the coins.
+   */
+  private void initCoins() {
     gold = new GoldCoin((ImageView) findViewById(R.id.goldcoin));
     silver = new SilverCoin((ImageView) findViewById(R.id.silvercoin));
     bronze = new BronzeCoin((ImageView) findViewById(R.id.bronzecoin));
@@ -224,24 +260,6 @@ public class Waiting_Gyroscope extends AppCompatActivity implements SensorEventL
     coins.add(silver);
     coins.add(bronze);
     coins.add(dead);
-
-    gyro = (ImageView) findViewById(R.id.gyroimage);
-    gyroWidth = 50;
-    gyroHeight = 50;
-
-    minX = 0;
-    maxX = screenWidth - gyroWidth;
-    minY = 0;
-    maxY = screenHeight - gyroHeight;
-
-    placeCoinsRandomly(screenWidth / 2 - gyroWidth / 2, screenHeight / 2 - gyroHeight / 2);
-
-    // Bind this service.
-    Intent intent = new Intent(this, ConnectionService.class);
-    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
-    // Change the current activity.
-    ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
   }
 
   /* Methods for the connection. */

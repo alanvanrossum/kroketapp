@@ -1,8 +1,8 @@
-package com.context.kroket.escapeapp.minigames.minigames.coin;
+package com.context.kroket.escapeapp.minigames.coin;
 
 import android.widget.ImageView;
 
-import com.context.kroket.escapeapp.minigames.minigames.coins.DeadCoin;
+import com.context.kroket.escapeapp.minigames.coin.coins.DeadCoin;
 
 import java.util.Random;
 
