@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 /**
- * Created by Irene on 21-5-2016.
+ * Created by Team Kroket on 21-5-2016.
  */
 public class ActivityManager extends Application {
 

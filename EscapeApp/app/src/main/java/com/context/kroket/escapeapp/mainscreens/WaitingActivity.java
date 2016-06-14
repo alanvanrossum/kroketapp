@@ -10,7 +10,6 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
 import com.context.kroket.escapeapp.minigames.Waiting_Squasher;
 
-
 /**
  * Responsible for the screen that is shown when no minigame is active.
  */
@@ -69,4 +68,5 @@ public class WaitingActivity extends AppCompatActivity {
   @Override
   public void onBackPressed() {
   }
+
 }

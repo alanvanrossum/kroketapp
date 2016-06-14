@@ -51,7 +51,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="squasher"
+        android:text="SQUASHER"
         android:onClick="buttonSquash"
         android:id="@+id/buttonSquash"
         android:layout_marginTop="27dp"
