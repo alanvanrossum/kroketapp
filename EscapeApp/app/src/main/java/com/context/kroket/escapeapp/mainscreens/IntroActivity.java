@@ -19,14 +19,6 @@ public class IntroActivity extends AppCompatActivity {
 
     Handler timerHandler;
 
-    String text0 = "You are an CIA agent.\n\n" +
-            "Together with your colleagues you are investigating the disappearance of a fellow CIA agent.";
-    String text1 = "One of your colleagues was following a lead in the woods, when suddenly he got knocked unconscious!";
-    String text2 = "He wakes up in a room, which is slowly filling up with a deadly gas!\n\n" +
-            "A timer starts...";
-    String text3 = "Luckily he still has his earpiece, so you are able to communicate with him.\n\n" +
-            "Try to help your fellow CIA agent escape!";
-
     ArrayList<String> texts;
 
     int pointer;
@@ -61,10 +53,13 @@ public class IntroActivity extends AppCompatActivity {
         intoText = (TextView) findViewById(R.id.introText);
 
         texts = new ArrayList<String>();
-        texts.add(text0);
-        texts.add(text1);
-        texts.add(text2);
-        texts.add(text3);
+        texts.add("You are a CIA agent.\n\n" +
+                "Together with your colleagues you are investigating the disappearance of a fellow CIA agent.");
+        texts.add("One of your colleagues was following a lead in the woods, when suddenly he got knocked unconscious!");
+        texts.add("He wakes up in a room, which is slowly filling up with a deadly gas!\n\n" +
+                "A timer starts...");
+        texts.add("Luckily he still has his earpiece, so you are able to communicate with him from the CIA Headquarters.\n\n" +
+                "Try to help your fellow CIA agent escape!");
 
         // Change the current activity.
         ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
