@@ -14,10 +14,8 @@ import android.view.View;
 
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.R;
-import com.context.kroket.escapeapp.network.CommandParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class C_ColorSequence extends AppCompatActivity {
 

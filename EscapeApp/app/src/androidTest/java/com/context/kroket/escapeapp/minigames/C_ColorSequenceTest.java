@@ -12,19 +12,15 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
-import com.context.kroket.escapeapp.network.CommandParser;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 
 
 @RunWith(AndroidJUnit4.class)

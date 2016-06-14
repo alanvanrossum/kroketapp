@@ -21,6 +21,8 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
 import com.context.kroket.escapeapp.minigames.D_Lock;
 import com.context.kroket.escapeapp.minigames.Waiting_Squasher;
+import com.context.kroket.escapeapp.protocol.CommandParser;
+import com.context.kroket.escapeapp.protocol.Protocol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +73,7 @@ public class ConnectionService extends Service {
 
     if (intent.getExtras().containsKey("string_name") && intent.getExtras().containsKey("remote_address")) {
 
-      String registerString = "REGISTER[" + intent.getStringExtra("string_name") + "][MOBILE]";
+      String registerString = String.format("%s[%s][%s]", Protocol.COMMAND_REGISTER, intent.getStringExtra("string_name"), "MOBILE");
 
       list = new ArrayList<String>();
       new connectTask().execute(intent.getStringExtra("remote_address"));
@@ -155,8 +157,6 @@ public class ConnectionService extends Service {
       try {
         Thread.sleep(1000);
         Intent in = new Intent();
-        // in.setAction("colorBroadcast");
-        // in.putExtra("colorSequence", colorParams);
         in.setAction(BTActionString);
         in.putExtra(BTExtraString, BTExtraArray);
         sendBroadcast(in);
@@ -168,16 +168,9 @@ public class ConnectionService extends Service {
     }
   }
 
-  public void setLabelText(String message) {
-    Activity current = ((ActivityManager) this.getApplicationContext()).getCurrentActivity();
-
-    if (current instanceof MainActivity) {
-      TextView connectMessage = (TextView) current.findViewById(R.id.connectionMessage);
-      connectMessage.setText(message);
-      ((MainActivity) current).update();
-    }
-  }
-
+  /**
+   * Update the main activity.
+   */
   public void updateMain() {
     Activity current = ((ActivityManager) this.getApplicationContext()).getCurrentActivity();
 
@@ -208,49 +201,35 @@ public class ConnectionService extends Service {
    * Sends a message to the server that minigame A is solved.
    */
   public void endA() {
-    tcpClient.sendMessage("DONE[A]");
-  }
-
-  /**
-   * Sends a message to the server that minigame B is solved.
-   */
-  public void endB() {
-    tcpClient.sendMessage("DONE[B]");
-  }
-
-  /**
-   * Sends a message to the server the minigame B should be started.
-   */
-  public void startB() {
-    tcpClient.sendMessage("BEGIN[B]");
+    tcpClient.sendMessage(String.format("%s[%s]", Protocol.COMMAND_DONE, "A"));
   }
 
   /**
    * Sends a message to the server that minigame B is solved and needs a verification.
    */
   public void verifyB() {
-    tcpClient.sendMessage("VERIFY[B]");
+    tcpClient.sendMessage(String.format("%s[%s]", Protocol.COMMAND_VERIFY, "B"));
   }
 
   /**
    * Send a message to the server that minigame B should be restarted.
    */
   public void restartB() {
-    tcpClient.sendMessage("RESTART[B]");
+    tcpClient.sendMessage(String.format("%s[%s]", Protocol.COMMAND_RESTART, "B"));
   }
 
   /**
    * Sends a message to the server that minigame F is solved.
    */
   public void endD() {
-    tcpClient.sendMessage("DONE[D]");
+    tcpClient.sendMessage(String.format("%s[%s]", Protocol.COMMAND_DONE, "D"));
   }
 
   /**
    * Sends a message to the server if bonus time should be added.
    */
   public void bonusTime() {
-    tcpClient.sendMessage("BONUSTIME");
+    tcpClient.sendMessage(String.format("%s", Protocol.COMMAND_BONUSTIME));
   }
 
   /**
@@ -360,13 +339,13 @@ public class ConnectionService extends Service {
       String command = parsed.get("command");
 
       // Start the game
-      if (command.equals("START")) {
+      if (command.equals(Protocol.COMMAND_START)) {
         introScreen();
-      } else if (command.equals("GAMEOVER")) {
+      } else if (command.equals(Protocol.COMMAND_GAMEOVER)) {
         gameLost();
-      } else if (command.equals("GAMEWON")) {
+      } else if (command.equals(Protocol.COMMAND_GAMEWON)) {
         gameWon();
-      } else if (command.equals("DONE")) {
+      } else if (command.equals(Protocol.COMMAND_DONE)) {
         // minigame is complete
         endMinigame();
 
@@ -377,7 +356,7 @@ public class ConnectionService extends Service {
             B_TapGame.done = true;
           }
         }
-      } else if (command.equals("BEGIN")) {
+      } else if (command.equals(Protocol.COMMAND_BEGIN)) {
 
         if (inWaitingActivity()) {
           Class minigameclass = getMinigameClassFromInput(CommandParser.parseParams(input));
@@ -415,14 +394,6 @@ public class ConnectionService extends Service {
       } else if (game.equals("C")) {
         minigameclass = C_ColorSequence.class;
         colorParams = (ArrayList<String>) params;
-
-        // Log.i(TAG, "params.size = " + params.size());
-        //
-        // for (String param : params.subList(1, params.size())) {
-        // Log.i(TAG, "param : " + param);
-        // colorParams.add(param);
-        // }
-
       } else if (game.equals("D")) {
         minigameclass = D_Lock.class;
       }
