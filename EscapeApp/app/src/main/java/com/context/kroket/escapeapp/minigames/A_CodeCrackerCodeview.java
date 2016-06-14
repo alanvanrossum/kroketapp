@@ -16,7 +16,6 @@ import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.network.ConnectionService;
 
-
 /**
  * This activity is part of the minigame A. Responsible for showing the
  * assignment.
@@ -120,7 +119,6 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
       } else {
         System.out.println("ConnectionService not bound in CodeCrackerCodeView");
       }
-
 
       // Go to the waiting screen.
       Intent intent = new Intent(this, WaitingActivity.class);

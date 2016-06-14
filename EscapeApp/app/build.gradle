@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.context.kroket.escapeapp"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

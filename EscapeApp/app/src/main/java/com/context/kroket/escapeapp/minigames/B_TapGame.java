@@ -251,7 +251,6 @@ public class B_TapGame extends AppCompatActivity {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-
       buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
 
       if (buttons.size() == 0) {
@@ -262,12 +261,10 @@ public class B_TapGame extends AppCompatActivity {
 
       for (int x = 0; x < 4; x++) {
         sequences.add(addString);
-
         Log.i(TAG, "sequence:" + addString);
       }
 
       for (int k = 0; k <= 3; k++) {
-
         for (int i = 4 * k + 1; i <= 4 * k + 4; i++) {
           String temp = sequences.get(k);
           if (i == 4 * k + 1) {
@@ -278,8 +275,8 @@ public class B_TapGame extends AppCompatActivity {
           sequences.set(k, temp);
         }
       }
-
     }
+
   }
 
   /**
