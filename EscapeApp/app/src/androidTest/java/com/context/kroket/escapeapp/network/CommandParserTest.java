@@ -1,5 +1,7 @@
 package com.context.kroket.escapeapp.network;
 
+import com.context.kroket.escapeapp.protocol.CommandParser;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
