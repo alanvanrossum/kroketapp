@@ -12,6 +12,7 @@ import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.mainscreens.GameOver;
 import com.context.kroket.escapeapp.mainscreens.GameWon;
+import com.context.kroket.escapeapp.mainscreens.IntroActivity;
 import com.context.kroket.escapeapp.mainscreens.MainActivity;
 import com.context.kroket.escapeapp.mainscreens.WaitingActivity;
 import com.context.kroket.escapeapp.minigames.A_CodeCrackerCodeview;
@@ -195,6 +196,15 @@ public class ConnectionService extends Service {
   }
 
   /**
+   * Go to the intro screen.
+   */
+  public void introScreen() {
+    Intent dialogIntent = new Intent(this, IntroActivity.class);
+    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(dialogIntent);
+  }
+
+  /**
    * Sends a message to the server that minigame A is solved.
    */
   public void endA() {
@@ -351,8 +361,7 @@ public class ConnectionService extends Service {
 
       // Start the game
       if (command.equals("START")) {
-        // Go to waiting screen
-        endMinigame();
+        introScreen();
       } else if (command.equals("GAMEOVER")) {
         gameLost();
       } else if (command.equals("GAMEWON")) {
