@@ -240,7 +240,7 @@ public class ConnectionService extends Service {
    * Sends a message to the server if bonus time should be added.
    */
   public void bonusTime() {
-    tcpClient.sendMessage("DONE[WAITING]");
+    tcpClient.sendMessage("BONUSTIME");
   }
 
   /**
