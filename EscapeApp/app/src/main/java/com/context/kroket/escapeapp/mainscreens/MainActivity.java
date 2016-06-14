@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
    *          the view that was clicked.
    */
   public void startButton(View view) {
-    Intent intent = new Intent(this, WaitingActivity.class);
+    Intent intent = new Intent(this, IntroActivity.class);
     startActivity(intent);
   }
 
