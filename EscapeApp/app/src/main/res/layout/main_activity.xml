@@ -17,17 +17,25 @@
         android:hint="@string/player_name"
         android:inputType="text" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/remoteHost"
+        android:hint="@string/remote_host" />
+
     <TextView android:id="@+id/connectionMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/connectionMessage"
         android:layout_gravity="center_horizontal" />
+
     <Button android:id="@+id/connectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/connectButton"
         android:onClick="connectButton"
         android:layout_gravity="center_horizontal" />
+
     <Button android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

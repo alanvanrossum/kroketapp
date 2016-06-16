@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/gyroheader"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/deadcoin"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/deadcoin"
+        android:layout_weight="0.88"
+        />
+
+    <ImageView
+        android:id="@+id/goldcoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/goldcoin"
+        android:layout_weight="0.88"/>
+
+    <ImageView
+        android:id="@+id/silvercoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/silvercoin"
+        android:layout_weight="0.88"/>
+
+    <ImageView
+        android:id="@+id/bronzecoin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/bronzecoin"
+        android:layout_weight="0.88"/>
+
+    <ImageView
+        android:id="@+id/gyroimage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/skullball"
+        android:layout_weight="0.88"
+        android:layout_centerHorizontal = "true"
+        android:layout_centerVertical = "true"/>
+
+    <TextView android:id="@+id/coinAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.07"
+        android:hint="Score: 0"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>
