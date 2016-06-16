@@ -184,6 +184,10 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  public static Context getContext() {
+    return mContext;
+  }
+
   // The ActivitySwitch used by the testclasses.
   public static ActivitySwitch TestActivity = ActivitySwitch.notest;
 }
