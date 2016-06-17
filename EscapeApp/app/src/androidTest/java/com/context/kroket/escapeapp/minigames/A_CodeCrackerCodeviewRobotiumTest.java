@@ -43,24 +43,6 @@ public class A_CodeCrackerCodeviewRobotiumTest extends ActivityInstrumentationTe
     solo = new Solo(getInstrumentation(), getActivity());
   }
 
-//  /**
-//   * Method checks the functionality of A_CodeCrackerCodeview pic button.
-//   */
-//  @Test
-//  public void testclickPicButton() {
-//    // enable and switch to the A_CodeCrackerCodeview class.
-//    MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
-//    MainActivity.TestActivity.switchToActivity();
-//
-//    // click the pic button
-//    Button picButton = (Button) solo.getView(R.id.picButton);
-//    solo.clickOnView(picButton);
-//
-//    // assert that we are now in the A_Code_Cracker_Pictureview activity.
-//    solo.assertCurrentActivity("should be pictureView", A_Code_Cracker_Pictureview.class);
-//
-//  }
-
   /**
    * The method checks to see what happens when we enter the wrong answer in
    * A_CodeCrackerCodeView.
