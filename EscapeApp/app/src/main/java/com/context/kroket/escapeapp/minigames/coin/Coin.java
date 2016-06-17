@@ -71,6 +71,21 @@ public abstract class Coin {
   }
 
   /**
+   * This method gets the location of the x-axis of the coin.
+   */
+  public float getX() {
+    return imageView.getX();
+  }
+
+  /**
+   * This method gets the location of the y-axis of the coin.
+   */
+  public float getY() {
+    return imageView.getY();
+  }
+
+
+  /**
    * This method is called when checking for collision.
    *
    * @param gyroX
@@ -129,7 +144,7 @@ public abstract class Coin {
    *          The width/height of the skullball
    * @return The new x or y location for the coin.
    */
-  private float clamp(int value, float gyroLoc, int size) {
+  public float clamp(int value, float gyroLoc, int size) {
     if (value > gyroLoc - size) {
       return value + 3 * size;
     }

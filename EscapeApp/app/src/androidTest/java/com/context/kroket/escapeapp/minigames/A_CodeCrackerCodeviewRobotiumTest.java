@@ -20,7 +20,7 @@ import org.junit.Test;
  * message. test class uses robotium instead of espresso because we need to
  * close android's keyboard.
  */
-public class A_CodeCrackerCodeviewTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class A_CodeCrackerCodeviewRobotiumTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
   /**
    * Solo is used by robotium to interact with the game's ui elements.
@@ -30,7 +30,7 @@ public class A_CodeCrackerCodeviewTest extends ActivityInstrumentationTestCase2<
   /**
    * Constructor for the test class. Requirement of robotium.
    */
-  public A_CodeCrackerCodeviewTest() {
+  public A_CodeCrackerCodeviewRobotiumTest() {
     super(MainActivity.class);
   }
 
@@ -41,24 +41,6 @@ public class A_CodeCrackerCodeviewTest extends ActivityInstrumentationTestCase2<
    */
   public void setUp() throws Exception {
     solo = new Solo(getInstrumentation(), getActivity());
-  }
-
-  /**
-   * Method checks the functionality of A_CodeCrackerCodeview pic button.
-   */
-  @Test
-  public void testclickPicButton() {
-    // enable and switch to the A_CodeCrackerCodeview class.
-    MainActivity.TestActivity = MainActivity.ActivitySwitch.acode;
-    MainActivity.TestActivity.switchToActivity();
-
-    // click the pic button
-    Button picButton = (Button) solo.getView(R.id.picButton);
-    solo.clickOnView(picButton);
-
-    // assert that we are now in the A_Code_Cracker_Pictureview activity.
-    solo.assertCurrentActivity("should be pictureView", A_Code_Cracker_Pictureview.class);
-
   }
 
   /**
