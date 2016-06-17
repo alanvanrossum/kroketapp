@@ -145,12 +145,11 @@ public class B_TapGame extends AppCompatActivity {
 
     super.onStart();
 
-    Intent i = new Intent(this, ConnectionService.class);
-    bindService(i, mConnection, Context.BIND_AUTO_CREATE);
+    Intent intent = new Intent(this, ConnectionService.class);
+    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
     // Change the current activity to this
     ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
-
   }
 
   /**
@@ -207,8 +206,8 @@ public class B_TapGame extends AppCompatActivity {
       }
     } else {
       clickButton.setText("Finish");
-      Intent i = new Intent(this, WaitingActivity.class);
-      startActivity(i);
+      Intent intent = new Intent(this, WaitingActivity.class);
+      startActivity(intent);
     }
   }
 
@@ -251,7 +250,6 @@ public class B_TapGame extends AppCompatActivity {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-
       buttons = (ArrayList<String>) intent.getExtras().get("buttonSequence");
 
       if (buttons.size() == 0) {
@@ -262,12 +260,10 @@ public class B_TapGame extends AppCompatActivity {
 
       for (int x = 0; x < 4; x++) {
         sequences.add(addString);
-
         Log.i(TAG, "sequence:" + addString);
       }
 
       for (int k = 0; k <= 3; k++) {
-
         for (int i = 4 * k + 1; i <= 4 * k + 4; i++) {
           String temp = sequences.get(k);
           if (i == 4 * k + 1) {
@@ -278,8 +274,8 @@ public class B_TapGame extends AppCompatActivity {
           sequences.set(k, temp);
         }
       }
-
     }
+
   }
 
   /**

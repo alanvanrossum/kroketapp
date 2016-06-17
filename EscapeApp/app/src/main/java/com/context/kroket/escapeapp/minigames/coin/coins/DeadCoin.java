@@ -1,13 +1,13 @@
-package com.context.kroket.escapeapp.minigames.minigames.coins;
+package com.context.kroket.escapeapp.minigames.coin.coins;
 
 import android.widget.ImageView;
 
-import com.context.kroket.escapeapp.minigames.minigames.coin.Coin;
+import com.context.kroket.escapeapp.minigames.coin.Coin;
 
 /**
  * Created by Team Kroket on 5-6-2016.
  */
-public class BronzeCoin extends Coin {
+public class DeadCoin extends Coin {
 
   /**
    * This method created a new Coin Object, which contains a count and an
@@ -15,9 +15,9 @@ public class BronzeCoin extends Coin {
    * contains information such as location and rotation. count contains the
    * amount of coins of this type collected in total by the player.
    *
-   * @param newImageView the imageView.
+   * @param newImageView the imageview
    */
-  public BronzeCoin(ImageView newImageView) {
+  public DeadCoin(ImageView newImageView) {
     super(newImageView);
   }
 
@@ -25,6 +25,6 @@ public class BronzeCoin extends Coin {
    * Increase the score.
    */
   public void score() {
-    setCount(getCount() + 1);
+    // Do nothing, score is not increased.
   }
 }

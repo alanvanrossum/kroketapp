@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
    *          the view that was clicked.
    */
   public void startButton(View view) {
-    Intent intent = new Intent(this, WaitingActivity.class);
+    Intent intent = new Intent(this, IntroActivity.class);
     startActivity(intent);
   }
 
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     acode(A_CodeCrackerCodeview.class), gameover(GameOver.class),
     apic(A_Code_Cracker_Pictureview.class), btap(B_TapGame.class),
     csequence(C_ColorSequence.class), gamewon(GameWon.class),
-    waiting(WaitingActivity.class), notest(MainActivity.class);
+    intro(IntroActivity.class), notest(MainActivity.class);
 
     private Class ClassAC;
 
@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity {
       dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       mContext.startActivity(dialogIntent);
     }
+  }
+
+  public static Context getContext() {
+    return mContext;
   }
 
   // The ActivitySwitch used by the testclasses.

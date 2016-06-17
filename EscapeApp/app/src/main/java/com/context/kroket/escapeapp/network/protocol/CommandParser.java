@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp.network;
+package com.context.kroket.escapeapp.network.protocol;
 
 import java.util.ArrayList;
 import java.util.HashMap;

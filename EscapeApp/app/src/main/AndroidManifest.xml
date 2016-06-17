@@ -36,7 +36,8 @@
         <activity android:name=".minigames.Waiting_Squasher" />
         <activity android:name=".minigames.D_Lock" />
         <activity android:name=".mainscreens.GameOver" />
-        <activity android:name=".mainscreens.GameWon"></activity>
+        <activity android:name=".mainscreens.GameWon" />
+        <activity android:name=".mainscreens.IntroActivity"></activity>
     </application>
 
 </manifest>
