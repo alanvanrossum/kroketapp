@@ -83,8 +83,8 @@ public class A_CodeCrackerCodeview extends AppCompatActivity {
   protected void onStart() {
     super.onStart();
 
-    Intent i = new Intent(this, ConnectionService.class);
-    bindService(i, mConnection, Context.BIND_AUTO_CREATE);
+    Intent intent = new Intent(this, ConnectionService.class);
+    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
     // Change the current activity to this
     ((ActivityManager) this.getApplicationContext()).setCurrentActivity(this);
