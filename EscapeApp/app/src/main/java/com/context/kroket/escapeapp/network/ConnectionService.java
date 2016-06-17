@@ -8,7 +8,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.context.kroket.escapeapp.R;
 import com.context.kroket.escapeapp.application.ActivityManager;
 import com.context.kroket.escapeapp.mainscreens.GameOver;
 import com.context.kroket.escapeapp.mainscreens.GameWon;
@@ -21,14 +20,12 @@ import com.context.kroket.escapeapp.minigames.C_ColorSequence;
 import com.context.kroket.escapeapp.minigames.Waiting_Gyroscope;
 import com.context.kroket.escapeapp.minigames.D_Lock;
 import com.context.kroket.escapeapp.minigames.Waiting_Squasher;
-import com.context.kroket.escapeapp.protocol.CommandParser;
-import com.context.kroket.escapeapp.protocol.Protocol;
+import com.context.kroket.escapeapp.network.protocol.CommandParser;
+import com.context.kroket.escapeapp.network.protocol.Protocol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import android.widget.TextView;
 
 /**
  * This service is responsible for registering players by sending information to the server, and for
@@ -102,13 +99,15 @@ public class ConnectionService extends Service {
    */
   private boolean inWaitingActivity() {
     String current_activity = ((ActivityManager) this.getApplicationContext()).getCurrentActivity()
-        .getComponentName().getClassName();
+            .getComponentName().getClassName();
     String waiting_activity = WaitingActivity.class.getName();
     String waiting_gyroscope = Waiting_Gyroscope.class.getName();
     String waiting_squasher = Waiting_Squasher.class.getName();
+    String intro = IntroActivity.class.getName();
     return (current_activity.equals(waiting_activity)
-        || current_activity.equals(waiting_gyroscope))
-        || current_activity.equals(waiting_squasher);
+            || current_activity.equals(waiting_gyroscope)
+            || current_activity.equals(waiting_squasher)
+            || current_activity.equals(intro));
   }
 
   /**

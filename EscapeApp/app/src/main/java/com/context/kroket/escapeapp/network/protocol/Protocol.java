@@ -1,4 +1,4 @@
-package com.context.kroket.escapeapp.protocol;
+package com.context.kroket.escapeapp.network.protocol;
 
 /**
  * Class containing all strings for communication with the GameHost.

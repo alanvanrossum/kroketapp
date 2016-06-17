@@ -1,6 +1,6 @@
 package com.context.kroket.escapeapp.network;
 
-import com.context.kroket.escapeapp.protocol.CommandParser;
+import com.context.kroket.escapeapp.network.protocol.CommandParser;
 
 import static org.junit.Assert.*;
 

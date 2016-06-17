@@ -95,7 +95,7 @@ public class IntroActivity extends AppCompatActivity {
 
             intoText.setText(texts.get(pointer));
             pointer++;
-            timerHandler.postDelayed(timerRunnable, 6000);
+            timerHandler.postDelayed(timerRunnable, 7000);
         }
     };
 
