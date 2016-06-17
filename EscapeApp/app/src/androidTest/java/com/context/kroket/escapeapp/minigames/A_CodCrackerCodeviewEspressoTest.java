@@ -39,6 +39,11 @@ public class A_CodCrackerCodeviewEspressoTest {
         // Click the code button.
         onView(withId(R.id.picButton)).perform(click());
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // assert that we are now in the A_CodeCrackerCodeview activity.
         onView(withId(R.id.codeButton)).check(matches(isDisplayed()));
     }
